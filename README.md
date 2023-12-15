@@ -7,7 +7,7 @@ This repository contains the documentation for the ERC-7579 standard.
 To get started, clone this repository and run the following commands:
 
 ```bash
-yarn install
+yarn
 yarn dev
 ```
 
