@@ -1,0 +1,20 @@
+## What is ERC-7484?
+
+ERC-7484 standardises the interface and functionality of Module Registries, allowing modular smart accounts to verify the security of modules using a Registry Adapter. It also provides a reference implementation of a Singleton Module Registry.
+
+## Why ERC-7484?
+
+ERC-7579 aims to standardise the modular implementation of smart accounts, allowing any developer to build modules for these modular accounts (hereafter Smart Accounts). However, adding third-party modules into Smart Accounts unchecked opens up a wide range of attack vectors. Users need to be able to trust that the modules they are using are secure and will not compromise their accounts and funds.
+
+## The standard
+
+One solution to this security issue is to create a Module Registry that stores security attestations on Modules and allows Smart Accounts to query these attestations before using a module. This standard aims to achieve two things:
+
+1. Standardise the interface and required functionality of Module Registries.
+2. Standardise the functionality of Adapters that allow Smart Accounts to query Module Registries.
+
+## Further reading
+
+- [ERC-7484: Registry Extension for ERC-7579](https://eips.ethereum.org/EIPS/eip-7484)
+- [Introducing ERC-7484](https://blog.rhinestone.wtf/introducing-erc-7484-1d4d5c7e6dc1)
+- [A foundational layer to modular account abstraction](https://blog.rhinestone.wtf/a-foundational-layer-to-modular-account-abstraction-e7b21ae56034)
