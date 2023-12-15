@@ -11,6 +11,10 @@ const config: DocsThemeConfig = {
       return {
         titleTemplate: "%s – ERC-7579",
       };
+    } else {
+      return {
+        titleTemplate: "ERC-7579",
+      };
     }
   },
   head: (
