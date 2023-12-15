@@ -30,7 +30,7 @@ const config: DocsThemeConfig = {
     link: "https://t.me/+KfB9WuhKDgk5YzIx",
     icon: <LiaTelegram size={24} style={{ marginLeft: "-10px" }} />,
   },
-  docsRepositoryBase: "https://github.com/erc7579/docs/tree/main",
+  docsRepositoryBase: "https://github.com/erc7579/erc7579.github.io/tree/main",
   footer: {
     text: "ERC-7579 Docs",
   },
