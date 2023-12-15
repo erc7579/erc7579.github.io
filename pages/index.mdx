@@ -1,11 +1,62 @@
+import { Cards, Card } from "nextra/components";
+import { LiaTelegram } from "react-icons/lia";
+
 # Introduction
- 
-Welcome to Nextra! This is a basic docs template. You can use it as a starting point for your own project :)
 
-## What is Nextra?
+Welcome to the documentation of ERC-7579. These docs aim to provide a comprehensive overview of the standard, including guides, references and overview of tooling.
 
-A **simple**, **powerful** and **flexible** site generation framework with everything you love from Next.js.
+## What is ERC-7579?
 
-## Documentation
+ERC-7579 outlines the **minimally** required interfaces and behavior for modular smart accounts and modules to ensure **interoperability** across implementations.
 
-The documentation is available at [https://nextra.site](https://nextra.site).
+## Why ERC-7579?
+
+There are several reasons why standardizing smart accounts is extremely beneficial to the ecosystem. The most important of these are:
+
+- Interoperability for modules to be used across different smart accounts
+- Interoperability for smart accounts to be used across different wallet applications and SDKs
+- Preventing vendor lock-in for smart account users and application developers
+
+## The Standard
+
+Ultimately, standardization comes at the cost of flexibility. Therefore, our goal for the standard is to be as minimal as possible to achieve interoperability but to allow account and module builders to continue to innovate.
+
+Our approach to the standard is the following:
+
+- Take learnings from existing smart accounts that have been used in production and from building interoperability layers between them
+- Ensure that the interfaces are as minimal and open to alternative architectures as possible
+
+## Reference implementation
+
+The [reference implementation](https://github.com/erc7579/erc7579-implementation) of ERC-7579 is a set of smart contracts that implement the standard in a minimal way. It is intended to be used as a reference for other implementations and for testing purposes. Currently, the reference implementation has various flavors of smart accounts to demonstrate some of the possibilities allowed by the standard.
+
+## Extensions
+
+Standardization will need to continue to happen for smart accounts and modules. This standardization might also happen for a subset of smart accounts or modules, such as, for example, further standardizing security safeguards around module usage. To encompass this, we encourage members of the community to create extensions to this standard, by creating new ERCs that extend the behavior of ERC-7579. For example, an ERC might use the title “[FEATURE] Extension for ERC-7579” to indicate that it is an extension to ERC-7579.
+
+## Contributing
+
+There are several ways to contribute to the standard:
+
+- Join the [Telegram](https://t.me/+KfB9WuhKDgk5YzIx) to discuss the standard
+- Give feedback on the ERC on [Ethereum Magicians](https://ethereum-magicians.org/t/erc-7579-minimal-modular-smart-accounts/17336)
+- Contribute to the [reference implementation](https://github.com/erc7579/erc7579-implementation) through discussions, issues or pull requests
+- Create extensions to the standard by creating new ERCs that extend the behavior of ERC-7579
+
+## Supporters
+
+<Cards>
+  <Card
+    icon={<LiaTelegram />}
+    title="Rhinestone"
+    href="/docs/guide/built-ins/callout"
+  />
+  <Card icon={<LiaTelegram />} title="ZeroDev" href="/docs/guide/built-ins/tabs" />
+  <Card
+    icon={<LiaTelegram />}
+    title="Biconomy"
+    href="/docs/guide/built-ins/steps"
+  />
+    <Card icon={<LiaTelegram />} title="OKX" href="/docs/guide/built-ins/tabs" />
+
+</Cards>

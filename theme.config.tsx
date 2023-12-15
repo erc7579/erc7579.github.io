@@ -1,13 +1,17 @@
 import React from "react";
 import { DocsThemeConfig } from "nextra-theme-docs";
 import { LiaTelegram } from "react-icons/lia";
+import { useRouter } from "next/router";
 
 const config: DocsThemeConfig = {
   logo: <span style={{ fontWeight: "bold" }}>ERC-7579</span>,
   useNextSeoProps: () => {
-    return {
-      titleTemplate: "%s – ERC-7579",
-    };
+    const { asPath } = useRouter();
+    if (asPath !== "/") {
+      return {
+        titleTemplate: "%s – ERC-7579",
+      };
+    }
   },
   head: (
     <>
