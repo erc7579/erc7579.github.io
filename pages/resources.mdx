@@ -30,3 +30,19 @@
 ## Communities
 
 - [Modular Contract Account Standard](https://t.me/+KfB9WuhKDgk5YzIx) on Telegram
+
+## Terminology
+
+An overview of the common terms used in the Modular Account Abstraction space and these docs together with their definitions.
+
+| Term             |                                                        Definition                                                         |
+| :--------------- | :-----------------------------------------------------------------------------------------------------------------------: |
+| Smart Account    |                                   A smart contract account with a modular architecture.                                   |
+| Smart Wallet     |                           The (frontend) application used to interface with the smart account.                            |
+| Module           |                             A smart contract with self-contained smart account functionality.                             |
+| Validator        |                     A module used during the validation flow to determine if a transaction is valid.                      |
+| Executor         |                   A module that can execute transactions on behalf of the smart account via a callback.                   |
+| Fallback Handler |                          A module that can extend the fallback functionality of a smart account.                          |
+| Hook             | A module that is executed before or after execution, with the ability to modify state or cause the entire call to revert. |
+
+Note: some teams may use different terms for the same concepts but we are trying to align the ecosystem on the terms above.
