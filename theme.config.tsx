@@ -41,7 +41,7 @@ const config: DocsThemeConfig = {
   banner: {
     key: "initial-release",
     text: (
-      <a href="https://github.com/ethereum/ERCs/pull/163/files" target="_blank">
+      <a href="https://eips.ethereum.org/EIPS/eip-7579" target="_blank">
         Check out the first draft of ERC-7579 →
       </a>
     ),
