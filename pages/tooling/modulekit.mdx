@@ -1,30 +1,60 @@
+import { Tabs } from "nextra/components";
+
 # ModuleKit
 
 **A development kit for building and testing smart account modules.**
 
 ModuleKit allows you to:
 
-- Easily build smart account modules with interfaces for:
+- **Easily build smart account modules** with interfaces for:
   - Validators
   - Executors
   - Hooks
-- Unit test your modules using a dedicated helper library
-- Integration test your modules using different modular ERC-4337 accounts and a helper library that abstracts away the complexity
+- **Unit test** your modules using a dedicated helper library
+- **Integration test** your modules using different modular ERC-4337 accounts and a helper library that abstracts away the complexity
 
 ## Getting started
 
-### With Foundry
+### Using a package manager
 
-```bash
+<Tabs items={["npm", "yarn", "pnpm"]}>
+  <Tabs.Tab>
+
+    ```bash copy
+    npm i rhinestonewtf/modulekit
+    ```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+    
+    ```bash copy
+    yarn add rhinestonewtf/modulekit
+    ```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+  
+    ```bash copy
+    pnpm i rhinestonewtf/modulekit
+    ```
+
+  </Tabs.Tab>
+</Tabs>
+
+### Using git submodules
+
+```bash copy
 forge install rhinestonewtf/modulekit
 ```
 
-### Using our template
+### Using the template
 
-```bash
-git clone https://github.com/rhinestonewtf/module-template.git
+Fork the [module-template](https://github.com/rhinestonewtf/module-template) and install it by running:
+
+```bash copy
+git clone https://github.com/[YOUR_GITHUB_HANDLE]/module-template.git
 cd module-template
-forge install
+pnpm install
 ```
 
 ## Documentation
