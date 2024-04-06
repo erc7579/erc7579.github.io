@@ -1,6 +1,6 @@
 import React from "react";
 import { DocsThemeConfig } from "nextra-theme-docs";
-import { LiaTelegram } from "react-icons/lia";
+import { FaXTwitter } from "react-icons/fa6";
 import { useRouter } from "next/router";
 
 const config: DocsThemeConfig = {
@@ -31,8 +31,8 @@ const config: DocsThemeConfig = {
     link: "https://github.com/erc7579",
   },
   chat: {
-    link: "https://t.me/+KfB9WuhKDgk5YzIx",
-    icon: <LiaTelegram size={24} style={{ marginLeft: "-10px" }} />,
+    link: "https://twitter.com/erc7579",
+    icon: <FaXTwitter size={24} style={{ marginLeft: "-10px" }} />,
   },
   docsRepositoryBase: "https://github.com/erc7579/erc7579.github.io/tree/main",
   footer: {
@@ -42,7 +42,7 @@ const config: DocsThemeConfig = {
     key: "initial-release",
     text: (
       <a href="https://eips.ethereum.org/EIPS/eip-7579" target="_blank">
-        Check out the first draft of ERC-7579 →
+        Check out the ERC proposal →
       </a>
     ),
   },
