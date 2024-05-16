@@ -25,6 +25,7 @@ const config: DocsThemeConfig = {
         property="og:description"
         content="Minimal Modular Smart Accounts"
       />
+      <link rel="icon" href="/favicon.ico" />
     </>
   ),
   project: {
