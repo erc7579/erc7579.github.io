@@ -47,7 +47,6 @@ const config: DocsThemeConfig = {
       </a>
     ),
   },
-  faviconGlyph: "📝",
 };
 
 export default config;

@@ -1,0 +1,39 @@
+# Modules
+
+Modules are the building blocks of the ERC7579 standard. They are smart contracts that can be attached to a wallet to extend its functionality. Modules can be validators, executors, hooks, fallback handlers and more in the future. Here is a list of some of the modules that have been built so far:
+
+- [AutoSavings Executor](https://docs.rhinestone.wtf/module-sdk/modules/auto-saving-executor): Automatically save a percentage of incoming funds
+- [ColdStorage Hook](https://docs.rhinestone.wtf/module-sdk/modules/cold-storage-hook): Prevent funds from being withdrawn without a timelock
+- [Deadman Switch Validator](https://docs.rhinestone.wtf/module-sdk/modules/deadman-switch): Prevent funds from being locked forever
+- [Hook Multiplexer](https://docs.rhinestone.wtf/module-sdk/modules/hook-multi-plexer): Combine multiple hooks into one with fine-grained control over when they are called
+- [MultiFactor Validator](https://docs.rhinestone.wtf/module-sdk/modules/mfa-validator): Use multiple validators in combination as a multi-factor authentication system
+- [Ownable Executor](https://docs.rhinestone.wtf/module-sdk/modules/ownable-executor): Allow an account to control a subaccount and pay for its transaction fees
+- [Ownable Validator](https://docs.rhinestone.wtf/module-sdk/modules/ownable-validator): Authenticate on your account with multiple ECDSA keys
+- [Registry Hook](https://docs.rhinestone.wtf/module-sdk/modules/registry-hook): Query the Module Registry before installing and using modules
+- [Scheduled Orders Executor](https://docs.rhinestone.wtf/module-sdk/modules/scheduled-orders): Execute swaps on a specified schedule
+- [Scheduled Transfers Executor](https://docs.rhinestone.wtf/module-sdk/modules/scheduled-transfers): Transfer funds on a specified schedule
+- [Social Recovery Validator](https://docs.rhinestone.wtf/module-sdk/modules/social-recovery-validator): Recover your account using a set of guardians
+- [ECDSA Signer](https://github.com/zerodevapp/kernel-7579-plugins/tree/master/signers/ecdsa): Sign transactions with an ECDSA key
+- [Webauthn Signer](https://github.com/zerodevapp/kernel-7579-plugins/tree/master/signers/webauthn): Sign transactions with a Webauthn key
+- [Call Policy](https://github.com/zerodevapp/kernel-7579-plugins/tree/master/policies/call-policy): Control which contracts can be called during a transaction
+- [Gas Policy](https://github.com/zerodevapp/kernel-7579-plugins/tree/master/policies/gas): Restrict gas usage during transations
+- [RateLimit Policy](https://github.com/zerodevapp/kernel-7579-plugins/tree/master/policies/ratelimit): Limit the number of transactions that can be sent in a given time period
+- [Signature Policy](https://github.com/zerodevapp/kernel-7579-plugins/tree/master/policies/signature-caller): Restrict who can call a function based on a signature
+- [Sudo Policy](https://github.com/zerodevapp/kernel-7579-plugins/tree/master/policies/sudo): Allow a sudo key to bypass all other policies
+- [Timestamp Policy](https://github.com/zerodevapp/kernel-7579-plugins/tree/master/policies/timestamp): Restrict when a transaction can be sent
+- [Webauthn Validator](https://github.com/zerodevapp/kernel-7579-plugins/tree/master/validators/webauthn): Authenticate with a Webauthn key
+- [Recovery Action](https://github.com/zerodevapp/kernel-7579-plugins/tree/master/actions/recovery): Recover a validator using delegatecall
+- [Only EntryPoint Hook](https://github.com/zerodevapp/kernel-7579-plugins/blob/master/hooks/onlyEntrypoint/src/OnlyEntryPointHook.sol): Only allow a call to originate from the EntryPoint contract
+- [MultipleOwnerECDSAValidator](https://github.com/etherspot/etherspot-prime-contracts/blob/master/src/modular-etherspot-wallet/modules/validators/MultipleOwnerECDSAValidator.sol): Authenticate on your account with multiple ECDSA keys
+- [ERC20SessionKeyValidator](https://github.com/etherspot/etherspot-prime-contracts/blob/master/src/modular-etherspot-wallet/modules/validators/ERC20SessionKeyValidator.sol): Use session keys for ERC20-related operations
+- [ModuleIsolationHook](https://github.com/etherspot/etherspot-prime-contracts/blob/master/src/modular-etherspot-wallet/modules/hooks/ModuleIsolationHook.sol): Prevent modules from installing other modules
+- [ERC20ActionsExecutor](https://github.com/etherspot/etherspot-prime-contracts/blob/master/src/modular-etherspot-wallet/modules/executors/ERC20Actions.sol): Execute ERC20-related actions
+- [AggregatedValidator](https://github.com/rhinestonewtf/experimental-modules/tree/main/src/AggregatedValidator): Implementing a validator as an ERC-4337 aggregator
+- [PermissionsHook](https://github.com/rhinestonewtf/experimental-modules/tree/main/src/PermissionsHook): A hook to enforce granular module permissions
+- [FrameValidator](https://github.com/rhinestonewtf/experimental-modules/tree/main/src/FrameValidator): Validate farcaster frames signatures
+- [MultiECDSAWithExpirationValidator](https://github.com/rhinestonewtf/experimental-modules/tree/main/src/MultiECDSAWithExpirationValidator): Authenticate on your account with multiple ECDSA keys with expiration
+- [SpendingLimitHook](https://github.com/rhinestonewtf/experimental-modules/tree/main/src/SpendingLimitHook): Limit the amount of funds that can be spent over a period of time
+- [Airdrop Claim Module](https://github.com/Destiner/module-airdrop-claim): Automate aidrop claims with a finders fee
+- [Frame Validator](https://github.com/Destiner/module-frame): Validate farcaster frames signatures
+- [Flashloan Callback Executor](https://github.com/kroist/flashcall-module-erc-7579/blob/main/src/executors/FlashcallFallbackExecutor.sol): Execute flashloan callbacks
+- [Vault Automation Executor](https://github.com/kot2271/Automation_Module_ERC_7579): Automate vault interactions
