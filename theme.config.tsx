@@ -25,6 +25,11 @@ const config: DocsThemeConfig = {
         property="og:description"
         content="Minimal Modular Smart Accounts"
       />
+      <meta
+        property="og:image"
+        content="https://github.com/erc7579/erc7579.github.io/blob/main/public/logo.png"
+      />
+      <meta property="og:url" content="https://erc7579.com/" />
       <link rel="icon" href="/favicon.ico" />
     </>
   ),
