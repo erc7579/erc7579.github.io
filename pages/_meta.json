@@ -3,6 +3,8 @@
   "accounts": "Accounts",
   "modules": "Modules",
   "tooling": "Tooling",
-  "extensions": "Extensions",
-  "resources": "Resources"
+  "security-perks": "Security Perks",
+
+  "resources": "Resources",
+  "extensions": "Extensions"
 }
