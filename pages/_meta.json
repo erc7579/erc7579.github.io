@@ -4,6 +4,7 @@
   "modules": "Modules",
   "tooling": "Tooling",
   "security-perks": "Security Perks",
+  "test": "Test",
   "resources": "Resources",
   "extensions": "Extensions"
 }
