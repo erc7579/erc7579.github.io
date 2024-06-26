@@ -1,6 +1,6 @@
 # ERC-7579 Documentation
 
-This repository contains the documentation for the ERC-7579 standard.
+This repository contains the documentation for the ERC-7579 standard
 
 ## Getting Started
 
