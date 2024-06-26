@@ -3,7 +3,7 @@ import { DocsThemeConfig } from "nextra-theme-docs";
 import { FaXTwitter } from "react-icons/fa6";
 import { useRouter } from "next/router";
 
-const config: DocsThemeConfig = {
+const config = {
   logo: <span style={{ fontWeight: "bold" }}>ERC-7579</span>,
   useNextSeoProps: () => {
     const { asPath } = useRouter();
