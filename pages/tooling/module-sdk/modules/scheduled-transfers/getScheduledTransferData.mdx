@@ -1,0 +1,48 @@
+# getScheduledTransferData
+
+Get the encoded data for a scheduled transfer.
+
+## Usage
+
+```typescript copy
+const data = getScheduledTransferData({
+  scheduledTransfer: {
+    amount: 10000,
+    recipient: '0x123...',
+  },
+})
+```
+
+## Parameters
+
+### scheduledTransfer.amount
+
+- Type: `number`
+
+The amount of the token to transfer.
+
+### scheduledTransfer.recipient
+
+- Type: [`Address`](https://viem.sh/docs/glossary/types#address)
+
+The address of the recipient of the transfer.
+
+### scheduledTransfer.token (optional)
+
+- Type: `{ token_address: Address, decimals: number }`
+
+The address of the token to transfer. If not provided, the native token will be used.
+
+### scheduledTransfer.maxGasPrice (optional)
+
+- Type: `number`
+
+The maximum gas price for the transfer.
+
+## Returns
+
+### data
+
+- Type: [`Hex`](https://viem.sh/docs/glossary/types#hex)
+
+The encoded data for the scheduled transfer.

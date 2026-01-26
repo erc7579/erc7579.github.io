@@ -1,0 +1,57 @@
+---
+title: "deployModule"
+---
+
+Deploy the module via the Registry and register it.
+
+## Usage
+
+```solidity
+bytes32 salt = keccak256(abi.encodePacked("SALT"));
+ResolverUID resolverUID = ResolverUID.wrap(...);
+bytes memory initCode = abi.encodePacked(type(Module).creationCode);
+bytes memory metadata = "";
+bytes memory resolverContext = "";
+
+address moduleAddress = registry.deployModule(salt, resolverUID, initCode, metadata, resolverContext);
+```
+
+## Parameters
+
+### salt
+
+- Type: `bytes32`
+
+The salt value to use for the module deployment. Note that the first 20 bytes should be either the `msg.sender` for replay protection or zeroed out.
+
+### resolverUID
+
+- Type: `ResolverUID | bytes32`
+
+The resolver UID to use for the module deployment. You can find the default resolver UID in the [address book](../../../home/resources/address-book).
+
+### initCode
+
+- Type: `bytes`
+
+The initialization code for the module deployment.
+
+### metadata
+
+- Type: `bytes`
+
+Additional metadata to store on the Registry. This can be left empty.
+
+### resolverContext
+
+- Type: `bytes`
+
+Additional context to pass to the resolver. This can be left empty.
+
+## Returns
+
+### moduleAddress
+
+- Type: `address`
+
+The address of the module.

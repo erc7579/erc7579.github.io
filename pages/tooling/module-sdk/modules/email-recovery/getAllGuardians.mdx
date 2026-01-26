@@ -1,0 +1,41 @@
+# getAllGuardians
+
+Get an array of all guardian addresses associated with an account.
+
+## Usage
+
+```typescript
+const guardians = await getAllGuardians({
+  account: {
+    address: '0x123...',
+    type: 'safe',
+    deployedOnChains: [8453],
+    initCode: '0x...' // optional
+  },
+  client: publicClient
+})
+```
+
+## Parameters
+
+### account
+
+- Type: [`Account`](/tooling/module-sdk/glossary/types.mdx#account)
+
+The account object.
+
+### client
+
+- Type: `PublicClient`
+
+The public client instance used to interact with the blockchain.
+
+## Returns
+
+### guardians
+
+- Type: `Promise<readonly Address[]>`
+
+Returns an array of guardian addresses. Maximum length is 32 addresses.
+
+If the contract call fails, returns an empty array.

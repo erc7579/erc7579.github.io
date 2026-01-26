@@ -1,0 +1,41 @@
+# getAddOwnableValidatorOwnerAction
+
+Get the action to add an owner to the ownable validator.
+
+## Usage
+
+```typescript copy
+const action = await getAddOwnableValidatorOwnerAction({
+  client,
+  account,
+  owner: '0x123...',
+})
+```
+
+## Parameters
+
+### client
+
+- Type: `PublicClient`
+
+The rpc client to use for the chain you want to query.
+
+### account
+
+- Type: [`Account`](/tooling/module-sdk/glossary/types.mdx#account)
+
+The account to add the owner to.
+
+### owner
+
+- Type: [`Address`](https://viem.sh/docs/glossary/types#address)
+
+The address of the owner to add.
+
+## Returns
+
+### action
+
+- Type: [`Promise<Action>`](/tooling/module-sdk/glossary/types.mdx#action)
+
+The action to add the owner to the validator.

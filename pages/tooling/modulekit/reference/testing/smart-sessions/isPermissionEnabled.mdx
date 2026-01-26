@@ -1,0 +1,33 @@
+---
+title: "isPermissionEnabled"
+---
+
+Check if a permission/session is enabled for a specific account. You can also query this by the entire session struct using `isSessionEnabled`.
+
+## Usage
+
+```solidity
+bool isEnabled = instance.isPermissionEnabled(permissionId);
+```
+
+## Parameters
+
+### instance
+
+- Type: [`AccountInstance`](../../glossary/types#accountinstance)
+
+The instance of the account used for testing.
+
+### permissionId
+
+- Type: `PermissionId | bytes32`
+
+The permission id to check if it is enabled.
+
+## Returns
+
+### isEnabled
+
+- Type: `bool`
+
+Returns `true` if the permission is enabled, `false` otherwise.

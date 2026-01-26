@@ -1,0 +1,37 @@
+---
+title: "setAccountEnv"
+---
+
+Simulate a specific UserOperation without needing to simulate the UserOperations in the entire test suite.
+
+## Usage
+
+```solidity
+string memory newEnv = "SAFE";
+
+instance.setAccountEnv(newEnv);
+```
+
+## Parameters
+
+### instance
+
+- Type: [`AccountInstance`](../../glossary/types#accountinstance)
+
+The instance of the account used for testing.
+
+### env
+
+- Type: `string`
+
+The account identifier, which can be one of the following:
+
+- `DEFAULT`: The ERC-7579 Reference Implementation
+- `SAFE`: The Safe account
+- `KERNEL`: The Kernel account
+- `NEXUS`: The Nexus account
+- `CUSTOM`: A custom account
+
+## Returns
+
+None

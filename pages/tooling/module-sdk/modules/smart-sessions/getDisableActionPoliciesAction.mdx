@@ -1,0 +1,34 @@
+# getDisableActionPoliciesAction
+
+Get the action to disable action policies for a specific session in the smart sessions validator.
+
+## Usage
+
+```typescript copy
+const action = await getDisableActionPoliciesAction({
+  permissionId: '0x1234...',
+  policies: ['0xabcd...'],
+})
+```
+
+## Parameters
+
+### permissionId
+
+- Type: [`Hex`](https://viem.sh/docs/glossary/types#hex)
+
+The permission ID of the session to disable action policies for.
+
+### policies
+
+- Type: [`Address[]`](https://viem.sh/docs/glossary/types#address)
+
+A list of action policies addresses.
+
+## Returns
+
+### action
+
+- Type: [`Promise<Action>`](/tooling/module-sdk/glossary/types.mdx#action)
+
+The action to disable action policies for a specific session in the smart sessions validator.

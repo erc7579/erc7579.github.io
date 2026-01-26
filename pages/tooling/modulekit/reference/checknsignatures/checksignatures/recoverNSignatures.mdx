@@ -1,0 +1,46 @@
+---
+title: "recoverNSignatures"
+---
+
+Recover the signers of a message given the message and the signatures.
+
+## Usage
+
+```solidity
+bytes32 dataHash = keccak256(abi.encodePacked("DATA TO SIGN"));
+
+(uint8 v, bytes32 r, bytes32 s) = vm.sign(signerPk1, dataHash);
+bytes memory signatures = abi.encodePacked(r, s, v);
+(v, r, s) = vm.sign(signerPk2, dataHash);
+signatures = abi.encodePacked(signatures, abi.encodePacked(r, s, v));
+
+address[] memory recovered = CheckSignatures.recoverNSignatures(dataHash, signatures, 2);
+```
+
+## Parameters
+
+### dataHash
+
+- Type: `bytes32`
+
+The hash of the data to sign.
+
+### signatures
+
+- Type: `bytes`
+
+The concatenated signatures. Note: the concatenation order is `r, s, v` and ther should not be any padding.
+
+### requiredSignatures
+
+- Type: `uint256`
+
+The number of signatures.
+
+## Returns
+
+### recoveredSigners
+
+- Type: `address[]`
+
+The array of addresses that signed the message.

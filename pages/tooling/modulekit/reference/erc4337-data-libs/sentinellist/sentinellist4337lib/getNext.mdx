@@ -1,0 +1,40 @@
+---
+title: "getNext"
+---
+
+
+Get the next entry in the list.
+
+## Usage
+
+```solidity
+address next = list.getNext(account, address(3));
+```
+
+## Parameters
+
+### self
+
+- Type: `SentinelList`
+
+The storage pointer of the list.
+
+### account
+
+- Type: `address`
+
+The account address.
+
+### entry
+
+- Type: `address`
+
+The address to get the next entry from.
+
+## Returns
+
+### next
+
+- Type: `address`
+
+The next entry in the list.

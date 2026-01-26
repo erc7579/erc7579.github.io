@@ -1,0 +1,41 @@
+# getSetMFAValidatorAction
+
+Get the action to add a new sub-validator to the multi-factor module.
+
+## Usage
+
+```typescript copy
+const action = getSetMFAValidatorAction({
+  validatorAddress: '0x123...',
+  validatorId: '0x123...',
+  newValidatorData: '0x123...',
+})
+```
+
+## Parameters
+
+### validatorAddress
+
+- Type: [`Address`](https://viem.sh/docs/glossary/types#address)
+
+The address of the multi-factor sub-validator to add.
+
+### validatorId
+
+- Type: [`Hex`](https://viem.sh/docs/glossary/types#hex)
+
+The ID of the multi-factor sub-validator to add.
+
+### newValidatorData
+
+- Type: [`Hex`](https://viem.sh/docs/glossary/types#hex)
+
+The data of the new multi-factor sub-validator to add. For example, this might be the owner configuration.
+
+## Returns
+
+### action
+
+- Type: [`Action`](https://viem.sh/docs/glossary/types#action)
+
+The action to add the sub-validator.

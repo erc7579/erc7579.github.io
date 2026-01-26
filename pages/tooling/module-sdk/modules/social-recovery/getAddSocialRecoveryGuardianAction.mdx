@@ -1,0 +1,27 @@
+# getAddSocialRecoveryGuardianAction
+
+Get the action to add a social recovery guardian for an account.
+
+## Usage
+
+```typescript copy
+const action = getAddSocialRecoveryGuardianAction({
+  guardian: '0x123...',
+})
+```
+
+## Parameters
+
+### guardian
+
+- Type: [`Address`](https://viem.sh/docs/glossary/types#address)
+
+The address of the guardian to add.
+
+## Returns
+
+### action
+
+- Type: [`Action`](https://viem.sh/docs/glossary/types#action)
+
+The action to add a social recovery guardian for an account.

@@ -1,0 +1,46 @@
+# getAccount
+
+Creates a new account object.
+
+## Usage
+
+```typescript copy
+const account = await getAccount({
+  address: '0x1234...',
+  type: 'safe',
+})
+```
+
+## Parameters
+
+### address
+
+- Type: [`Address`](https://viem.sh/docs/glossary/types#address)
+
+The address of the account.
+
+### type
+
+- Type: [`AccountType`](/tooling/module-sdk/glossary/types.mdx#accounttype)
+
+The type of the account.
+
+### initCode (optional)
+
+- Type: [`Hex`](https://viem.sh/docs/glossary/types#hex)
+
+The init code of the account, only requires when the account is not yet deployed.
+
+### deployedOnChains (optional)
+
+- Type: `Number[]`
+
+The array of chains that the account is deployed on already.
+
+## Returns
+
+### account
+
+- Type: [`Account`](/tooling/module-sdk/glossary/types.mdx#account)
+
+The account object.

@@ -1,0 +1,40 @@
+---
+title: "Getting started"
+---
+
+ERC4337 Validation is a Solidity library that can be installed in different ways. Below, you will find instructions for using it together with Foundry.
+
+## Installation
+
+### Using a package manager
+
+```sh
+npm i @rhinestone/erc4337-validation
+```
+
+### Using git submodules
+
+```bash
+forge install rhinestonewtf/erc4337-validation
+```
+
+## Quick Start
+
+To use this library, simply import the `Simulator` and set it up as follows:
+
+```solidity
+import {Simulator} from "@rhinestone/erc4337-validation/Simulator.sol";
+
+contract Example {
+    using Simulator for PackedUserOperation; // or UserOperation
+
+   function verify(PackedUserOperation memory userOp) external view {
+        // Verify the ERC-4337 rules
+        userOp.simulateUserOp(entryPointAddress);
+    }
+}
+```
+
+If the userOp breaks any of the rules, the function will revert with a message indicating which rule was broken.
+
+Note that the `entryPointAddress` needs to be the address of the `EntryPointSimulations` contract if you are using v0.7 of ERC-4337. For an example see the [Simulator test](https://github.com/rhinestonewtf/erc4337-validation/blob/main/test/Simulator.t.sol), the [Simulator test v0.6](https://github.com/rhinestonewtf/erc4337-validation/blob/main/test/SimulatorV060.t.sol) and the relevant [test bases](https://github.com/rhinestonewtf/erc4337-validation/tree/main/test/utils).

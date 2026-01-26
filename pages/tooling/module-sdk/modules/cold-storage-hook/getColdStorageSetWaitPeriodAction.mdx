@@ -1,0 +1,27 @@
+# getColdStorageSetWaitPeriodAction
+
+Get the action to change the wait period for cold storage account.
+
+## Usage
+
+```typescript copy
+const action = getColdStorageSetWaitPeriodAction({
+  waitPeriod: 1000,
+})
+```
+
+## Parameters
+
+### waitPeriod
+
+- Type: `number`
+
+The new wait period for the cold storage account.
+
+## Returns
+
+### action
+
+- Type: [`Action`](/tooling/module-sdk/glossary/types.mdx#action)
+
+The action to change the wait period for the cold storage account.

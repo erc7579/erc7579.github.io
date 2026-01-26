@@ -1,0 +1,33 @@
+---
+title: "contains"
+---
+
+Checks if the sentinel list contains a given data.
+
+## Usage
+
+```solidity
+bool contains = list.contains(bytes32(keccak256("entry")));
+```
+
+## Parameters
+
+### self
+
+- Type: `LinkedBytes32`
+
+The storage pointer of the list.
+
+### entry
+
+- Type: `bytes32`
+
+The data to check for in the list.
+
+## Returns
+
+### isContained
+
+- Type: `bool`
+
+Returns true if the entry is contained in the list and false otherwise.

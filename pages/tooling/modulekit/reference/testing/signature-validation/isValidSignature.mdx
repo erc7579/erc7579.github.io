@@ -1,0 +1,49 @@
+---
+title: "isValidSignature"
+---
+
+Determine if a signature is valid for an account.
+
+## Usage
+
+```solidity
+bool isValid = instance.isValidSignature({
+    validator: address(instance.defaultValidator),
+    hash: unformattedHash,
+    signature: unformattedSignature
+});
+```
+
+## Parameters
+
+### instance
+
+- Type: [`AccountInstance`](../../glossary/types#accountinstance)
+
+The instance of the account used for testing.
+
+### validator
+
+- Type: `address`
+
+The address of the validator contract.
+
+### hash
+
+- Type: `bytes32`
+
+The hash to validate the signature against. Note: this should be the unformatted hash and not the formatted hash that is signed.
+
+### signature
+
+- Type: `bytes`
+
+The signature to validate. Note: this should be the unformatted signature.
+
+## Returns
+
+### isValid
+
+- Type: `bool`
+
+True if the signature is valid, false otherwise.

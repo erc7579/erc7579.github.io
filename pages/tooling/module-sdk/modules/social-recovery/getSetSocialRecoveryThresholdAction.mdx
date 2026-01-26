@@ -1,0 +1,27 @@
+# getSetSocialRecoveryThresholdAction
+
+Get the action to set the social recovery threshold for an account.
+
+## Usage
+
+```typescript copy
+const action = getSetSocialRecoveryThresholdAction({
+  threshold: 2,
+})
+```
+
+## Parameters
+
+### threshold
+
+- Type: `number`
+
+The new threshold for the social recovery account.
+
+## Returns
+
+### action
+
+- Type: [`Action`](/tooling/module-sdk/glossary/types.mdx#action)
+
+The action to set the social recovery threshold.

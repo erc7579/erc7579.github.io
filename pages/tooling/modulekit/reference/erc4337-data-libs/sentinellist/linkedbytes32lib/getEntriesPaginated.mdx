@@ -1,0 +1,46 @@
+---
+title: "getEntriesPaginated"
+---
+
+
+Get all entries in the list, paginated.
+
+## Usage
+
+```solidity
+(bytes32[] memory array, bytes32 next) = list.getEntriesPaginated(bytes32(keccak256("entry")), 4);
+```
+
+## Parameters
+
+### self
+
+- Type: `LinkedBytes32`
+
+The storage pointer of the list.
+
+### start
+
+- Type: `bytes32`
+
+The data to start the query from.
+
+### pageSize
+
+- Type: `uint256`
+
+The number of entries to return.
+
+## Returns
+
+### array
+
+- Type: `bytes32[]`
+
+The array of entries.
+
+### next
+
+- Type: `bytes32`
+
+The next entry in the list.

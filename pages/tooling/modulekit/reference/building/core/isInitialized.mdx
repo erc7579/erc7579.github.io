@@ -1,0 +1,36 @@
+---
+title: "isInitialized"
+---
+
+Check whether a module has already been initialized.
+
+## Usage
+
+```solidity
+ /**
+* Check if the module is initialized
+*
+* @param smartAccount The smart account to check
+*
+* @return true if the module is initialized, false otherwise
+*/
+function isInitialized(address smartAccount) external view returns (bool) {
+    return _isInitialized(smartAccount);
+}
+```
+
+## Parameters
+
+### smartAccount
+
+- Type: `address`
+
+The smart account to check.
+
+## Returns
+
+### isInitialized
+
+- Type: `bool`
+
+Is true if the module is initialized and false otherwise.

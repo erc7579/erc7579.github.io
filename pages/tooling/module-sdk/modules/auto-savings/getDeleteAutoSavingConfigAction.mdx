@@ -1,0 +1,41 @@
+# getDeleteAutoSavingConfigAction
+
+Get the action to delete the auto-save configuration for a token.
+
+## Usage
+
+```typescript copy
+const action = await getDeleteAutoSavingConfigAction({
+  client,
+  account,
+  token: '0x123...',
+})
+```
+
+## Parameters
+
+### client
+
+- Type: `PublicClient`
+
+The rpc client to use for the chain you want to query.
+
+### account
+
+- Type: [`Account`](/tooling/module-sdk/glossary/types.mdx#account)
+
+The account to delete the auto-save configuration for.
+
+### token
+
+- Type: [`Address`](https://viem.sh/docs/glossary/types#address)
+
+The address of the token to delete the auto-save configuration for.
+
+## Returns
+
+### action
+
+- Type: [`Promise<Action>`](/tooling/module-sdk/glossary/types.mdx#action)
+
+The action to delete the auto-savings configuration.

@@ -1,0 +1,57 @@
+# encodeSmartSessionSignature
+
+Get encoded smart session signature.
+
+## Usage
+
+```typescript copy
+const encodedSig = encodeSmartSessionSignature({
+  mode: SmartSessionMode.ENABLE,
+  permissionId: '0xabcd...',
+  signature: '0x1234...',
+  enableSessionData: {
+    enableSession: {
+      chainDigestIndex: 0,
+      hashesAndChainIds,
+      sessionToEnable,
+      permissionEnableSig,
+    },
+    validator: OWNABLE_VALIDATOR_ADDRESS,
+    accountType: account.type,
+  },
+})
+```
+
+## Parameters
+
+### mode
+
+- Type: [`SmartSessionMode`](/tooling/module-sdk/glossary/types.mdx#smartsessionmode)
+
+The mode of the smart session.
+
+### permissionId
+
+- Type: [`Hex`](https://viem.sh/docs/glossary/types#hex)
+
+The permission ID of the session to enable.
+
+### signature
+
+- Type: [`Hex`](https://viem.sh/docs/glossary/types#hex)
+
+The signature of the session to enable.
+
+### enableSessionData
+
+- Type: [`EnableSessionData`](/tooling/module-sdk/glossary/types.mdx#enablesessiondata)
+
+The data needed to enable a session in an account.
+
+## Returns
+
+### encodedSignature
+
+- Type: `Hex`
+
+The encoded smart session signature.

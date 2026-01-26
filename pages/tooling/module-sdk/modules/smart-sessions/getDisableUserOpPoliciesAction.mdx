@@ -1,0 +1,34 @@
+# getDisableUserOpPoliciesAction
+
+Get the action to disable userOp policies for a specific session in the smart sessions validator.
+
+## Usage
+
+```typescript copy
+const action = await getDisableUserOpPoliciesAction({
+  permissionId: '0x1234...',
+  userOpPolicies: ['0xabcd...'],
+})
+```
+
+## Parameters
+
+### permissionId
+
+- Type: [`Hex`](https://viem.sh/docs/glossary/types#hex)
+
+The permission ID of the session to disable userOp policies for.
+
+### userOpPolicies
+
+- Type: [`Address[]`](https://viem.sh/docs/glossary/types#address)
+
+A list of userOp policies addresses.
+
+## Returns
+
+### action
+
+- Type: [`Promise<Action>`](/tooling/module-sdk/glossary/types.mdx#action)
+
+The action to disable userOp policies for a specific session in the smart sessions validator.

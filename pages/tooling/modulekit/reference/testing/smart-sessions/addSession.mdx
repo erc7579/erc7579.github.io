@@ -1,0 +1,57 @@
+---
+title: "addSession"
+---
+
+Create a new session on the smart sessions validator.
+
+## Usage
+
+```solidity
+PermissionId permissionId = instance.addSession(session);
+```
+
+## Parameters
+
+### instance
+
+- Type: [`AccountInstance`](../../glossary/types#accountinstance)
+
+The instance of the account used for testing.
+
+### session (optional)
+
+- Type: [`Session`](../../glossary/types#session)
+
+The session to add to the smart sessions validator. Alternatively, you can use the fields below to add a session by using the default validator.
+
+### salt (optional)
+
+- Type: `bytes32`
+
+The salt to use for the session.
+
+### userOpPolicies (optional)
+
+- Type [`PolicyData[]`](../../glossary/types#policydata)
+
+The user operation policies to use for the session.
+
+### erc7739Policy (optional)
+
+- Type: [`ERC7739Data`](../../glossary/types#erc7739data)
+
+The ERC7739 policy to use for the session.
+
+### actionDatas (optional)
+
+- Type: [`ActionData[]`](../../glossary/types#actiondata)
+
+The action policies to use for the session.
+
+## Returns
+
+### permissionId
+
+- Type: `PermissionId | bytes32`
+
+The permission id for the session created.

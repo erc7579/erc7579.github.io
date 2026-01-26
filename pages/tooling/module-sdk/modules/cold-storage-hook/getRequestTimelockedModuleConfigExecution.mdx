@@ -1,0 +1,55 @@
+# getRequestTimelockedModuleConfigExecution
+
+Get the action to request a timelocked action to change configurations on the account. This includes installing or uninstalling modules.
+
+## Usage
+
+```typescript copy
+const timelockedExecutionAction = getRequestTimelockedModuleConfigExecution({
+  moduleTypeId: 1,
+  module: '0x123...',
+  data: '0x123...',
+  isInstall: true,
+  additionalWait: 0,
+})
+```
+
+## Parameters
+
+### moduleTypeId
+
+- Type: `number`
+
+The module type ID, according to ERC-7579.
+
+### module
+
+- Type: [`Address`](https://viem.sh/docs/glossary/types#address)
+
+The address of the module to install or uninstall.
+
+### data
+
+- Type: [`Hex`](https://viem.sh/docs/glossary/types#hex)
+
+The data to pass to the module.
+
+### isInstall
+
+- Type: `boolean`
+
+Whether to install or uninstall the module.
+
+### additionalWait
+
+- Type: `number`
+
+The additional wait time in seconds before the execution can occur, on top of the set wait period.
+
+## Returns
+
+### action
+
+- Type: [`Action`](/tooling/module-sdk/glossary/types.mdx#action)
+
+The action to request the timelocked account configuration.

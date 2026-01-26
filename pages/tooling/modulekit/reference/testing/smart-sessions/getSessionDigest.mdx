@@ -1,0 +1,39 @@
+---
+title: "getSessionDigest"
+---
+
+Get the session digest to sign in order to enable a session.
+
+## Usage
+
+```solidity
+bytes32 digest = instance.getSessionDigest({session: session, mode: SmartSessionMode.USE });
+```
+
+## Parameters
+
+### instance
+
+- Type: [`AccountInstance`](../../glossary/types#accountinstance)
+
+The instance of the account used for testing.
+
+### session
+
+- Type: [`Session`](../../glossary/types#session)
+
+The session to get the digest from.
+
+### mode
+
+- Type: `SmartSessionMode`
+
+The mode of the session, either `USE`, `ENABLE` or `UNSAFE_ENABLE`.
+
+## Returns
+
+### digest
+
+- Type: `bytes32`
+
+The digest of the session.

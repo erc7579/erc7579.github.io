@@ -1,0 +1,62 @@
+---
+title: "execute"
+---
+
+Make one or multiple executions through the account. Inherited from `ERC7579ExecutorBase`.
+
+## Usage
+
+```solidity
+bytes memory result = _execute({
+    account: msg.sender,
+    to: target,
+    value: value
+    data: callData
+});
+```
+
+## Parameters
+
+### account (optional)
+
+- Type: `address`
+
+The address of the account to execute the call from. If not provided, the call will be executed from the `msg.sender`.
+
+### to
+
+- Type: `address`
+
+The address of the target contract.
+
+### value
+
+- Type: `uint256`
+
+The value to send with the call.
+
+### data
+
+- Type: `bytes`
+
+The data to send with the call.
+
+### execs (optional)
+
+- Type: [`Execution[]`](../../glossary/types#execution)
+
+The executions to use for the call instead of using a single target, value, and callData.
+
+## Returns
+
+### result
+
+- Type: `bytes`
+
+The result of a single execution.
+
+### results
+
+- Type: `bytes[]`
+
+The results of multiple executions.

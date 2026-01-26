@@ -1,0 +1,50 @@
+---
+title: "deployModuleViaFactory"
+---
+
+Deploy a module using the Registry and an external factory. This can be useful when requiring a specific factory to deploy a module.
+
+## Usage
+
+```solidity
+address module = deployModuleViaFactory({
+    factory: factory,
+    callOnFactory: callOnFactory,
+    metadata: metadata,
+    resolverContext: resolverContext
+});
+```
+
+## Parameters
+
+### factory
+
+- Type: `address`
+
+The factory to deploy the module.
+
+### callOnFactory
+
+- Type: `callOnFactory`
+
+The calldata to call on the factory.
+
+### metadata
+
+- Type: `bytes`
+
+Additional metadata for the module. This field can be empty.
+
+### resolverContext
+
+- Type: `bytes`
+
+Additional context for the module to be sent to the resolver. This field can be empty.
+
+## Returns
+
+### moduleAddr
+
+- Type: `address`
+
+The address of the module.

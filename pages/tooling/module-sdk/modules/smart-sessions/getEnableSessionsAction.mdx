@@ -1,0 +1,51 @@
+# getEnableSessionsAction
+
+Get the action to enable new sessions on smart sessions. Note that this action cannot be used to change an existing session, but only to create new ones.
+
+## Usage
+
+```typescript copy
+const action = await getEnableSessionsAction({
+  sessions: [
+    {
+      sessionValidator: '0x1234...',
+      sessionValidatorInitData: '0xabcd...',
+      salt: toHex(toBytes('1', { size: 32 })),
+      userOpPolicies: [],
+      erc7739Policies: {
+        allowedERC7739Content: [],
+        erc1271Policies: [],
+      },
+      actions: [
+        {
+          actionTarget: '0x1234...',
+          actionTargetSelector: '0x00112233',
+          actionPolicies: [
+            {
+              policy: '0x1234...',
+              initData: '0xabcd...',
+            },
+          ],
+        },
+      ],
+      permitERC4337Paymaster: false,
+    },
+  ],
+})
+```
+
+## Parameters
+
+### sessions
+
+- Type: [`Session[]`](/tooling/module-sdk/glossary/types.mdx#session)
+
+List of sessions to enable in the smart sessions validator.
+
+## Returns
+
+### action
+
+- Type: [`Promise<Action>`](/tooling/module-sdk/glossary/types.mdx#action)
+
+The action to enable sessions in the smart sessions validator.

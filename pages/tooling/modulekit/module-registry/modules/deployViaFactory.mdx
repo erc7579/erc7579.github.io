@@ -1,0 +1,58 @@
+---
+title: "deployViaFactory"
+---
+
+Deploy a module via an external factory and register it on the Registry.
+
+## Usage
+
+```solidity
+address factory = address(...);
+bytes memory callOnFactory = abi.encodeWithSelector(...);
+
+ResolverUID resolverUID = ResolverUID.wrap(...);
+bytes memory metadata = "";
+bytes memory resolverContext = "";
+
+address moduleAddress = registry.deployViaFactory(factory, callOnFactory, metadata, resolverUID, resolverContext);
+```
+
+## Parameters
+
+### factory
+
+- Type: `address`
+
+The address of the factory to deploy the module from.
+
+### callOnFactory
+
+- Type: `bytes`
+
+The call data to send to the factory.
+
+### metadata
+
+- Type: `bytes`
+
+Additional metadata to store on the Registry. This can be left empty.
+
+### resolverUID
+
+- Type: `ResolverUID | bytes32`
+
+The resolver UID to use for the module deployment. You can find the default resolver UID in the [address book](../../../home/resources/address-book).
+
+### resolverContext
+
+- Type: `bytes`
+
+Additional context to pass to the resolver. This can be left empty.
+
+## Returns
+
+### moduleAddress
+
+- Type: `address`
+
+The address of the module.

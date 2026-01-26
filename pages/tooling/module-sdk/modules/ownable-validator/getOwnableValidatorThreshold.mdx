@@ -1,0 +1,34 @@
+# getOwnableValidatorThreshold
+
+Get the current threshold of the ownable validator.
+
+## Usage
+
+```typescript copy
+const threshold = await getOwnableValidatorThreshold({
+  client,
+  account,
+})
+```
+
+## Parameters
+
+### client
+
+- Type: `PublicClient`
+
+The rpc client to use for the chain you want to query.
+
+### account
+
+- Type: [`Account`](/tooling/module-sdk/glossary/types.mdx#account)
+
+The account to get the threshold for.
+
+## Returns
+
+### threshold
+
+- Type: [`Promise<number>`](https://viem.sh/docs/glossary/types#number)
+
+The current threshold on the ownable validtor.

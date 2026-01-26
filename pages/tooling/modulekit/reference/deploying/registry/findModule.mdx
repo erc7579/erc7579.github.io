@@ -1,0 +1,27 @@
+---
+title: "findModule"
+---
+
+Find a deployed module on the Registry. Note, that this function will always return a module record and you should check if it contains the expected data, like the resolverUID or metadata.
+
+## Usage
+
+```solidity
+ModuleRecord memory moduleRecord = findModule({ moduleAddress: moduleAddress });
+```
+
+## Parameters
+
+### moduleAddress
+
+- Type: `address`
+
+The address of the module to find.
+
+## Returns
+
+### moduleRecord
+
+- Type: `ModuleRecord`
+
+The module record.

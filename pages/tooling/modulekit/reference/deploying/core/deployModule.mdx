@@ -1,0 +1,50 @@
+---
+title: "deployModule"
+---
+
+Deploy a module using the Registry.
+
+## Usage
+
+```solidity
+address module = deployModule({
+    initCode: initCode,
+    salt: salt,
+    metadata: metadata,
+    resolverContext: resolverContext
+});
+```
+
+## Parameters
+
+### initCode
+
+- Type: `bytes`
+
+The init code of the module.
+
+### salt
+
+- Type: `bytes32`
+
+The salt used to create the module and influence its address.
+
+### metadata
+
+- Type: `bytes`
+
+Additional metadata for the module. This field can be empty.
+
+### resolverContext
+
+- Type: `bytes`
+
+Additional context for the module to be sent to the resolver. This field can be empty.
+
+## Returns
+
+### moduleAddr
+
+- Type: `address`
+
+The address of the module.

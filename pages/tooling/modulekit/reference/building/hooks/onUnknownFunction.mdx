@@ -1,0 +1,56 @@
+---
+title: "onUnknownFunction"
+---
+
+A virtual function called when an execution occurs on the account that could not be decoded. Overwrites from `ERC7579HookDestruct`.
+
+## Usage
+
+```solidity
+function onUnknownFunction(
+    address account,
+    address msgSender,
+    uint256 msgValue,
+    bytes calldata msgData
+)
+    internal
+    virtual
+    returns (bytes memory hookData)
+{
+    return abi.encode("success");
+}
+```
+
+## Parameters
+
+### account
+
+- Type: `address`
+
+The address of the account that the execution is called on.
+
+### msgSender
+
+- Type: `address`
+
+The address of the caller to the account.
+
+### msgValue
+
+- Type: `uint256`
+
+The value sent to the account.
+
+### msgData
+
+- Type: `bytes`
+
+The msgData sent to the account.
+
+## Returns
+
+### hookData
+
+- Type: `bytes`
+
+The data sent to the `postHook` function.

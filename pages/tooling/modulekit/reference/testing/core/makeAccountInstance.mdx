@@ -1,0 +1,57 @@
+---
+title: "makeAccountInstance"
+---
+
+Create an instance of an account to use for testing.
+
+## Usage
+
+```solidity
+AccountInstance memory instance = makeAccountInstance("account1");
+```
+
+## Parameters
+
+### salt
+
+- Type: `bytes32`
+
+The salt to use for the account.
+
+### account (optional)
+
+- Type: `address`
+
+The address of the account if you want to define your own.
+
+### initCode (optional)
+
+- Type: `bytes`
+
+The init code to use for the account if you want to define your own.
+
+### helper (optional)
+
+- Type: `address`
+
+The address of the account helper used to format any calls to the account. This is only required if you want to use a custom account type.
+
+### defaultValidator (optional)
+
+- Type: `address`
+
+The address of the default validator to use for the account. This needs to be coupled with an account helper that knows how to format the signature for this validator.
+
+### defaultSessionValidator (optional)
+
+- Type: `address`
+
+The address of the default session validator to use for the account. If not provided, smart sessions will be deployed and used.
+
+## Returns
+
+### instance
+
+- Type: [`AccountInstance`](../../glossary/types#accountinstance)
+
+The instance of the account used for testing.

@@ -1,0 +1,29 @@
+# recoveryCommandTemplates
+
+Get the command templates used for account recovery emails. These templates define the structure of valid recovery commands.
+
+## Usage
+
+```typescript
+const templates = await recoveryCommandTemplates({
+  client: publicClient,
+})
+```
+
+## Parameters
+
+### client
+
+- Type: `PublicClient`
+
+The public client instance used to interact with the blockchain.
+
+## Returns
+
+### templates
+
+- Type: `Promise<readonly (readonly string[])[]>`
+
+Returns a two-dimensional array of strings representing recovery command templates.
+
+If the contract call fails, returns an empty array.

@@ -1,0 +1,50 @@
+# canStartRecoveryRequest
+
+Check if a recovery request can be initiated for an account based on guardian acceptance and configuration.
+
+## Usage
+
+```typescript
+const canStart = await canStartRecoveryRequest({
+  account: {
+    address: '0x123...',
+    type: 'safe',
+    deployedOnChains: [8453],
+    initCode: '0x...' // optional
+  },
+  client: publicClient,
+  validator: '0x456...'
+})
+```
+
+## Parameters
+
+### account
+
+- Type: [`Account`](/tooling/module-sdk/glossary/types.mdx#account)
+
+The account object.
+
+### client
+
+- Type: `PublicClient`
+
+The public client instance used to interact with the blockchain.
+
+### validator
+
+- Type: [`Address`](https://viem.sh/docs/glossary/types#address)
+
+The address of the validator to check.
+
+## Returns
+
+### canStart
+
+- Type: `Promise<boolean>`
+
+Returns `true` if:
+- Recovery is activated
+- Accepted guardian weight meets or exceeds the threshold
+
+If the contract call fails, returns `false`.

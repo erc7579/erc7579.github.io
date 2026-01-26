@@ -1,0 +1,11 @@
+# Cold Storage Hook
+
+The Cold Storage Hook creates timelock and transfer restrictions on the users' account. It restricts execution on the account in two ways: 1) a timelock period and 2) transfers are limited to just one address.
+
+## How it works
+
+The Cold Storage Hook restricts the actions that an account owner can do in order to allow users to more securely store some of their funds. These funds in "cold storage" can only be withdrawn to a designated address and only after a timelock has expired.
+
+## Getting started
+
+To get started, install the hook on a smart account, supply a timelock and designate some assets to be put into "cold storage". When withdrawing an asset, you will first need to make a request to withdraw the asset, wait for the timeperiod to expire and then make the transaction to withdraw the asset.

@@ -1,0 +1,40 @@
+---
+title: "findPrevious"
+---
+
+
+Finds the previous entry in the list. Currently, this function will only work for the SentinelListLib.
+
+## Usage
+
+```solidity
+address entries = new address[](2);
+entries[0] = address(4);
+entries[1] = address(5);
+
+address entry = address(5);
+
+address prev = findPrevious(entries, entry);
+```
+
+## Parameters
+
+### array
+
+- Type: `address[]`
+
+The array of entries.
+
+### entry
+
+- Type: `address`
+
+The entry to find the previous entry for.
+
+## Returns
+
+### prev
+
+- Type: `address`
+
+The previous entry in the list.

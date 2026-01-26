@@ -1,0 +1,35 @@
+---
+title: "load"
+---
+
+Loads data from storage.
+
+## Usage
+
+```solidity
+contract FlatBytesTest {
+    using FlatBytesLib for FlatBytesLib.Bytes;
+
+    FlatBytesLib.Bytes data;
+
+    function loadData() external {
+        bytes memory _data = data.load();
+    }
+}
+```
+
+## Parameters
+
+### self
+
+- Type: `Bytes`
+
+The instance of the Bytes data.
+
+## Returns
+
+### data
+
+- Type: `bytes`
+
+The data stored.

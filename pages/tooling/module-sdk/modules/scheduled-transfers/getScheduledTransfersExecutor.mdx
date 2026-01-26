@@ -1,0 +1,54 @@
+# getScheduledTransfersExecutor
+
+description
+
+## Usage
+
+```typescript copy
+const module = getScheduledTransfersExecutor({
+  executeInterval: 1000,
+  numberOfExecutions: 10,
+  startData: 1724184464,
+  executionData: '0x123...',
+})
+```
+
+## Parameters
+
+### executeInterval
+
+- Type: `number`
+
+The interval in seconds between each execution.
+
+### numberOfExecutions
+
+- Type: `number`
+
+The number of executions to perform.
+
+### startData
+
+- Type: `number`
+
+The start data for the execution as a UNIX timestamp.
+
+### executionData
+
+- Type: [`Hex`](https://viem.sh/docs/glossary/types#hex)
+
+The data for the scheduled order, see [`getScheduledTransferData`](/tooling/module-sdk/modules/scheduled-transfers/getScheduledTransferData) for more information.
+
+### hook (optional)
+
+- Type: [`Address`](https://viem.sh/docs/glossary/types#address)
+
+The address of the hook to use. This is only required for the Kernel account.
+
+## Returns
+
+### module
+
+- Type: [`Module`](/tooling/module-sdk/glossary/types.mdx#module)
+
+The scheduled transfers module object.

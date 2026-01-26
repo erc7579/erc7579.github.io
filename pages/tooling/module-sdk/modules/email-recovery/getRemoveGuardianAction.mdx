@@ -1,0 +1,39 @@
+# getRemoveGuardianAction
+
+Generate the transaction data needed to remove a guardian from an account.
+
+## Usage
+
+```typescript
+const action = await getRemoveGuardianAction({
+  client: publicClient,
+  guardian: '0x123...'
+})
+```
+
+## Parameters
+
+### client
+
+- Type: `PublicClient`
+
+The public client instance used to interact with the blockchain.
+
+### guardian
+
+- Type: [`Address`](https://viem.sh/docs/glossary/types#address)
+
+The address of the guardian to remove.
+
+## Returns
+
+### action
+
+- Type: `Promise<Execution>`
+
+Returns an execution object containing:
+- `to`: Email recovery module contract address
+- `target`: Email recovery module contract address
+- `value`: Amount of native tokens to send (0)
+- `callData`: Encoded function data
+- `data`: Encoded function data

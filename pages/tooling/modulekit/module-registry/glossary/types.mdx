@@ -1,0 +1,39 @@
+---
+title: "Glossary"
+---
+
+Glossary of types in the Registry.
+
+## `ModuleRecord`
+
+The record of a module.
+
+### Definition
+
+```solidity
+struct ModuleRecord {
+    ResolverUID resolverUID;
+    address sender;
+    bytes metadata;
+}
+```
+
+### Properties
+
+#### resolverUID
+
+- Type: `ResolverUID | bytes32`
+
+The resolver UID of the module.
+
+#### sender
+
+- Type: `address`
+
+The creator of the module.
+
+#### metadata
+
+- Type: `bytes`
+
+The additional metadata of the module.

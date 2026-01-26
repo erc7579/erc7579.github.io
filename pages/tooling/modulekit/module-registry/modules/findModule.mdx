@@ -1,0 +1,27 @@
+---
+title: "findModule"
+---
+
+Find the record of a registered module.
+
+## Usage
+
+```solidity
+ModuleRecord memory moduleRecord = registry.findModule(moduleAddress);
+```
+
+## Parameters
+
+### moduleAddress
+
+- Type: `address`
+
+The address of the module to find.
+
+## Returns
+
+### moduleRecord
+
+- Type: [`ModuleRecord`](../glossary/types#modulerecord)
+
+The record of the module.

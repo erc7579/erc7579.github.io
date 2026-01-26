@@ -1,0 +1,43 @@
+# computeEmailAuthAddress
+
+Compute the deterministic address for an email authentication contract using CREATE2.
+
+## Usage
+
+```typescript
+const emailAuthAddress = await computeEmailAuthAddress({
+  client: publicClient,
+  recoveredAccount: '0x123...',
+  accountSalt: '0x...'
+})
+```
+
+## Parameters
+
+### client
+
+- Type: `PublicClient`
+
+The public client instance used to interact with the blockchain.
+
+### recoveredAccount
+
+- Type: [`Address`](https://viem.sh/docs/glossary/types#address)
+
+The address of the account to be recovered.
+
+### accountSalt
+
+- Type: [`Hex`](https://viem.sh/docs/glossary/types#hex)
+
+A 32-byte salt value derived from the guardian's email address and account code. This ensures uniqueness for each guardian-account pair.
+
+## Returns
+
+### emailAuthAddress
+
+- Type: `Promise<Address>`
+
+Returns the computed address where the EmailAuth contract will be deployed using CREATE2.
+
+If the contract call fails, returns the zero address (`0x0000000000000000000000000000000000000000`).

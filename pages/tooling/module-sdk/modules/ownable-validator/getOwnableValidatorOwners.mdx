@@ -1,0 +1,34 @@
+# getOwnableValidatorOwners
+
+Get the current owners of the ownable validator.
+
+## Usage
+
+```typescript copy
+const owners = await getOwnableValidatorOwners({
+  client,
+  account,
+})
+```
+
+## Parameters
+
+### client
+
+- Type: `PublicClient`
+
+The rpc client to use for the chain you want to query.
+
+### account
+
+- Type: [`Account`](/tooling/module-sdk/glossary/types.mdx#account)
+
+The account to get the owners for.
+
+## Returns
+
+### owners
+
+- Type: [`Promise<Address[]>`](https://viem.sh/docs/glossary/types#address)
+
+The addresses of the owners of the ownable validator.

@@ -1,0 +1,43 @@
+---
+title: "_executeDelegateCall"
+---
+
+Make a delegatecall execution through the account. Inherited from `ERC7579ExecutorBase`.
+
+## Usage
+
+```solidity
+bytes[] memory results = _executeDelegateCall({
+    account: msg.sender,
+    delegateTarget: target,
+    callData: callData
+})
+```
+
+## Parameters
+
+### delegateTarget
+
+- Type: `address`
+
+The address of the target contract to make the delegatecall to.
+
+### callData
+
+- Type: `bytes`
+
+The data to send with the delegatecall.
+
+### account (optional)
+
+- Type: `address`
+
+The address of the account to execute the call from. If not provided, the call will be executed from the `msg.sender`.
+
+## Returns
+
+### results
+
+- Type: `bytes[]`
+
+The results of the execution.

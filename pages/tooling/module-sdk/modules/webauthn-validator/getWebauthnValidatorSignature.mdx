@@ -1,0 +1,70 @@
+# getWebauthnValidatorSignature
+
+Get the encoded signature for the WebAuthn validator.
+
+## Usage
+
+```typescript copy
+const webauthn = {
+  authenticatorData: toHex('authenticatorData'),
+  clientDataJSON: 'clientDataHash',
+  typeIndex: 0,
+}
+
+const signature = {
+  r: 10n,
+  s: 5n,
+}
+
+const validatorSignature = getWebauthnValidatorSignature({
+  webauthn,
+  signature,
+  usePrecompiled: true,
+})
+```
+
+## Parameters
+
+### webauthn.authenticatorData
+
+- Type: [`Hex`](https://viem.sh/docs/glossary/types#hex)
+
+The authenticator data formatted as a hex string.
+
+### webauthn.clientDataJSON
+
+- Type: `string`
+
+The JSON object of the client data that was signed.
+
+### webauthn.typeIndex
+
+- Type: `number`
+
+The location of the response type in the client data JSON.
+
+### signature.r
+
+- Type: `number`
+
+The `r` value of the signature.
+
+### signature.s
+
+- Type: `number`
+
+The `s` value of the signature.
+
+### usePrecompiled (optional)
+
+- Type: `boolean`
+
+A flag to indicate whether to use the precompiled contract for EIP-7212. Note that not all networks support the precompile.
+
+## Returns
+
+### signature
+
+- Type: [`Hex`](https://viem.sh/docs/glossary/types#hex)
+
+The encoded signature for the WebAuthn validator.

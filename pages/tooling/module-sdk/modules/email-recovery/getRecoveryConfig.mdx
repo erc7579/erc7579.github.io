@@ -1,0 +1,43 @@
+# getRecoveryConfig
+
+Get the recovery configuration for an account, including the delay period and expiry time.
+
+## Usage
+
+```typescript
+const config = await getRecoveryConfig({
+  account: {
+    address: '0x123...',
+    type: 'safe',
+    deployedOnChains: [8453],
+    initCode: '0x...' // optional
+  },
+  client: publicClient,
+})
+```
+
+## Parameters
+
+### account
+
+- Type: [`Account`](/tooling/module-sdk/glossary/types.mdx#account)
+
+The account object.
+
+### client
+
+- Type: `PublicClient`
+
+The rpc client to use for the chain you want to query.
+
+## Returns
+
+### config
+
+- Type: `Promise<{delay: bigint; expiry: bigint}>`
+
+Object containing:
+- `delay`: The delay period before recovery can be executed
+- `expiry`: The timestamp when a recovery request expires
+
+If the contract call fails, returns `{delay: 0n, expiry: 0n}`.

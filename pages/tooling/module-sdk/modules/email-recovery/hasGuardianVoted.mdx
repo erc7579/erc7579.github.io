@@ -1,0 +1,48 @@
+# hasGuardianVoted
+
+Check if a specific guardian has already voted on the current recovery request for an account.
+
+## Usage
+
+```typescript
+const hasVoted = await hasGuardianVoted({
+  account: {
+    address: '0x123...',
+    type: 'safe',
+    deployedOnChains: [8453],
+    initCode: '0x...' // optional
+  },
+  client: publicClient,
+  guardian: '0x456...'
+})
+```
+
+## Parameters
+
+### account
+
+- Type: [`Account`](/tooling/module-sdk/glossary/types.mdx#account)
+
+The account object.
+
+### client
+
+- Type: `PublicClient`
+
+The public client instance used to interact with the blockchain.
+
+### guardian
+
+- Type: [`Address`](https://viem.sh/docs/glossary/types#address)
+
+The address of the guardian to check.
+
+## Returns
+
+### hasVoted
+
+- Type: `Promise<boolean>`
+
+Returns `true` if the guardian has already voted on the current recovery request, `false` otherwise.
+
+If the contract call fails, returns `false`.

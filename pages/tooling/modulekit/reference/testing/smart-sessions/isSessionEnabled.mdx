@@ -1,0 +1,33 @@
+---
+title: "isSessionEnabled"
+---
+
+Check if a session is enabled. You can also check this only by the permissionId using `isPermissionEnabled`.
+
+## Usage
+
+```solidity
+bool isEnabled = instance.isSessionEnabled(session);
+```
+
+## Parameters
+
+### instance
+
+- Type: [`AccountInstance`](../../glossary/types#accountinstance)
+
+The instance of the account used for testing.
+
+### session
+
+- Type: [`Session`](../../glossary/types#session)
+
+The session to check if it is enabled.
+
+## Returns
+
+### isEnabled
+
+- Type: `bool`
+
+Returns `true` if the session is enabled and `false` otherwise.

@@ -1,0 +1,43 @@
+# getUniversalActionPolicy
+
+Get the universal action policy to use when creating a new session. The universal action policy can be used to ensure that only actions where the calldata has certain parameters can be used. For example, it could restrict swaps on Uniswap to be only under X amount of input token.
+
+## Usage
+
+```typescript copy
+const universalActionPolicy = getUniversalActionPolicy({
+  paramRules: {
+    length: 1,
+    rules: new Array(16).fill({
+      condition: ParamCondition.EQUAL,
+      isLimited: false,
+      offset: 0,
+      ref: toHex(toBytes('0x', { size: 32 })),
+      usage: { limit: BigInt(0), used: BigInt(0) },
+    }),
+  },
+  valueLimitPerUse: BigInt(100),
+})
+```
+
+## Parameters
+
+### paramRules
+
+- Type: [`paramRules`](/tooling/module-sdk/glossary/types.mdx#paramrules-1)
+
+Parameter rules.
+
+## valueLimitPerUse
+
+- Type: `bigint`
+
+Value limit per use.
+
+## Returns
+
+### policy
+
+- Type: [`Policy`](/tooling/module-sdk/glossary/types.mdx#policy-1)
+
+The policy object.

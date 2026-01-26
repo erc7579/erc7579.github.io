@@ -1,0 +1,64 @@
+---
+title: "How to use ModuleKit to calculate gas consumption of modules"
+sidebarTitle: "Calculating Gas"
+---
+
+The ModuleKit has an inbuilt helper to granularly calculate the gas costs of UserOperations. For example, it calculates the gas costs of the various phases of the ERC-4337 flow and L2-L1 calldata gas.
+
+## Setup
+
+Before using this utility, create a folder called `gas_calculations` in the root folder of the directory (same level as the `src` folder) and ensure that you have the right permissions settings set in your `foundry.toml` file:
+
+```bash
+fs_permissions = [{ access = "read-write", path = "gas_calculations" }]
+```
+
+### Write the test
+
+In the test function(s) that you want to perform, call `instance.log4337Gas("identifier")` before a `UserOperation` is executed. This will log the gas used for the `UserOperation` and use the identifier as the filename for the gas report. Make sure to use a unique identifier for each UserOp, otherwise the gas reports will be overwritten. For example:
+
+```solidity
+// Write gas
+instance.log4337Gas("testWriteGas");
+
+// Create userOperation
+instance.exec({ target: address(1), value: 1 wei, callData: "" });
+```
+
+## Run the tests
+
+To run the tests and log gas, run the following command:
+
+```bash
+GAS=true forge test
+```
+
+## Read the gas report
+
+After the tests have finished, the gas reports will be written to the `gas_calculations` folder in the root of the project. A gas report will look like this:
+
+```json
+{
+  "Calldata": {
+    "Arbitrum": "6504 gas",
+    "OP-Stack": "8859 gas"
+  },
+  "Phases": {
+    "Creation": "187_170 gas",
+    "Execution": "37_054 gas",
+    "Validation": "35_980 gas"
+  },
+  "Total": "2_550_948 gas"
+}
+```
+
+Note that if you re-run gas calculations, then the newest number will be added and every value will be followed by a `(diff: ...)` that shows the difference, in gas units between the calculations.
+
+## Convert the gas units
+
+All numbers are in gas units. To calculate the cost in gwei, follow the instructions below:
+
+- On L1: multiply the total gas used by the gas price in gwei: `totalGasUsed * gasPrice`
+- On an L2: multiply the total gas used by the L2 gas price in gwei and then add it to to the result of the relevant L2-L1 gas cost muliplied by the L1 gas cost in gwei: `totalGasUsed * l2GasPrice + callDataGasUsed * l1GasPrice`
+
+Note: if you are calculating the dollar amount of the gas cost, make sure to use the relevant gwei to usd conversions if the L2 has a different gas token to L1.

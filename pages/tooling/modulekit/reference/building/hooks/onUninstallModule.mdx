@@ -1,0 +1,64 @@
+---
+title: "onUninstallModule"
+---
+
+A virtual function called when a module is uninstalled on the account. Overwrites from `ERC7579HookDestruct`.
+
+## Usage
+
+```solidity
+function onUninstallModule(
+    address account,
+    address msgSender,
+    uint256 moduleType,
+    address module,
+    bytes calldata initData
+)
+    internal
+    virtual
+    override
+    returns (bytes memory hookData)
+{
+    return abi.encode("success");
+}
+```
+
+## Parameters
+
+### account
+
+- Type: `address`
+
+The address of the account that the module is installed on.
+
+### msgSender
+
+- Type: `address`
+
+The address of the caller to the account.
+
+### moduleType
+
+- Type: `uint256`
+
+The type of the module that is installed.
+
+### module
+
+- Type: `address`
+
+The address of the module that is installed.
+
+### deInitData
+
+- Type: `bytes`
+
+The data of the module uninstallation.
+
+## Returns
+
+### hookData
+
+- Type: `bytes`
+
+The data sent to the `postHook` function.

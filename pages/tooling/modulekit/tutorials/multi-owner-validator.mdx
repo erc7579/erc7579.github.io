@@ -1,0 +1,356 @@
+---
+title: "Tutorial 1: Building a Muti-Owner Validator"
+sidebarTitle: "Multi-Owner Validator"
+---
+
+In this tutorial, we will walk you through building a simple validator module, in this case, a multi-owner validator. This validator module allows multiple owners to sign transactions using an EOA. Before getting started, make sure you have [ModuleKit](../getting-started) installed and have set up a repo to work from.
+
+## Building the module
+
+To get started building the validator, we will first of all create a new contract that inherits from `ERC7579ValidatorBase` and has all the needed imports:
+
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.23;
+
+import { ERC7579ValidatorBase } from "modulekit/Modules.sol";
+import { PackedUserOperation, ValidationData } from "modulekit/external/ERC4337.sol";
+
+import { SignatureCheckerLib } from "solady/utils/SignatureCheckerLib.sol";
+import { ECDSA } from "solady/utils/ECDSA.sol";
+
+contract MultiOwnerValidator is ERC7579ValidatorBase {}
+```
+
+Next, we will implement the required storage variables and library usage:
+
+```solidity
+...
+
+contract MultiOwnerValidator is ERC7579ValidatorBase {
+    using SignatureCheckerLib for address;
+
+    mapping(uint256 ownerId => mapping(address account => address)) public owners;
+    mapping(address account => uint256) public ownerCount;
+}
+```
+
+We set up a mapping to store the owners and their accounts, and another mapping to store the number of owners for each account. Note that we use a mapping for gas efficiency. Although it seems a bit counterintuitive, we need to use the `ownerId` key first in order to be compliant with the [ERC-4337 restrictions(/erc4337-validation). We also use the `SignatureCheckerLib` to check the signatures of the owners.
+
+Then, we add the config logic of the module:
+
+```solidity
+...
+
+contract MultiOwnerValidator is ERC7579ValidatorBase {
+    ...
+
+    /*//////////////////////////////////////////////////////////////////////////
+                                     CONFIG
+    //////////////////////////////////////////////////////////////////////////*/
+
+    /* Initialize the module with the given data
+     * @param data The data to initialize the module with
+     */
+    function onInstall(bytes calldata data) external override {
+        owners[0][msg.sender] = address(uint160(bytes20(data)));
+        ownerCount[msg.sender] = 1;
+    }
+
+    /* De-initialize the module with the given data
+     * @param data The data to de-initialize the module with
+     */
+    function onUninstall(bytes calldata data) external override {
+        uint256 _ownerCount = ownerCount[msg.sender];
+        for (uint256 i = 0; i < _ownerCount; i++) {
+            delete owners[i][msg.sender];
+        }
+        delete ownerCount[msg.sender];
+    }
+
+    /*
+     * Check if the module is initialized
+     * @param smartAccount The smart account to check
+     * @return true if the module is initialized, false otherwise
+     */
+    function isInitialized(address smartAccount) external view returns (bool) {
+        return ownerCount[smartAccount] > 0;
+    }
+}
+```
+
+In the `onInstall` function, we initialize the module with the given data. In this case, we set the first owner that is passed (using `abi.encodePacked`) in the data. In the `onUninstall` function, we de-initialize the module by removing all the owners of the account. In the `isInitialized` function, we check if the module is initialized by checking if the owner count is greater than 0, ie whether an account has owners.
+
+Next, we add the module logic:
+
+```solidity
+...
+
+contract MultiOwnerValidator is ERC7579ValidatorBase {
+    ...
+
+    /*//////////////////////////////////////////////////////////////////////////
+                                     MODULE LOGIC
+    //////////////////////////////////////////////////////////////////////////*/
+
+    /**
+     * Validates UserOperation
+     * @param userOp PackedUserOperation to be validated.
+     * @param userOpHash Hash of the UserOperation to be validated.
+     * @return sigValidationResult the result of the signature validation, which can be:
+     *  - 0 if the signature is valid
+     *  - 1 if the signature is invalid
+     *  - <20-byte> aggregatorOrSigFail, <6-byte> validUntil and <6-byte> validAfter (see ERC-4337
+     * for more details)
+     */
+    function validateUserOp(
+        PackedUserOperation calldata userOp,
+        bytes32 userOpHash
+    )
+        external
+        view
+        override
+        returns (ValidationData)
+    {
+        (uint256 _ownerId, bytes memory _singature) = abi.decode(userOp.signature, (uint256, bytes));
+        bool validSig = owners[_ownerId][msg.sender].isValidSignatureNow(
+            ECDSA.toEthSignedMessageHash(userOpHash), _singature
+        );
+        return _packValidationData(!validSig, type(uint48).max, 0);
+    }
+
+    /**
+     * Validates an ERC-1271 signature
+     * @param sender The sender of the ERC-1271 call to the account
+     * @param hash The hash of the message
+     * @param signature The signature of the message
+     * @return sigValidationResult the result of the signature validation, which can be:
+     *  - EIP1271_SUCCESS if the signature is valid
+     *  - EIP1271_FAILED if the signature is invalid
+     */
+    function isValidSignatureWithSender(
+        address sender,
+        bytes32 hash,
+        bytes calldata signature
+    )
+        external
+        view
+        virtual
+        override
+        returns (bytes4 sigValidationResult)
+    {
+        (uint256 _ownerId, bytes memory _singature) = abi.decode(signature, (uint256, bytes));
+        address owner = owners[_ownerId][msg.sender];
+        address recover = ECDSA.recover(hash, _singature);
+        bool valid = SignatureCheckerLib.isValidSignatureNow(owner, hash, _singature);
+        return SignatureCheckerLib.isValidSignatureNow(owner, hash, _singature)
+            ? EIP1271_SUCCESS
+            : EIP1271_FAILED;
+    }
+
+    /*
+     * Add an owner to the smart account
+     * @param ownerId The owner ID
+     * @param owner The owner to add
+     */
+    function addOwner(uint256 ownerId, address owner) external {
+        require(owners[ownerId][msg.sender] == address(0), "Owner already exists");
+        owners[ownerId][msg.sender] = owner;
+        ownerCount[msg.sender]++;
+    }
+
+    /*
+     * Remove an owner from the smart account
+    * @dev Does not decrease ownerCount as this could result in owner not being removed during
+        uninstall
+     * @param ownerId The owner ID
+     */
+    function removeOwner(uint256 ownerId) external {
+        delete owners[ownerId][msg.sender];
+    }
+}
+```
+
+In the `validateUserOp` function, we validate the user operation by checking if the signature is valid. In the `isValidSignatureWithSender` function, we validate the ERC-1271 signature by checking if the signature is valid. For both of these, we encode the `ownerId` in the signature to use the wanted owner.
+
+We also add the `addOwner` and `removeOwner` functions to add and remove owners from the smart account.
+
+Finally, we add the metadata logic:
+
+```solidity
+...
+
+contract MultiOwnerValidator is ERC7579ValidatorBase {
+    ...
+
+    /*//////////////////////////////////////////////////////////////////////////
+                                     METADATA
+    //////////////////////////////////////////////////////////////////////////*/
+
+    /**
+     * The name of the module
+     * @return name The name of the module
+     */
+    function name() external pure returns (string memory) {
+        return "MultiOwnerValidator";
+    }
+
+    /**
+     * The version of the module
+     * @return version The version of the module
+     */
+    function version() external pure returns (string memory) {
+        return "0.0.1";
+    }
+
+    /*
+        * Check if the module is of a certain type
+        * @param typeID The type ID to check
+        * @return true if the module is of the given type, false otherwise
+        */
+    function isModuleType(uint256 typeID) external pure override returns (bool) {
+        return typeID == TYPE_VALIDATOR;
+    }
+}
+```
+
+This is pretty standard. We define the name and version of the module and check if the module is of a certain type.
+
+We have now successfully built a multi-owner validator module. The next step is to test the module.
+
+## Testing the module
+
+First, we will create a new `.t.sol` file with the following content:
+
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.23;
+
+import { Test } from "forge-std/Test.sol";
+import {
+    RhinestoneModuleKit,
+    ModuleKitHelpers,
+    ModuleKitUserOp,
+    AccountInstance,
+    UserOpData
+} from "modulekit/ModuleKit.sol";
+import { MODULE_TYPE_VALIDATOR } from "modulekit/external/ERC7579.sol";
+import { MultiOwnerValidator } from "src/MultiOwnerValidator.sol";
+import { ECDSA } from "solady/utils/ECDSA.sol";
+
+contract MultiOwnerValidatorTest is RhinestoneModuleKit, Test {}
+```
+
+In this file, we import various contracts from the `ModuleKit` and `Test` from `forge-std`. We also import the `MultiOwnerValidator` contract we just created, and the `ECDSA` library from `solady` as a helper. Then, we create a new contract that inherits from `RhinestoneModuleKit` and `Test`.
+
+Next, we will set up the test:
+
+```solidity
+...
+
+contract MultiOwnerValidatorTest is RhinestoneModuleKit, Test {
+    using ModuleKitHelpers for *;
+    using ModuleKitUserOp for *;
+    using ECDSA for bytes32;
+
+    // account and modules
+   AccountInstance internal instance;
+    MultiOwnerValidator internal validator;
+
+    Account owner1;
+    Account owner2;
+
+    function setUp() public {
+        init();
+
+        // Create the validator
+        validator = new MultiOwnerValidator();
+        vm.label(address(validator), "MultiOwnerValidator");
+
+        // Create the owners
+        owner1 = makeAccount("owner1");
+        owner2 = makeAccount("owner2");
+
+        // Create the account and install the validator
+        instance = makeAccountInstance("MultiOwnerValidator");
+        vm.deal(address(instance.account), 10 ether);
+        instance.installModule({
+            moduleTypeId: MODULE_TYPE_VALIDATOR,
+            module: address(validator),
+            data: abi.encodePacked(owner1.addr)
+        });
+    }
+}
+```
+
+We use the `ModuleKitHelpers` and `ModuleKitUserOp` to help with the integration testing and the `ECDSA` library to help with the signatures. We then set up the test by creating the account instance, validator and owners. During `setUp`, we create the account instance, owners and install the validator.
+
+Next, we will test the validator:
+
+```solidity
+...
+
+contract MultiOwnerValidatorTest is RhinestoneModuleKit, Test {
+    ...
+
+    function signHash(uint256 privKey, bytes32 digest) internal returns (bytes memory) {
+        (uint8 v, bytes32 r, bytes32 s) = vm.sign(privKey, ECDSA.toEthSignedMessageHash(digest));
+        return abi.encodePacked(r, s, v);
+    }
+
+    function execAndAssert(uint256 ownerId, uint256 key) internal {
+        // Create a target address and send some ether to it
+        address target = makeAddr("target");
+        uint256 value = 1 ether;
+
+        // Get the current balance of the target
+        uint256 prevBalance = target.balance;
+
+        // Get the UserOp data (UserOperation and UserOperationHash)
+        UserOpData memory userOpData = instance.getExecOps({
+            target: target,
+            value: value,
+            callData: "",
+            txValidator: address(validator)
+        });
+
+        // Set the signature
+        bytes memory signature = signHash(key, userOpData.userOpHash);
+        userOpData.userOp.signature = abi.encode(ownerId, signature);
+
+        // Execute the UserOp
+        userOpData.execUserOps();
+
+        // Check if the balance of the target has increased
+        assertEq(target.balance, prevBalance + value);
+    }
+
+    function testOwner1() public {
+        execAndAssert(0, owner1.key);
+    }
+
+    function testOwner2() public {
+        instance.exec({
+            target: address(validator),
+            callData: abi.encodeWithSelector(
+                MultiOwnerValidator.addOwner.selector, uint256(1), owner2.addr
+                )
+        });
+
+        execAndAssert(1, owner2.key);
+    }
+}
+```
+
+First, we add two utility functions, `signHash` and `execAndAssert`. The first of these is a helper to make it easier to create the signature of the `UserOperation`. The second actually holds the majority of the testing logic, but we have extracted it as a non-test function to make the tests more readable by reusing the code. The `execAndAssert` creates calldata and a `UserOpData` object, sets the signature, and then executes the `UserOp`. Finally, it asserts that the `UserOp` was executed successfully. We then have two tests, `testOwner1` and `testOwner2`, which test the validator by executing a `UserOp` with the first and second owner, respectively.
+
+When you run the tests, you should see that they pass:
+
+```bash
+Running 2 tests for test/MultiOwnerValidator.t.sol:MultiOwnerValidatorTest
+[PASS] testOwner1() (gas: 251446)
+[PASS] testOwner2() (gas: 357980)
+Test result: ok. 2 passed; 0 failed; 0 skipped; finished in 4.21ms
+
+Ran 1 test suites: 2 tests passed, 0 failed, 0 skipped (2 total tests)
+```

@@ -1,0 +1,15 @@
+# Auto Savings
+
+Auto Savings is a more opinionated version of the Schedule Transfer module. It allows a user to automatically transfer a set percentage of any received token to a target ERC-4626 yield-bearing vault.
+
+## How it works
+
+Auto Savings stores configurations for different tokens that the user can set. These include the percentage to save and the vault to save to. If the token to save is different to the underlying token in the vault, the module will also automatically swap the received token into the correct one.
+
+Using Auto Savings requires an offchain service. The reason for this is that the users' account is not necessarily called when receiving a token. Further, if a swap is required, we need to calculate the correct parameters for the swap depending on the current price ratio.
+
+## Getting started
+
+To get started with Auto Savings, you need to have a smart account with the Auto Savings module installed. You can then set up the configurations for the tokens you want to save. If the module is not installed yet, you can combine these two steps and set the required configurations during the module installation.
+
+Then, you will need to set up the automations service and supply the correct trigger, in this case the correct event that will be emitted when a token is transferred to the account. Using the automations service also requires the account to grant a session key to the automations key.

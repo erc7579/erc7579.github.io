@@ -1,0 +1,40 @@
+---
+title: "contains"
+---
+
+
+Checks if the sentinel list contains a given address.
+
+## Usage
+
+```solidity
+bool contains = list.contains(account, address(4));
+```
+
+## Parameters
+
+### self
+
+- Type: `SentinelList`
+
+The storage pointer of the list.
+
+### account
+
+- Type: `address`
+
+The account address.
+
+### entry
+
+- Type: `address`
+
+The address to check for in the list.
+
+## Returns
+
+### isContained
+
+- Type: `bool`
+
+Returns true if the entry is contained in the list and false otherwise.

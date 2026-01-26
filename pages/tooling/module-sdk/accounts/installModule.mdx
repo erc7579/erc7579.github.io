@@ -1,0 +1,41 @@
+# installModule
+
+Get the action to install a module on an account.
+
+## Usage
+
+```typescript copy
+const action = await installModule({
+  client,
+  account,
+  module,
+})
+```
+
+## Parameters
+
+### client
+
+- Type: `PublicClient`
+
+The rpc client to use for the chain you want to install the module on.
+
+### account
+
+- Type: [`Account`](/tooling/module-sdk/glossary/types.mdx#account)
+
+The account object.
+
+### module
+
+- Type: [`Module`](/tooling/module-sdk/glossary/types.mdx#module)
+
+The module object.
+
+## Returns
+
+### action
+
+- Type: [`Promise<Action[]>`](/tooling/module-sdk/glossary/types.mdx#action)
+
+The action to install the module on the account.

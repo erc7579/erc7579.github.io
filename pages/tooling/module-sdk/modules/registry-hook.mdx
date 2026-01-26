@@ -1,0 +1,11 @@
+# Registry Hook
+
+The Module Registry enforces security guarantees and standards when installing a module on a smart account. The Module Registry stores onchain security attestations made by independent auditors. When installing a new module on the account, the Module Registry Adapter queries the Module Registry and checks that pre-set security thresholds have been met.
+
+## How it works
+
+The Registry Hook is triggered every time a module is installed on the smart account or an executor is used. Then, it will check that the module is still secure as deemed by the attesters that the account has trusted on the Registry.
+
+## Getting started
+
+First, an account will need to trust attesters on the Registry. This is done by [calling the `trustAttesters`](/tooling/module-sdk/registry/getTrustAttestersAction) function on the Registry. Then, the hook needs to be installed on the account.

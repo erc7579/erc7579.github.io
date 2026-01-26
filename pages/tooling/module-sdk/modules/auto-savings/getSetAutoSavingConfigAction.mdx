@@ -1,0 +1,40 @@
+# getSetAutoSavingConfigAction
+
+Get the action to set the auto-save configuration for a token.
+
+## Usage
+
+```typescript copy
+const action = getSetAutoSavingConfigAction({
+  token: '0x123...',
+  config: {
+    percentage: BigInt(10),
+    vault: '0x123...',
+  },
+})
+```
+
+## Parameters
+
+### token
+
+- Type: [`Address`](https://viem.sh/docs/glossary/types#address)
+
+The address of the token to set the auto-save configuration for.
+
+### config
+
+- Type: `{
+  percentage: number,
+  vault: Address,
+}`
+
+The configuration for the auto-save module for the token.
+
+## Returns
+
+### action
+
+- Type: [`Action`](/tooling/module-sdk/glossary/types.mdx#action)
+
+The action to set the auto-savings configuration.

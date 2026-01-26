@@ -1,0 +1,27 @@
+# getOwnableValidatorSignature
+
+Format the signature to use the ownable validator.
+
+## Usage
+
+```typescript copy
+const signature = getOwnableValidatorSignature({
+  signatures: [signature1, signature2, signature3],
+})
+```
+
+## Parameters
+
+### signatures
+
+- Type: [`Hex[]`](https://viem.sh/docs/glossary/types#hex)
+
+The signatures to format. Note that the length of this array should be exactly equal to the threshold of the ownable validator.
+
+## Returns
+
+### signature
+
+- Type: [`Hex`](https://viem.sh/docs/glossary/types#hex)
+
+The formatted signature.

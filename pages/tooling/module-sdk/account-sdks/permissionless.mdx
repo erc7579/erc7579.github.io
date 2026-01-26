@@ -1,0 +1,148 @@
+import { Steps } from 'nextra/components'
+
+# How to use the Module SDK with Permissionless.js
+
+[Permissionless.js](https://docs.pimlico.io/permissionless) is one of the most widely used account SDKs. It is a typescript library that makes it easy to build with smart accounts. This guide will show you how to use the Module SDK with permissionless.js.
+
+<Steps>
+
+### Install the packages
+
+For this guide, we use the latest version of module sdk, permissionless ^0.2 and viem ^2.21.
+
+```bash
+npm i viem @rhinestone/module-sdk permissionless
+```
+
+### Import the required functions and constants
+
+```typescript copy
+import { createSmartAccountClient } from 'permissionless'
+import { toSafeSmartAccount } from 'permissionless/accounts'
+import { createPublicClient, http, encodePacked } from 'viem'
+import { erc7579Actions } from 'permissionless/actions/erc7579'
+import { createPimlicoClient } from 'permissionless/clients/pimlico'
+import { generatePrivateKey, privateKeyToAccount } from 'viem/accounts'
+import {
+  createPaymasterClient,
+  entryPoint07Address,
+} from 'viem/account-abstraction'
+import {
+  getSocialRecoveryValidator,
+  RHINESTONE_ATTESTER_ADDRESS,
+  MOCK_ATTESTER_ADDRESS,
+} from '@rhinestone/module-sdk'
+```
+
+### Create the clients
+
+Create the smart account client, the bundler client and the paymaster client. You will need to add your own urls here.
+
+```typescript copy
+const publicClient = createPublicClient({
+  transport: http(rpcUrl),
+  chain: chain,
+})
+
+const pimlicoClient = createPimlicoClient({
+  transport: http(bundlerUrl),
+  entryPoint: {
+    address: entryPoint07Address,
+    version: '0.7',
+  },
+})
+
+const paymasterClient = createPaymasterClient({
+  transport: http(paymasterUrl),
+})
+```
+
+### Create the signer
+
+The Safe account will need to have a signer to sign user operations. In permissionless.js, the default Safe account validates ECDSA signatures.
+
+For example, to create a signer based on a private key:
+
+```typescript copy
+const owner = privateKeyToAccount(generatePrivateKey())
+```
+
+### Create the Safe account
+
+Create the Safe account object using the signer. Note that you should only use the `MockAttester` on testnets.
+
+```typescript copy
+const safeAccount = await toSafeSmartAccount({
+  client: publicClient,
+  owners: [owner],
+  version: '1.4.1',
+  entryPoint: {
+    address: entryPoint07Address,
+    version: '0.7',
+  },
+  safe4337ModuleAddress: '0x7579EE8307284F293B1927136486880611F20002',
+  erc7579LaunchpadAddress: '0x7579011aB74c46090561ea277Ba79D510c6C00ff',
+  attesters: [
+    RHINESTONE_ATTESTER_ADDRESS, // Rhinestone Attester
+    MOCK_ATTESTER_ADDRESS, // Mock Attester - do not use in production
+  ],
+  attestersThreshold: 1,
+})
+```
+
+### Create the smart account client
+
+The smart account client is used to interact with the smart account. You will need to add your own bundler url and the chain that you are using.
+
+```typescript copy
+const smartAccountClient = createSmartAccountClient({
+  account: safeAccount,
+  chain: chain,
+  bundlerTransport: http(bundlerUrl),
+  paymaster: paymasterClient,
+  userOperation: {
+    estimateFeesPerGas: async () => {
+      return (await pimlicoClient.getUserOperationGasPrice()).fast
+    },
+  },
+}).extend(erc7579Actions())
+```
+
+### Create the module object
+
+Get the module object for the module that you want to install on the smart account. In this case, we will install the Social Recovery Module. We will pass to it a number of guardians that can recover the account as well as a threshold of guardians required to recover the account.
+
+```typescript copy
+const guardian1 = privateKeyToAccount(
+  '0xc171c45f3d35fad832c53cade38e8d21b8d5cc93d1887e867fac626c1c0d6be7',
+) // the key coresponding to the first guardian
+
+const guardian2 = privateKeyToAccount(
+  '0x1a4c05be22dd9294615087ba1dba4266ae68cdc320d9164dbf3650ec0db60f67',
+) // the key coresponding to the second guardian
+
+const socialRecovery = getSocialRecoveryValidator({
+  threshold: 2,
+  guardians: [guardian1.address, guardian2.address],
+})
+```
+
+### Install the module
+
+With this module object, we can now install it on the smart account.
+
+```typescript copy
+const opHash = await smartAccountClient.installModule(socialRecovery)
+```
+
+### Wait for the UserOperation to be confirmed
+
+Let's wait until the UserOperation is confirmed, after which the module will be installed.
+
+```typescript copy
+await pimlicoClient.waitForUserOperationReceipt({
+  hash: opHash,
+})
+```
+
+</Steps>

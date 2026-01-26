@@ -1,0 +1,31 @@
+---
+title: "_postCheck"
+---
+
+A virtual function called after executions occured on the account. Overwrites from `ERC7579HookDestruct`.
+
+## Usage
+
+```solidity
+function _postCheck(address account, bytes calldata hookData) internal virtual override {
+    return;
+}
+```
+
+## Parameters
+
+### account
+
+- Type: `address`
+
+The address of the account that the execution is called on.
+
+### hookData
+
+- Type: `bytes`
+
+The data returned from the pre-execution check.
+
+## Returns
+
+None

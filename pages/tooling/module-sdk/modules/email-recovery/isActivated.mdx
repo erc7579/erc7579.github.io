@@ -1,0 +1,41 @@
+# isActivated
+
+Check if email recovery is activated for an account by verifying if guardians have been configured.
+
+## Usage
+
+```typescript
+const activated = await isActivated({
+  account: {
+    address: '0x123...',
+    type: 'safe',
+    deployedOnChains: [8453],
+    initCode: '0x...' // optional
+  },
+  client: publicClient,
+})
+```
+
+## Parameters
+
+### account
+
+- Type: [`Account`](/tooling/module-sdk/glossary/types.mdx#account)
+
+The account object.
+
+### client
+
+- Type: `PublicClient`
+
+The public client instance used to interact with the blockchain.
+
+## Returns
+
+### activated
+
+- Type: `Promise<boolean>`
+
+Returns `true` if email recovery is activated, `false` otherwise.
+
+If the contract call fails, returns `false`.

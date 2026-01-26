@@ -1,0 +1,45 @@
+---
+title: "isModuleInstalled"
+---
+
+Check if a module is installed.
+
+## Usage
+
+```solidity
+bool isModuleInstalled = instance.isModuleInstalled({moduleTypeId: MODULE_TYPE_VALIDATOR, module: validator});
+```
+
+## Parameters
+
+### instance
+
+- Type: [`AccountInstance`](../../glossary/types#accountinstance)
+
+The instance of the account used for testing.
+
+### moduleTypeId
+
+- Type: `uint256`
+
+The type of the module to check if it is installed.
+
+### module
+
+- Type: `address`
+
+The address of the module to check if it is installed.
+
+### data (optional)
+
+- Type: `bytes`
+
+The additional context that may be required to check if a module is installed.
+
+## Returns
+
+### isModuleInstalled
+
+- Type: `bool`
+
+Is true if the module is installed, false otherwise.

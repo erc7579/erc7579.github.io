@@ -1,0 +1,50 @@
+# registerApprovalSpendAction
+
+Register an approval spend action on a resource locked account. This is useful for when the account is in omnilock mode and a user wants to make an approval.
+
+## Usage
+
+```typescript copy
+const action = getRegisterApprovalSpendAction({
+  approvalSpend: {
+    account: '0xf003346C11bF3F1Fd3780E8F66164B6CFEc2fEf4',
+    token: '0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238',
+    amount: BigInt(100),
+  },
+  orchestratorSignature: '0x',
+})
+```
+
+## Parameters
+
+### approvalSpend.account
+
+- Type: [`Address`](https://viem.sh/docs/glossary/types#address)
+
+The address of the account to approve the spend.
+
+### approvalSpend.token
+
+- Type: [`Address`](https://viem.sh/docs/glossary/types#address)
+
+The address of the token to spend. If the token is the native token, the address is `0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE`.
+
+### approvalSpend.amount
+
+- Type: `bigint`
+
+The amount to spend.
+
+### orchestratorSignature
+
+- Type: [`Hex`](https://viem.sh/docs/glossary/types#hex)
+
+The orchestrator signature for the order.
+
+## Returns
+
+### action
+
+- Type: [`Action`](https://viem.sh/docs/glossary/types#action)
+
+The action to execute on the account.

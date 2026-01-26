@@ -1,0 +1,34 @@
+# getTimeFramePolicy
+
+Get the timeframe policy to use when creating a new session. The timeframe policy can be used to restrict a session to only be able to be used within a certain timeframe.
+
+## Usage
+
+```typescript copy
+const timeFramePolicy = getTimeFramePolicy({
+  validAfter: 0, // always valid start
+  validUntil: Date.now() + 60 * 60 * 24, // valid for 24 hours
+})
+```
+
+## Parameters
+
+### validAfter
+
+- Type: `number`
+
+The timestamp after which the session is valid in seconds.
+
+### validUntil
+
+- Type: `number`
+
+The timestamp until which the session is valid in seconds.
+
+## Returns
+
+### policy
+
+- Type: [`Policy`](/tooling/module-sdk/glossary/types.mdx#policy-1)
+
+The timeframe policy.

@@ -1,0 +1,48 @@
+# isMFASubValidator
+
+Check if a validator is added as a sub-validator to the multi-factor module.
+
+## Usage
+
+```typescript copy
+const isValidator = await isMFASubValidator({
+  client,
+  account,
+  subValidator: '0x123...',
+  validatorId: '0x123...',
+})
+```
+
+## Parameters
+
+### client
+
+- Type: `PublicClient`
+
+The rpc client to use for the chain you want to query.
+
+### account
+
+- Type: [`Account`](/tooling/module-sdk/glossary/types.mdx#account)
+
+The account to check the sub-validator for.
+
+### subValidator
+
+- Type: [`Address`](https://viem.sh/docs/glossary/types#address)
+
+The address of the sub-validator to check.
+
+### validatorId
+
+- Type: [`Address`](https://viem.sh/docs/glossary/types#address)
+
+The address of the validator to check the sub-validator for.
+
+## Returns
+
+### isValidator
+
+- Type `Promise<boolean>`
+
+True if the sub-validator is added on the multi-factor and false otherwise.

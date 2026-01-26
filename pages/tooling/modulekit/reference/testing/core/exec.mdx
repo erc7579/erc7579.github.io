@@ -1,0 +1,45 @@
+---
+title: "exec"
+---
+
+Execute a UserOperation on the account.
+
+## Usage
+
+```solidity
+instance.exec({ target: target, value: value, callData: callData });
+```
+
+## Parameters
+
+### instance
+
+- Type: [`AccountInstance`](../../glossary/types#accountinstance)
+
+The instance of the account used for testing.
+
+### target
+
+- Type: `address`
+
+The address of the target contract.
+
+### callData
+
+- Type: `bytes`
+
+The data to send with the call.
+
+### value (optional)
+
+- Type: `uint256`
+
+The value to send with the call.
+
+## Returns
+
+### userOpData
+
+- Type: [`UserOpData`](../../glossary/types#useropdata)
+
+The data of the UserOperation.

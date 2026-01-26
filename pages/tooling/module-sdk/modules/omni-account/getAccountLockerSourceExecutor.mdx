@@ -1,0 +1,25 @@
+# getAccountLockerSourceExecutor
+
+Get the module installation data for the account locker source executor. This executor allows the solver to reclaim their fronted funds.
+
+## Usage
+
+```typescript copy
+const module = getAccountLockerSourceExecutor()
+```
+
+## Parameters
+
+### hook (optional)
+
+- Type: [`Address`](https://viem.sh/docs/glossary/types#address)
+
+The address of the hook module to associate with. This is only required for the Kernel account.
+
+## Returns
+
+### module
+
+- Type: [`Module`](https://viem.sh/docs/glossary/types#module)
+
+The account locker source executor module object.

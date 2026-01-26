@@ -1,0 +1,36 @@
+---
+title: "calcModuleAddress"
+---
+
+Calculate the address of a module to be deployed via the Registry.
+
+## Usage
+
+```solidity
+bytes32 salt = keccak256(abi.encodePacked("SALT"));
+bytes memory initCode = abi.encodePacked(type(Module).creationCode);
+
+address moduleAddress = registry.calcModuleAddress(salt, initCode);
+```
+
+## Parameters
+
+### salt
+
+- Type: `bytes32`
+
+The salt value to use for the module deployment.
+
+### initCode
+
+- Type: `bytes`
+
+The initialization code for the module deployment.
+
+## Returns
+
+### moduleAddress
+
+- Type: `address`
+
+The address of the module.

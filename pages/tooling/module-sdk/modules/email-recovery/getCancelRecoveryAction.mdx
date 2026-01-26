@@ -1,0 +1,32 @@
+# getCancelRecoveryAction
+
+Generate the transaction data needed to cancel an ongoing recovery request.
+
+## Usage
+
+```typescript
+const action = await getCancelRecoveryAction({
+  client: publicClient
+})
+```
+
+## Parameters
+
+### client
+
+- Type: `PublicClient`
+
+The public client instance used to interact with the blockchain.
+
+## Returns
+
+### action
+
+- Type: `Promise<Execution>`
+
+Returns an execution object containing:
+- `to`: Email recovery module contract address
+- `target`: Email recovery module contract address
+- `value`: Amount of native tokens to send (0)
+- `callData`: Encoded function data
+- `data`: Encoded function data

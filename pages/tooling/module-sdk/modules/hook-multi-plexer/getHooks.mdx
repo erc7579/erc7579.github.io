@@ -1,0 +1,34 @@
+# getHooks
+
+Get all installed hooks.
+
+## Usage
+
+```typescript copy
+const hooks = await getHooks({
+  client,
+  account,
+})
+```
+
+## Parameters
+
+### client
+
+- Type: `PublicClient`
+
+The rpc client to use for the chain you want to query.
+
+### account
+
+- Type: [`Account`](/tooling/module-sdk/glossary/types.mdx#account)
+
+The account to get the hooks for.
+
+## Returns
+
+### hooks
+
+- Type: [`Promise<Address[]>`](https://viem.sh/docs/glossary/types#address)
+
+An array of all installed hooks.

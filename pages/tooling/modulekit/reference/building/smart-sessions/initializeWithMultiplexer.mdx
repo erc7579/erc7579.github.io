@@ -1,0 +1,46 @@
+---
+title: "initializeWithMultiplexer"
+---
+A virtual function called when the session is created. Overwrites from `ERC7579PolicyBase` or any of the policy bases.
+
+## Usage
+
+```solidity
+function initializeWithMultiplexer(
+        address account,
+        ConfigId id,
+        bytes calldata initData
+    )
+        external
+        virtual {
+    // set any configuration needed for the policy
+}
+```
+
+## Parameters
+
+### account
+
+- Type: `address`
+
+The address of the account that is using smart sessions.
+
+### id
+
+- Type: `ConfigId | bytes32`
+
+The id of the configuration that is part of the session.
+
+### initData
+
+- Type: `bytes`
+
+The data that is being used to initialize the session.
+
+## Returns
+
+### isValid
+
+- Type: `bool`
+
+Returns `true` if the signature is valid, `false` otherwise.

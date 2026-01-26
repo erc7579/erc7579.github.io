@@ -1,0 +1,38 @@
+# getInstalledModules
+
+Get all the installed modules on an account.
+
+## Usage
+
+```typescript copy
+const modules = await getInstalledModules({
+  client,
+  account,
+})
+```
+
+## Parameters
+
+### client
+
+- Type: `PublicClient`
+
+The rpc client to use for the chain you want to get modules from.
+
+### account
+
+- Type: [`Account`](/tooling/module-sdk/glossary/types.mdx#account)
+
+The account object.
+
+### moduleTypes (optional)
+
+- Type: [`ModuleType[]`](/tooling/module-sdk/glossary/types.mdx#moduletype)
+
+The array of module types to filter the modules by.
+
+## Returns
+
+- Type: `Promise<Address[]>`
+
+An array of all the installed modules on the account.

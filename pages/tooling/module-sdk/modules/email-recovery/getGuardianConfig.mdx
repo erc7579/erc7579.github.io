@@ -1,0 +1,45 @@
+# getGuardianConfig
+
+Get the current guardian configuration for an account, including counts, weights, and threshold.
+
+## Usage
+
+```typescript
+const config = await getGuardianConfig({
+  account: {
+    address: '0x123...',
+    type: 'safe',
+    deployedOnChains: [8453],
+    initCode: '0x...' // optional
+  },
+  client: publicClient
+})
+```
+
+## Parameters
+
+### account
+
+- Type: [`Account`](/tooling/module-sdk/glossary/types.mdx#account)
+
+The account object.
+
+### client
+
+- Type: `PublicClient`
+
+The public client instance used to interact with the blockchain.
+
+## Returns
+
+### config
+
+- Type: `Promise<{ guardianCount: bigint; totalWeight: bigint; acceptedWeight: bigint; threshold: bigint }>`
+
+Object containing:
+- `guardianCount`: Number of guardians configured for the account
+- `totalWeight`: Sum of all guardian weights
+- `acceptedWeight`: Sum of weights from guardians who have accepted their role
+- `threshold`: Required weight threshold for recovery actions
+
+If the contract call fails, returns all values as `0n`.

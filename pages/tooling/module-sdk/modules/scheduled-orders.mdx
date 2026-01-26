@@ -1,0 +1,15 @@
+# Scheduled Orders
+
+Scheduled Orders allows for automated token swaps to be triggered on a smart account. The user can create a schedule on which a relayer will execute the swaps based on some parameters, like frequency or number of repetitions.
+
+## How it works
+
+Scheduled Orders stores the configurations for different swaps that the user wants to make, including their schedule. The module itself is only responsible for verifying that this schedule is being kept and then making the swaps.
+
+To actually execute these swaps, an offchain service is required. This offchain service will monitor the schedule and put the execution onchain when the time is right.
+
+## Getting started
+
+To get started with Scheduled Orders, you need to have a smart account with the Scheduled Orders module installed. You can then set up the configurations for the tokens you want to swap. If the module is not installed yet, you can combine these two steps and set the required configurations during the module installation.
+
+Then, you will need to set up the automations service and supply the correct trigger, in this case the correct time schedule. Using the automations service also requires the account to grant a session key to the automations key.

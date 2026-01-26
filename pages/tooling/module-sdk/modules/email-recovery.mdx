@@ -1,0 +1,17 @@
+# Email Recovery
+
+The Email Recovery module allows smart accounts to be recovered using email verification powered by [ZK Email](https://zk.email). This provides an intuitive recovery method that allows anyone familiar with email to act as a guardian, while preserving privacy through zero-knowledge proofs.
+
+To see the latest deployment addresses and supported networks, see the [ZK Email docs](https://docs.zk.email/account-recovery/deployed-contracts).
+
+## How it works
+
+Email Recovery is an executor module that enables account recovery through email verification. When a guardian is set, their email address is hashed using CREATE2 with a random account code (a number in the BN254 curve) and stored on-chain. During recovery, the guardian's email response generates a ZK proof that validates against this stored hash, allowing them to authorize changes to validator configurations.
+
+For detailed technical documentation on the ZK Email recovery system, see the [ZK Email docs](https://docs.zk.email/account-recovery/).
+
+## Getting started
+
+To enable email recovery, you need to install the Email Recovery module and configure the recovery settings (guardian email and timelock duration) during installation. The timelock creates a delay period between when guardians approve recovery and when it can be executed, providing security against malicious recovery attempts.
+
+The ZK Email infrastructure will automatically send verification emails to each guardian. Guardians must confirm their role by simply replying to this verification email. This ensures guardians are aware of their responsibility and have access to the email account.

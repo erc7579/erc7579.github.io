@@ -1,0 +1,36 @@
+---
+title: "sign"
+---
+
+Sign a message with a private key.
+
+## Usage
+
+```solidity
+uint256 privKey = 0x1234;
+bytes memory data = abi.encodePacked("DATA TO SIGN");
+
+bytes memory signature = sign(privKey, data);
+```
+
+## Parameters
+
+### signerPrivKey
+
+- Type: `uint256 | uint256[]`
+
+The private key(s) of the signer(s).
+
+### packedData
+
+- Type: `bytes`
+
+The data to sign.
+
+## Returns
+
+### signature
+
+- Type: `bytes`
+
+The concatenated signature(s) of the data.

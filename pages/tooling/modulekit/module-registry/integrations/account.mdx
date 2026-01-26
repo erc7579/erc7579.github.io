@@ -1,0 +1,86 @@
+---
+title: "How to integrate the Registry into a smart account"
+sidebarTitle: "Account"
+---
+
+Smart accounts can integrate the Module Registry natively in order to give their users security guarantees that they can only install attested modules. This guide is aimed at smart account builders and will show you how to integrate the Module Registry directly into your smart account.
+
+### Add the Module Registry to storage
+
+In your smart account or in a separate contract that is inherited by the smart account, add the following code:
+
+```solidity
+IERC7484 internal $registry;
+```
+
+For the `IERC7484` interface, see the [Module Registry source code](https://github.com/rhinestonewtf/registry/blob/main/src/interfaces/IERC7484.sol).
+
+### Add a setter for the Module Registry
+
+Add a setter for the Module Registry so that the user can enable it:
+
+```solidity
+function setRegistry(
+    IERC7484 registry,
+    address[] calldata attesters,
+    uint8 threshold
+)
+    external
+    onlyEntryPointOrSelf
+{
+    $registry = registry;
+    if (attesters.length > 0) {
+        registry.trustAttesters(threshold, attesters);
+    }
+}
+```
+
+Note that this setter should have access control, in this case using `onlyEntryPointOrSelf`. Further, this setter will also store the users' trusted attesters in the registry.
+
+### Add a modifier
+
+Add a modifier to check if the module is attested:
+
+```solidity
+modifier withRegistry(address module, uint256 moduleTypeId) {
+    IERC7484 registry = $registry;
+    if (address(registry) != address(0)) {
+        registry.check(module, moduleTypeId);
+    }
+    _;
+}
+```
+
+### Use the modifier
+
+The modifier should be used in two different places: when installing a module and when executing a module:
+
+```solidity
+function installModule(
+    uint256 moduleTypeId,
+    address module,
+    bytes calldata initData
+)
+    external
+    payable
+    ...
+    withRegistry(module, moduleTypeId)
+{
+    // Your installation logic
+}
+
+function executeFromExecutor(
+    ModeCode mode,
+    bytes calldata executionCalldata
+)
+    external
+    payable
+    ...
+    withRegistry(msg.sender, MODULE_TYPE_EXECUTOR)
+    returns (
+        bytes[] memory returnData
+    )
+{
+    // Your execution logic
+}
+```

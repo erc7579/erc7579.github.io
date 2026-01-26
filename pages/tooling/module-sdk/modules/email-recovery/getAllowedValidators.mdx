@@ -1,0 +1,41 @@
+# getAllowedValidators
+
+Get the list of validators that are allowed to perform recovery operations for an account.
+
+## Usage
+
+```typescript
+const validators = await getAllowedValidators({
+  account: {
+    address: '0x123...',
+    type: 'safe',
+    deployedOnChains: [8453],
+    initCode: '0x...' // optional
+  },
+  client: publicClient,
+})
+```
+
+## Parameters
+
+### account
+
+- Type: [`Account`](/tooling/module-sdk/glossary/types.mdx#account)
+
+The account object.
+
+### client
+
+- Type: `PublicClient`
+
+The public client instance used to interact with the blockchain.
+
+## Returns
+
+### validators
+
+- Type: `Promise<readonly Address[]>`
+
+Returns an array of validator addresses that are allowed to perform recovery operations.
+
+If the contract call fails, returns an empty array.

@@ -1,0 +1,43 @@
+# getPreviousRecoveryRequest
+
+Get details about the previous recovery request for an account, including the guardian who initiated it and the cooldown period for cancellation.
+
+## Usage
+
+```typescript
+const previousRequest = await getPreviousRecoveryRequest({
+  account: {
+    address: '0x123...',
+    type: 'safe',
+    deployedOnChains: [8453],
+    initCode: '0x...' // optional
+  },
+  client: publicClient,
+})
+```
+
+## Parameters
+
+### account
+
+- Type: [`Account`](/tooling/module-sdk/glossary/types.mdx#account)
+
+The account object.
+
+### client
+
+- Type: `PublicClient`
+
+The public client instance used to interact with the blockchain.
+
+## Returns
+
+### previousRequest
+
+- Type: `Promise<{previousGuardianInitiated: Address; cancelRecoveryCooldown: bigint}>`
+
+Object containing:
+- `previousGuardianInitiated`: The address of the guardian who initiated the previous recovery request
+- `cancelRecoveryCooldown`: The timestamp until which new recovery requests are blocked after cancellation
+
+If the contract call fails, returns `{previousGuardianInitiated: zeroAddress, cancelRecoveryCooldown: 0n}`.

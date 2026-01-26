@@ -1,0 +1,36 @@
+# computeRecoveryTemplateId
+
+Compute the template ID for a given recovery command template index.
+
+## Usage
+
+```typescript
+const templateId = await computeRecoveryTemplateId({
+  client: publicClient,
+  templateIdx: 0n
+})
+```
+
+## Parameters
+
+### client
+
+- Type: `PublicClient`
+
+The public client instance used to interact with the blockchain.
+
+### templateIdx
+
+- Type: `bigint`
+
+The index of the recovery command template.
+
+## Returns
+
+### templateId
+
+- Type: `Promise<bigint>`
+
+Returns the computed template ID for the given template index.
+
+If the contract call fails, returns `0n`.

@@ -1,0 +1,25 @@
+# getRegistryModules
+
+Gets all modules registered on the [Module Registry](/module-registry).
+
+## Usage
+
+```typescript copy
+const modules = await getRegistryModules({
+  client,
+})
+```
+
+## Parameters
+
+### client
+
+- Type: `PublicClient`
+
+The rpc client to use for the chain you want to get modules from.
+
+## Returns
+
+- Type: `Promise<any>`
+
+An array of all modules registered on the Module Registry.

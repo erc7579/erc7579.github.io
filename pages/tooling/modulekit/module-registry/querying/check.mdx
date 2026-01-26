@@ -1,0 +1,41 @@
+---
+title: "check"
+---
+
+Check if a module is attested by a sufficient number of attesters. The function will revert if this is not the case.
+
+## Usage
+
+```solidity
+registry.check(module);
+```
+
+## Parameters
+
+### module
+
+- Type: `address`
+
+The address of the module to check.
+
+### moduleType (optional)
+
+- Type: `uint256 | ModuleType`
+
+The type of the module to check, according to [ERC-7579](https://erc7579.com/).
+
+### attesters (optional)
+
+- Type: `address[]`
+
+The addresses of the attesters to check against. If not provided, the stored attesters will be used for the `msg.sender`.
+
+### threshold (optional)
+
+- Type: `uint256`
+
+The minimum number of attesters required to pass the check. If not provided, the stored threshold will be used for the `msg.sender`.
+
+## Returns
+
+None

@@ -1,0 +1,39 @@
+---
+title: "formatERC1271Signature"
+---
+
+Formats an ERC1271 signature to send to an account. Note: this is not needed if using `isValidSignature` from the ModuleKit.
+
+## Usage
+
+```solidity
+bytes memory formattedSignature = instance.formatERC1271Hash({validator: address(instance.defaultValidator), signature: signature});
+```
+
+## Parameters
+
+### instance
+
+- Type: [`AccountInstance`](../../glossary/types#accountinstance)
+
+The instance of the account used for testing.
+
+### validator
+
+- Type: `address`
+
+The address of the validator contract.
+
+### signature
+
+- Type: `bytes`
+
+The signature to format for ERC1271 signature validation.
+
+## Returns
+
+### formattedSignature
+
+- Type: `bytes`
+
+The formatted signature to use for ERC1271.

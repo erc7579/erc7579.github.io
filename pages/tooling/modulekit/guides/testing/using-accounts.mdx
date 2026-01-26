@@ -1,0 +1,35 @@
+---
+title: "How to use ModuleKit with different accounts"
+sidebarTitle: "Using Accounts"
+---
+
+The ModuleKit is integrated with a range of modular smart accounts. When you write your integration tests and use [`makeAccountInstance`](../../reference/testing/core/makeAccountInstance), you can easily switch between different accounts. Alternatively, you can also use the [`setAccountEnv`](../../reference/testing/utilities/setAccountEnv) function to use a specific account type for a specific test.
+
+## Write your tests
+
+When you write your tests, you can use the `makeAccountInstance` function to create an account instance. Then, you can use this `instance` to execute transactions, for example:
+
+```solidity
+// Create an account instance
+AccountInstance memory instance = makeAccountInstance("account1");
+
+// Execute a UserOperation on the account
+instance.exec({ target: address(1), value: 1 wei, callData: "" });
+```
+
+## Run your tests against different accounts
+
+To do this, run:
+
+```bash
+ACCOUNT_TYPE=... forge test
+```
+
+where the options are:
+
+- `DEFAULT`: The ERC-7579 Reference Implementation (note: this is equivalent to emitting the `ACCOUNT_TYPE` environment variable)
+- `SAFE`: The Safe account
+- `KERNEL`: The Kernel account
+- `NEXUS`: The Nexus account
+- `CUSTOM`: A custom account
+

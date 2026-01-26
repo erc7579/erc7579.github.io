@@ -1,0 +1,30 @@
+---
+title: "onUninstall"
+---
+
+De-initialize the module and clear any data.
+
+## Usage
+
+```solidity
+/**
+* De-initialize the module with the given data
+*
+* @param data The data to de-initialize the module with
+*/
+function onUninstall(bytes calldata data) external {
+    owner = address(0);
+}
+```
+
+## Parameters
+
+### data
+
+- Type: `bytes`
+
+The data to de-initialize the module with. It is up to the module to interpret the data. Note: it is best practice for a module to not require any input data to be de-initialized and clear all the data.
+
+## Returns
+
+None

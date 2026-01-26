@@ -1,0 +1,61 @@
+# getColdStorageHook
+
+Gets the cold storage hook module object.
+
+## Usage
+
+```typescript copy
+const coldStorageHook = await getColdStorageHook({
+  client,
+  account,
+  waitPeriod: 100,
+  owner: '0x123...',
+  moduleType: 'hook',
+})
+```
+
+## Parameters
+
+### client
+
+- Type: `PublicClient`
+
+The rpc client to use for the chain you want to query.
+
+### account
+
+- Type: [`Account`](/tooling/module-sdk/glossary/types.mdx#account)
+
+The account to get the cold storage hook for.
+
+### waitPeriod
+
+- Type: `number`
+
+The wait period for executions on the cold storage account.
+
+### owner
+
+- Type: [`Address`](https://viem.sh/docs/glossary/types#address)
+
+The owner of the subaccount. In most cases this will be the users' main smart account.
+
+### moduleType
+
+- Type: `'hook' | 'fallback' | 'executor'`
+
+The type of the module to get. The options are `'hook'`, `'fallback'`, and `'executor'`. Note that the module needs to be installed as all three of these types.
+
+### hook (optional)
+
+- Type: [`Address`](https://viem.sh/docs/glossary/types#address)
+
+The address of the hook module to get. This is only required for the Kernel account.
+
+## Returns
+
+### moodule
+
+- Type: [`Promise<Module>`](/tooling/module-sdk/glossary/types.mdx#module)
+
+The module object.

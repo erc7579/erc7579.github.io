@@ -1,0 +1,29 @@
+# getEmailAuthImplementation
+
+Get the address of the email authentication implementation contract used for recovery operations.
+
+## Usage
+
+```typescript
+const implementationAddress = await getEmailAuthImplementation({
+  client: publicClient
+})
+```
+
+## Parameters
+
+### client
+
+- Type: `PublicClient`
+
+The public client instance used to interact with the blockchain.
+
+## Returns
+
+### implementationAddress
+
+- Type: `Promise<Address>`
+
+Returns the address of the email authentication implementation contract.
+
+If the contract call fails, returns the zero address (`0x0000000000000000000000000000000000000000`).

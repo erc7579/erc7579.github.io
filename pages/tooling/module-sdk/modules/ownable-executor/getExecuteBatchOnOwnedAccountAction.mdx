@@ -1,0 +1,40 @@
+# getExecuteBatchOnOwnedAccountAction
+
+Get the action to execute a batch of transactions on an owned account through the owner smart account.
+
+## Usage
+
+```typescript copy
+const action = getExecuteBatchOnOwnedAccountAction({
+  ownedAccount: '0x123...',
+  executions: [
+    {
+      target: '0x123...',
+      value: 1000000,
+      callData: '0x123...',
+    },
+  ],
+})
+```
+
+## Parameters
+
+### ownedAccount
+
+- Type: [`Address`](https://viem.sh/docs/glossary/types#address)
+
+The address of the owned account to execute the batch of transactions on.
+
+### executions
+
+- Type: [`Action[]`](/tooling/module-sdk/glossary/types.mdx#action)
+
+The list of actions to execute on the owned account.
+
+## Returns
+
+### action
+
+- Type: [`Action`](/tooling/module-sdk/glossary/types.mdx#action)
+
+The action to be executed on the owner account.

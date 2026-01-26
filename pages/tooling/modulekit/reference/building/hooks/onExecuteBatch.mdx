@@ -1,0 +1,48 @@
+---
+title: "onExecuteBatch"
+---
+
+A virtual function called when a batch of executions occurs on the account. Overwrites from `ERC7579HookDestruct`.
+
+## Usage
+
+```solidity
+function onExecuteBatch(
+    address account,
+    address msgSender,
+    Execution[] calldata executions
+)
+    internal
+    virtual
+    override
+    returns (bytes memory hookData)
+{
+    return abi.encode("success");
+}
+```
+
+## Parameters
+
+### account
+
+- Type: `address`
+
+The address of the account that the execution is called on.
+
+### msgSender
+
+- Type: `address`
+
+The address of the caller to the account.
+
+### executions
+
+- Type: [`Execution[]`](../../glossary/types#execution)
+
+## Returns
+
+### hookData
+
+- Type: `bytes`
+
+The data sent to the `postHook` function.

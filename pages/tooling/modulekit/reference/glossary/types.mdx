@@ -1,0 +1,497 @@
+---
+title: "Types in ModuleKit"
+sidebarTitle: "Glossary"
+---
+
+Glossary of types in ModuleKit.
+
+## `AccountInstance`
+
+The core instance of an account used for testing in ModuleKit.
+
+### Definition
+
+```solidity
+struct AccountInstance {
+    address account;
+    AccountType accountType;
+    address accountHelper;
+    Auxiliary aux;
+    IERC7579Validator defaultValidator;
+    bytes32 salt;
+    bytes initCode;
+    address accountFactory;
+}
+```
+
+### Properties
+
+#### account
+
+- Type: `address`
+
+The address of the account.
+
+#### accountType
+
+- Type: [`AccountType`](#accounttype-2)
+
+The type of the account.
+
+#### accountHelper
+
+- Type: `address`
+
+The address of the account helper. This helper is used to format any calls for the right account type.
+
+#### aux
+
+- Type: [`Auxiliary`](#auxiliary)
+
+Auxiliary data for the account.
+
+#### defaultValidator
+
+- Type: `IERC7579Validator`
+
+The default validator that is used when no validator is specified by the user.
+
+#### sessionValidator
+
+The default session validator to use.
+
+#### salt
+
+- Type: `bytes32`
+
+The salt used to create the account.
+
+#### initCode
+
+- Type: `bytes`
+
+The ERC-4337 initialization code for the account.
+
+#### accountFactory
+
+- Type: `address`
+
+The address of the account factory.
+
+## `AccountType`
+
+The type of account used in ModuleKit.
+
+### Definition
+
+```solidity
+enum AccountType {
+    DEFAULT,
+    SAFE,
+    KERNEL,
+    CUSTOM
+}
+```
+
+### Properties
+
+#### DEFAULT
+
+The ERC-7579 Reference Implementation.
+
+#### SAFE
+
+The Safe using the [Safe7579](https://github.com/rhinestonewtf/safe7579) adapter.
+
+#### KERNEL
+
+The Kernel account.
+
+#### NEXUS
+
+The Nexus account.
+
+#### CUSTOM
+
+A custom account type that a developer can define.
+
+## `ActionData`
+
+The action policies of a session.
+
+### Definition
+
+```solidity
+struct ActionData {
+    bytes4 actionTargetSelector;
+    address actionTarget;
+    PolicyData[] actionPolicies;
+}
+```
+
+### Properties
+
+#### actionTargetSelector
+
+- Type: `bytes4`
+
+The selector of the action target.
+
+#### actionTarget
+
+- Type: `address`
+
+The address of the action target.
+
+#### actionPolicies
+
+- Type: [`PolicyData[]`](#policydata)
+
+The policies of the action.
+
+## `Auxiliary`
+
+Auxiliary data for an account.
+
+### Definition
+
+```solidity
+struct Auxiliary {
+    IEntryPoint entrypoint;
+    UserOpGasLog gasSimulation;
+    IERC7484 registry;
+    MockFactory mockFactory;
+}
+```
+
+### Properties
+
+#### entrypoint
+
+- Type: `IEntryPoint`
+
+The ERC-4337 entryPoint used.
+
+#### gasSimulation
+
+- Type: `UserOpGasLog`
+
+A contract that is used to log the gas used in a UserOperation.
+
+#### registry
+
+- Type: `IERC7484`
+
+The registry used for the account.
+
+#### mockFactory
+
+- Type: `MockFactory`
+
+A factory used to deploy mock periphery contracts like a Mock Swap Router.
+
+## `ChainDigest`
+
+The chain digest data.
+
+### Definition
+
+```solidity
+struct ChainDigest {
+    uint64 chainId;
+    bytes32 sessionDigest;
+}
+```
+
+### Properties
+
+#### chainId
+
+- Type: `uint64`
+
+The chain id.
+
+#### sessionDigest
+
+- Type: `bytes32`
+
+The session digest.
+
+## `EnableSession`
+
+The data required to enable a session.
+
+### Definition
+
+```solidity
+struct EnableSession {
+    uint8 chainDigestIndex;
+    ChainDigest[] hashesAndChainIds;
+    Session sessionToEnable;
+    bytes permissionEnableSig;
+}
+```
+
+### Properties
+
+#### chainDigestIndex
+
+- Type: `uint8`
+
+The index of the chain digest in the array.
+
+#### hashesAndChainIds
+
+- Type: [`ChainDigest[]`](#chaindigest)
+
+An array of chain digests.
+
+#### sessionToEnable
+
+- Type: [`Session`](#session)
+
+The session to enable.
+
+#### permissionEnableSig
+
+- Type: `bytes`
+
+The signature to enable the session.
+
+## `ERC7739Data`
+
+The data of the ERC-7739 policies.
+
+### Definition
+
+```solidity
+struct ERC7739Data {
+    ERC7739Context[] allowedERC7739Content;
+    PolicyData[] erc1271Policies;
+}
+```
+
+### Properties
+
+#### allowedERC7739Content
+
+- Type: `ERC7739Context[]`
+
+An array of allowed ERC-7739 content.
+
+#### erc1271Policies
+
+- Type: [`PolicyData[]`](#policydata)
+
+An array of ERC-1271 policies.
+
+## `ERC7739Context`
+
+The context of the ERC-7739 policies.
+
+### Definition
+
+```solidity
+struct ERC7739Context {
+    bytes32 appDomainSeparator;
+    string[] contentName;
+}
+```
+
+### Properties
+
+#### appDomainSeparator
+
+- Type: `bytes32`
+
+The app domain separator.
+
+#### contentName
+
+- Type: `string[]`
+
+The content names.
+
+## `Execution`
+
+An execution of a UserOperation.
+
+### Definition
+
+```solidity
+struct Execution {
+    address target;
+    uint256 value;
+    bytes callData;
+}
+```
+
+### Properties
+
+#### target
+
+- Type: `address`
+
+The address of the target contract.
+
+#### value
+
+- Type: `uint256`
+
+The value to send with the call.
+
+#### callData
+
+- Type: `bytes`
+
+The data to send with the call.
+
+## `InstalledModule`
+
+A module that is installed in an account.
+
+### Definition
+
+```solidity
+struct InstalledModule {
+    uint256 moduleType;
+    address moduleAddress;
+}
+```
+
+### Properties
+
+#### moduleType
+
+- Type: `uint256`
+
+The type of the module.
+
+#### moduleAddress
+
+- Type: `address`
+
+The address of the module.
+
+## `PolicyData`
+
+The data of a policy.
+
+### Definition
+
+```solidity
+struct PolicyData {
+    address policy;
+    bytes initData;
+}
+```
+
+### Properties
+
+#### policy
+
+- Type: `address`
+
+The address of the policy contract.
+
+#### initData
+
+- Type: `bytes`
+
+The data to initialize the policy with.
+
+## `Session`
+
+A session object for smart sessions.
+
+### Definition
+
+```solidity
+struct Session {
+    ISessionValidator sessionValidator;
+    bytes sessionValidatorInitData;
+    bytes32 salt;
+    PolicyData[] userOpPolicies;
+    ERC7739Data erc7739Policies;
+    ActionData[] actions;
+    bool permitERC4337Paymaster;
+}
+```
+
+### Properties
+
+#### sessionValidator
+
+- Type: `ISessionValidator`
+
+The stateless validator to use for validating the session.
+
+#### sessionValidatorInitData
+
+- Type: `bytes`
+
+The data to send to the stateless validtor for verification (eg owners).
+
+#### salt
+
+- Type: `bytes32`
+
+The salt used to create the session to allow for multiple sessions with the same parameters.
+
+#### userOpPolicies
+
+- Type: [`PolicyData[]`](#policydata)
+
+An array of UserOp policies.
+
+#### erc7739Policies
+
+- Type: [`ERC7739Data`](#erc7739data)
+
+The ERC-7739 policies.
+
+#### actions
+
+- Type: [`ActionData[]`](#actiondata)
+
+The action policies of the session.
+
+#### permitERC4337Paymaster
+
+- Type: `bool`
+
+Whether to permit the usage of an ERC-4337 paymaster.
+
+## `UserOpData`
+
+The data of a UserOperation.
+
+### Definition
+
+```solidity
+struct UserOpData {
+    PackedUserOperation userOp;
+    bytes32 userOpHash;
+    IEntryPoint entrypoint;
+}
+```
+
+### Properties
+
+#### userOp
+
+- Type: `PackedUserOperation`
+
+The UserOperation.
+
+#### userOpHash
+
+- Type: `bytes32`
+
+The hash of the UserOperation.
+
+#### entrypoint
+
+- Type: `IEntryPoint`
+
+The entryPoint used for the UserOperation.

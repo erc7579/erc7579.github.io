@@ -1,0 +1,34 @@
+# getAutoSaveAction
+
+Get the action to execute when the auto-save event is triggered. Note that this should be triggered by a relayer.
+
+## Usage
+
+```typescript copy
+const autoSaveAction = getAutoSaveAction({
+  token: '0x123...',
+  amountReceived: 1000000,
+})
+```
+
+## Parameters
+
+### token
+
+- Type: [`Address`](https://viem.sh/docs/glossary/types#address)
+
+The address of the received token.
+
+### amountReceived
+
+- Type: `number`
+
+The amount of the token received.
+
+## Returns
+
+### action
+
+- Type: [`Action`](/tooling/module-sdk/glossary/types.mdx#action)
+
+The action to execute to trigger the auto-save.

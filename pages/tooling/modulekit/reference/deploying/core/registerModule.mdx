@@ -1,0 +1,35 @@
+---
+title: "registerModule"
+---
+
+Registers a module on the Module Registry. Note that this function should only be used if a module is alread deployed and you want to register it on the registry. Otherwise, you should use either [`deployModule`](./deployModule) or [`deployModuleViaFactory`](./deployModuleViaFactory) to deploy and register a module in one step.
+
+## Usage
+
+```solidity
+registerModule({ module: module, metadata: metadata, resolverContext: resolverContext });
+```
+
+## Parameters
+
+### module
+
+- Type: `address`
+
+The address of the module to register.
+
+### metadata
+
+- Type: `bytes`
+
+Additional metadata for the module. This field can be empty.
+
+### resolverContext
+
+- Type: `bytes`
+
+Additional context for the module to be sent to the resolver. This field can be empty.
+
+## Returns
+
+None

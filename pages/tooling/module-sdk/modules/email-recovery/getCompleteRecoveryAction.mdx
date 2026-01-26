@@ -1,0 +1,46 @@
+# getCompleteRecoveryAction
+
+Generate the transaction data needed to complete an account recovery process.
+
+## Usage
+
+```typescript
+const action = await getCompleteRecoveryAction({
+  client: publicClient,
+  account: '0x123...',
+  recoveryData: '0x...'
+})
+```
+
+## Parameters
+
+### client
+
+- Type: `PublicClient`
+
+The public client instance used to interact with the blockchain.
+
+### account
+
+- Type: [`Address`](https://viem.sh/docs/glossary/types#address)
+
+The address of the account being recovered.
+
+### recoveryData
+
+- Type: [`Hex`](https://viem.sh/docs/glossary/types#hex)
+
+The calldata containing the recovery execution details.
+
+## Returns
+
+### action
+
+- Type: `Promise<Execution>`
+
+Returns an execution object containing:
+- `to`: Email recovery module contract address
+- `target`: Email recovery module contract address
+- `value`: Amount of native tokens to send (0)
+- `callData`: Encoded function data
+- `data`: Encoded function data

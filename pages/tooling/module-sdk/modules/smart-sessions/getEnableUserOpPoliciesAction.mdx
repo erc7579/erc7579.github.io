@@ -1,0 +1,39 @@
+# getEnableUserOpPoliciesAction
+
+Get the action to enable userOp policies for a specific session in the smart sessions validator.
+
+## Usage
+
+```typescript copy
+const action = await getEnableUserOpPoliciesAction({
+  permissionId: '0x1234...',
+  userOpPolicies: [
+    {
+      policy: '0xabcd...',
+      initData: '0x1234...',
+    },
+  ],
+})
+```
+
+## Parameters
+
+### permissionId
+
+- Type: [`Hex`](https://viem.sh/docs/glossary/types#hex)
+
+The permission ID of the session to enable userOp policies.
+
+### userOpPolicies
+
+- Type: [`PolicyData[]`](/tooling/module-sdk/glossary/types.mdx#policydata)
+
+A list of userOp policies.
+
+## Returns
+
+### action
+
+- Type: [`Promise<Action>`](/tooling/module-sdk/glossary/types.mdx#action)
+
+The action to enable userOp policies for a specific session in the smart sessions validator.

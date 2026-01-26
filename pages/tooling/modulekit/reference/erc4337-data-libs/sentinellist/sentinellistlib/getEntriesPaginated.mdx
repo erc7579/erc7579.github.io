@@ -1,0 +1,46 @@
+---
+title: "getEntriesPaginated"
+---
+
+
+Get all entries in the list, paginated.
+
+## Usage
+
+```solidity
+(address[] memory array, address next) = list.getEntriesPaginated(address(3), 4);
+```
+
+## Parameters
+
+### self
+
+- Type: `SentinelList`
+
+The storage pointer of the list.
+
+### start
+
+- Type: `address`
+
+The address to start the query from.
+
+### pageSize
+
+- Type: `uint256`
+
+The number of entries to return.
+
+## Returns
+
+### array
+
+- Type: `address[]`
+
+The array of entries.
+
+### next
+
+- Type: `address`
+
+The next entry in the list.

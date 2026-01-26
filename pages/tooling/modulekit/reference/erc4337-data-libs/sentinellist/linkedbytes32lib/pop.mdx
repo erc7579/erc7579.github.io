@@ -1,0 +1,36 @@
+---
+title: "pop"
+---
+
+
+Remove an item from the list.
+
+## Usage
+
+```solidity
+list.pop(SENTINEL, bytes32(keccak256("entry")));
+```
+
+## Parameters
+
+### self
+
+- Type: `LinkedBytes32`
+
+The storage pointer of the list.
+
+### prevEntry
+
+- Type: `bytes32`
+
+The entry before the entry to be removed.
+
+### entry
+
+- Type: `bytes32`
+
+The entry to be removed.
+
+## Returns
+
+None

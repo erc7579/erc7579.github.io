@@ -1,0 +1,46 @@
+---
+title: "registerModule"
+---
+
+Register a deployed module on the Registry. Note that the deployer of the module will be stored as the zero address in the Registry since this function can be front-run.
+
+## Usage
+
+```solidity
+ResolverUID resolverUID = ResolverUID.wrap(...);
+address moduleAddress = address(...);
+bytes memory metadata = "";
+bytes memory resolverContext = "";
+
+address moduleAddress = registry.registerModule(resolverUID, moduleAddress, metadata, resolverContext);
+```
+
+## Parameters
+
+### resolverUID
+
+- Type: `ResolverUID | bytes32`
+
+The resolver UID to use for the module deployment. You can find the default resolver UID in the [address book](../../../home/resources/address-book).
+
+### moduleAddress
+
+- Type: `address`
+
+The address of the module to register.
+
+### metadata
+
+- Type: `bytes`
+
+Additional metadata to store on the Registry. This can be left empty.
+
+### resolverContext
+
+- Type: `bytes`
+
+Additional context to pass to the resolver. This can be left empty.
+
+## Returns
+
+None

@@ -1,0 +1,23 @@
+# getClient
+
+Gets an rpc client to use for a given chain. This is a wrapper around viem's `PublicClient`.
+
+## Usage
+
+```typescript copy
+const client = getClient({ rpcUrl: 'https://rpc.eth.gateway.fm	' })
+```
+
+## Parameters
+
+### rpcUrl
+
+- Type: `string`
+
+The rpc url of the chain you want to connect to.
+
+## Returns
+
+- Type: `PublicClient`
+
+The rpc client to use for the given chain.

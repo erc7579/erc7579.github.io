@@ -1,0 +1,41 @@
+# isSessionEnabled
+
+Check whether a session is enabled or not.
+
+## Usage
+
+```typescript copy
+const isEnabled = await isSessionEnabled({
+  client,
+  account,
+  permissionId: '0xPermissionId',
+})
+```
+
+## Parameters
+
+### permissionId
+
+- Type: [`Hex`](https://viem.sh/docs/glossary/types#hex)
+
+The permission ID of the session to check if enabled.
+
+### client
+
+- Type: `PublicClient`
+
+The rpc client to use for the chain you want to install the module on.
+
+### account
+
+- Type: [`Account | Address`](/tooling/module-sdk/glossary/types.mdx#account)
+
+The account object or simply the account address.
+
+## Returns
+
+### isEnabled
+
+- Type: `Promise<boolean>`
+
+True if the session is enabled and false otherwise.

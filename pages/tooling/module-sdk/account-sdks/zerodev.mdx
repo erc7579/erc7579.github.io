@@ -1,0 +1,134 @@
+import { Steps } from 'nextra/components'
+
+# How to use the Module SDK with the ZeroDev SDK
+
+[ZeroDev SDK](https://docs.zerodev.app/sdk/intro) is a typescript library that makes it easy to build a dapp using the Kernel. This guide will show you how to use the Module SDK with ZeroDev SDK.
+
+<Steps>
+
+### Install the packages
+
+```bash
+npm i viem @rhinestone/module-sdk permissionless @zerodev/sdk @zerodev/ecdsa-validator
+```
+
+### Create a signer
+
+Create a to control the account with, in this case, we will use an EOA.
+
+```typescript copy
+import { generatePrivateKey, privateKeyToAccount } from 'viem/accounts'
+
+const main = async () => {
+  const privateKey = generatePrivateKey()
+  const signer = privateKeyToAccount(privateKey)
+}
+```
+
+### Create a validator
+
+Each Kernel account handles validation through a smart contract known as a "validator." In this case, we will be using the ECDSA validator.
+
+Add the following code to create the ECDSA validator:
+
+```typescript copy
+import { signerToEcdsaValidator } from '@zerodev/ecdsa-validator'
+
+const ecdsaValidator = await signerToEcdsaValidator(publicClient, {
+  signer,
+  entryPoint,
+  kernelVersion: KERNEL_V3_1,
+})
+```
+
+### Create an account
+
+Create the Kernel account object using the signer.
+
+```typescript copy
+import { createKernelAccount } from '@zerodev/sdk'
+
+const account = await createKernelAccount(publicClient, {
+  plugins: {
+    sudo: ecdsaValidator,
+  },
+  entryPoint,
+}).extend(erc7579Actions({ entryPoint }))
+```
+
+### Create the smart account client
+
+The smart account client is used to interact with the smart account.
+
+```typescript copy
+import { createKernelAccountClient } from '@zerodev/sdk'
+
+const smartClient = createKernelAccountClient({
+  account,
+  chain,
+  entryPoint,
+  bundlerTransport: http(BUNDLER_RPC),
+  middleware: {
+    sponsorUserOperation: async ({ userOperation }) => {
+      const zerodevPaymaster = createZeroDevPaymasterClient({
+        chain,
+        entryPoint,
+        transport: http(PAYMASTER_RPC),
+      })
+      return zerodevPaymaster.sponsorUserOperation({
+        userOperation,
+        entryPoint,
+      })
+    },
+  },
+})
+```
+
+### Create the module object
+
+Get the module object for the module that you want to install on the smart account. In this case, we will install the Social Recovery Module. We will pass to it a number of guardians that can recover the account as well as a threshold of guardians required to recover the account.
+
+```typescript copy
+import { getSocialRecoveryValidator } from '@rhinestone/module-sdk'
+
+const module = getSocialRecoveryValidator({
+  threshold: 2,
+  guardians: ['0x1234...', '0x5678...'],
+})
+```
+
+### Install the module
+
+With this module object, we can now install it on the smart account.
+
+```typescript copy
+const context = encodePacked(
+  ['address', 'bytes'],
+  [
+    module.hook ?? zeroAddress,
+    encodeAbiParameters(
+      [{ type: 'bytes' }, { type: 'bytes' }],
+      [module.initData || '0x', '0x'],
+    ),
+  ],
+)
+
+const opHash = await smartClient.installModule({
+  type: module.type,
+  address: module.module,
+  context,
+})
+```
+
+### Wait for the UserOperation to be confirmed
+
+Let's wait until the UserOperation is confirmed, after which the module will be installed.
+
+```typescript copy
+const bundlerClient = kernelClient.extend(bundlerActions(entryPoint))
+await bundlerClient.waitForUserOperationReceipt({
+  hash: userOpHash,
+})
+```
+
+</Steps>

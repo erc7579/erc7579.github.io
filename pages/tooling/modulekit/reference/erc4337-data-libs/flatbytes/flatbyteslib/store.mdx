@@ -1,0 +1,39 @@
+---
+title: "store"
+---
+
+Stores the data into storage.
+
+## Usage
+
+```solidity
+contract FlatBytesTest {
+    using FlatBytesLib for FlatBytesLib.Bytes;
+
+    FlatBytesLib.Bytes data;
+
+    function storeData() external {
+        bytes memory _data = hex"424141414141414141414141414141414141414141414141414141414141414141414143";
+
+        data.store(_data);
+    }
+}
+```
+
+## Parameters
+
+### self
+
+- Type: `Bytes`
+
+The instance of the Bytes data.
+
+### data
+
+- Type: `bytes`
+
+The data to store.
+
+## Returns
+
+None
