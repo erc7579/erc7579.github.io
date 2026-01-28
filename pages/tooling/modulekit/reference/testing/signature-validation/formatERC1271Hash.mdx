@@ -1,0 +1,39 @@
+---
+title: "formatERC1271Hash"
+---
+
+Formats the hash to be signed for ERC1271 signature validation.
+
+## Usage
+
+```solidity
+bytes32 formattedHash = instance.formatERC1271Hash({validator: address(instance.defaultValidator), hash: hash});
+```
+
+## Parameters
+
+### instance
+
+- Type: [`AccountInstance`](../../glossary/types#accountinstance)
+
+The instance of the account used for testing.
+
+### validator
+
+- Type: `address`
+
+The address of the validator contract.
+
+### hash
+
+- Type: `bytes32`
+
+The hash to format for ERC1271 signature validation.
+
+## Returns
+
+### formattedHash
+
+- Type: `bytes32`
+
+The formatted hash to sign for ERC1271 signature validation.

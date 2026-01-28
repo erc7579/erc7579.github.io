@@ -1,0 +1,49 @@
+# encodeModuleUninstallationData
+
+Encodes the `deInitData` for a module uninstallation.
+
+## Usage
+
+```typescript copy
+const deInitData = encodeModuleUninstallationData({
+  client: getClient({
+    rpcUrl: "https://sepolia.drpc.org",
+  })
+      account: getAccount({
+        address: safeAccount.address,
+        type: "safe",
+      }),
+      module: getDeadmanSwitch({
+        account,
+        client,
+        nominee: nominee.address,
+        timeout: 1,
+        moduleType: "validator",
+      }),});
+```
+
+## Parameters
+
+### client
+
+- Type: `PublicClient`
+
+The rpc client to use for the chain you want to get modules from.
+
+### account
+
+- Type: [`Account`](/tooling/module-sdk/glossary/types.mdx#account)
+
+The account object.
+
+### module
+
+- Type: [`Module`](/tooling/module-sdk/glossary/types.mdx#module)
+
+The module object.
+
+## Returns
+
+- Type: [`Hex`](https://viem.sh/docs/glossary/types#hex)
+
+The encoded module uninstallation data.

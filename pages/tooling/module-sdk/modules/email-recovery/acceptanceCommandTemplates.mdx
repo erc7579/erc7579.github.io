@@ -1,0 +1,29 @@
+# acceptanceCommandTemplates
+
+Get the command templates used for guardian acceptance emails. These templates define the structure of valid acceptance commands.
+
+## Usage
+
+```typescript
+const templates = await acceptanceCommandTemplates({
+  client: publicClient,
+})
+```
+
+## Parameters
+
+### client
+
+- Type: `PublicClient`
+
+The public client instance used to interact with the blockchain.
+
+## Returns
+
+### templates
+
+- Type: `Promise<readonly (readonly string[])[]>`
+
+Returns a two-dimensional array of strings representing acceptance command templates.
+
+If the contract call fails, returns an empty array.

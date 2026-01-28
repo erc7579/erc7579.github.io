@@ -1,0 +1,57 @@
+# getHandleRecoveryAction
+
+Generate the transaction data needed to process a guardian's recovery email request.
+
+## Usage
+
+```typescript
+const action = await getHandleRecoveryAction({
+  client: publicClient,
+  emailAuthMsg: {
+    proof: {
+      accountSalt: '0x...',
+      emailNullifier: '0x...',
+      isCodeExist: true
+    },
+    commandParams: ['0x...'],
+    templateId: '0x...'
+  },
+  templateIdx: 0n
+})
+```
+
+## Parameters
+
+### client
+
+- Type: `PublicClient`
+
+The public client instance used to interact with the blockchain.
+
+### emailAuthMsg
+
+- Type: `EmailAuthMsg`
+
+The email authentication message containing:
+- `proof`: Object with account salt, email nullifier, and code existence flag
+- `commandParams`: Array of command parameters from the email
+- `templateId`: ID of the command template used
+
+### templateIdx
+
+- Type: `bigint`
+
+Index of the recovery command template that matches the email message.
+
+## Returns
+
+### action
+
+- Type: `Promise<Execution>`
+
+Returns an execution object containing:
+- `to`: Email recovery module contract address
+- `target`: Email recovery module contract address
+- `value`: Amount of native tokens to send (0)
+- `callData`: Encoded function data
+- `data`: Encoded function data

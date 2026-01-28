@@ -1,0 +1,29 @@
+# getVerifier
+
+Get the address of the email verifier contract used for recovery operations.
+
+## Usage
+
+```typescript
+const verifierAddress = await getVerifier({
+  client: publicClient
+})
+```
+
+## Parameters
+
+### client
+
+- Type: `PublicClient`
+
+The public client instance used to interact with the blockchain.
+
+## Returns
+
+### verifierAddress
+
+- Type: `Promise<Address>`
+
+Returns the address of the email verifier contract.
+
+If the contract call fails, returns the zero address (`0x0000000000000000000000000000000000000000`).

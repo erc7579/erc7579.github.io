@@ -1,0 +1,27 @@
+# getSetRegistryAction
+
+Get the action to change the registry.
+
+## Usage
+
+```typescript copy
+const action = getSetRegistryAction({
+  registry: '0x000000000069E2a187AEFFb852bF3cCdC95151B2',
+})
+```
+
+## Parameters
+
+### registry
+
+- Type: `Address`
+
+The new registry address.
+
+## Returns
+
+### action
+
+- Type: [`Action`](/tooling/module-sdk/glossary/types.mdx#action)
+
+The action to change the registry used.

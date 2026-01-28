@@ -1,0 +1,60 @@
+---
+title: "validateUserOp"
+---
+
+A virtual function that validates the [UserOperation](https://eips.ethereum.org/EIPS/eip-4337#useroperation) and returns the result. Overwrites from `ERC7579ValidatorBase`.
+
+## Usage
+
+```solidity
+/**
+ * Validates PackedUserOperation
+ *
+ * @param userOp UserOperation to be validated
+ * @param userOpHash Hash of the UserOperation to be validated
+ *
+ * @return sigValidationResult the result of the signature validation, which can be:
+ *  - 0 if the signature is valid
+ *  - 1 if the signature is invalid
+ *  - <20-byte> aggregatorOrSigFail, <6-byte> validUntil and <6-byte> validAfter (see ERC-4337
+ * for more details)
+ */
+function validateUserOp(
+    PackedUserOperation calldata userOp,
+    bytes32 userOpHash
+)
+    external
+    view
+    virtual
+    override
+    returns (ValidationData)
+{
+    return ValidationData.wrap(0);
+}
+```
+
+## Parameters
+
+### userOp
+
+- Type: `PackedUserOperation`
+
+The UserOperation to be validated.
+
+### userOpHash
+
+- Type: `bytes32`
+
+The hash of the UserOperation to be validated.
+
+## Returns
+
+### validationData
+
+- Type: `ValidationData | uint256`
+
+The result of the signature validation, which can be:
+
+- 0 if the signature is valid
+- 1 if the signature is invalid
+- 20 byte aggregatorOrSigFail, 6 byte validUntil and 6 byte validAfter (see ERC-4337 for more details)

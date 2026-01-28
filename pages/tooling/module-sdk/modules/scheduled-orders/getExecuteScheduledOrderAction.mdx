@@ -1,0 +1,27 @@
+# getExecuteScheduledOrderAction
+
+Get the action to execute a scheduled order. Note that this should be called by a relayer.
+
+## Usage
+
+```typescript copy
+const action = await getExecuteScheduledOrderAction({
+  jobId: 1,
+})
+```
+
+## Parameters
+
+### jobId
+
+- Type: `number`
+
+The ID of the scheduled order to execute.
+
+## Returns
+
+### action
+
+- Type: [`Action`](/tooling/module-sdk/glossary/types.mdx#action)
+
+The action to execute on the smart account.

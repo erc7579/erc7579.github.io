@@ -1,0 +1,61 @@
+# getDeadmanSwitch
+
+Get the deadman switch module.
+
+## Usage
+
+```typescript copy
+const deadmanSwitch = await getDeadmanSwitch({
+  client,
+  account,
+  moduleType: 'hook',
+  nominee: '0x123...',
+  timeout: 10000000,
+})
+```
+
+## Parameters
+
+### client
+
+- Type: `PublicClient`
+
+The rpc client to use for the chain you want to query.
+
+### account
+
+- Type: [`Account`](/tooling/module-sdk/glossary/types.mdx#account)
+
+The account to get the deadman switch module for.
+
+### moduleType
+
+- Type: `'hook' | 'validator'`
+
+The type of the deadman switch module. Note that the module needs to be installed as both types.
+
+### nominee
+
+- Type: [`Address`](https://viem.sh/docs/glossary/types#address)
+
+The address of the recovery nominee.
+
+### timeout
+
+- Type: `number`
+
+The inactivity timeout in seconds after which the recovery nominee can recover the account.
+
+### hook (optional)
+
+- Type: [`Address`](https://viem.sh/docs/glossary/types#address)
+
+The address of the hook module to associate with. This is only required for the Kernel account.
+
+## Returns
+
+### module
+
+- Type: [`Promise<Module>`](/tooling/module-sdk/glossary/types.mdx#module)
+
+The deadman switch module object.

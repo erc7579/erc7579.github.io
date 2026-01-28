@@ -1,0 +1,63 @@
+# getSmartSessionsValidator
+
+Get the smart sessions module object.
+
+## Usage
+
+```typescript copy
+const module = getSmartSessionsValidator({
+  sessions: [
+    {
+      sessionValidator: '0x1234...',
+      sessionValidatorInitData: '0xabcd...',
+      salt: toHex(toBytes('1', { size: 32 })),
+      userOpPolicies: [],
+      erc7739Policies: {
+        allowedERC7739Content: [],
+        erc1271Policies: [],
+      },
+      actions: [
+        {
+          actionTarget: '0x1234...',
+          actionTargetSelector: '0x00112233',
+          actionPolicies: [
+            {
+              policy: '0x1234...',
+              initData: '0xabcd...',
+            },
+          ],
+        },
+      ],
+      permitERC4337Paymaster: false,
+    },
+  ],
+})
+```
+
+## Parameters
+
+### sessions
+
+- Type: [`Session[]`](/tooling/module-sdk/glossary/types.mdx#session)
+
+List of sessions to enable in the smart sessions validator.
+
+### useRegistry (optional)
+
+- Type: `boolean`
+
+Defaults to true. When installing the module during account creation, it could be the case that the account, such as Safe7579 or Nexus, installs the module before setting their trusted attesters on the Registry. In this case, the flag should be set to false.
+
+### hook (optional)
+
+- Type: [`Address`](https://viem.sh/docs/glossary/types#address)
+
+The address of the hook to use. This is only required for the Kernel account.
+
+## Returns
+
+### module
+
+- Type: [`Module`](https://viem.sh/docs/glossary/types#module)
+
+The smart sessions validator module object.

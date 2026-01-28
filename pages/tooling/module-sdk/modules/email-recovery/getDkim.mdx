@@ -1,0 +1,29 @@
+# getDkim
+
+Get the address of the DKIM verification contract used for validating email signatures.
+
+## Usage
+
+```typescript
+const dkimAddress = await getDkim({
+  client: publicClient
+})
+```
+
+## Parameters
+
+### client
+
+- Type: `PublicClient`
+
+The public client instance used to interact with the blockchain.
+
+## Returns
+
+### dkimAddress
+
+- Type: `Promise<Address>`
+
+Returns the address of the DKIM verification contract.
+
+If the contract call fails, returns the zero address (`0x0000000000000000000000000000000000000000`).

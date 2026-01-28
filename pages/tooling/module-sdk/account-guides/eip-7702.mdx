@@ -1,0 +1,249 @@
+import { Steps } from 'nextra/components'
+
+# How to use the Module SDK with EIP-7702 
+
+[EIP-7702](https://eips.ethereum.org/EIPS/eip-7702) is an improvement to the Ethereum protocol that allows an EOA to delegate to a smart contract and be used as a smart contract account. In thi guide, we will walk you through using EIP-7702 in combination with the Safe and the Module SDK.
+
+You can view the full source code in the [module sdk demos repository](https://github.com/rhinestonewtf/module-sdk-demos).
+
+<Steps>
+
+### Install the packages
+
+For this guide, we use the latest version of module sdk, permissionless ^0.2 and viem ^2.21.
+
+```bash
+npm i viem @rhinestone/module-sdk permissionless
+```
+
+### Import the required functions and constants
+
+```typescript copy
+import { createSmartAccountClient } from 'permissionless'
+import { toSafeSmartAccount } from 'permissionless/accounts'
+import {
+  Account,
+  Address,
+  Chain,
+  createPublicClient,
+  encodeFunctionData,
+  Hex,
+  http,
+  parseAbi,
+  toBytes,
+  toHex,
+  Transport,
+  zeroAddress,
+} from "viem";
+import { erc7579Actions } from 'permissionless/actions/erc7579'
+import { createPimlicoClient } from 'permissionless/clients/pimlico'
+import { generatePrivateKey, privateKeyToAccount } from "viem/accounts";
+import { signAuthorization } from "viem/experimental";
+import { writeContract } from "viem/actions";
+import {
+  createPaymasterClient,
+  entryPoint07Address,
+} from 'viem/account-abstraction'
+import {
+  getSocialRecoveryValidator,
+  RHINESTONE_ATTESTER_ADDRESS,
+  getOwnableValidator,
+} from '@rhinestone/module-sdk'
+```
+
+### Create the clients
+
+Create the smart account client, the bundler client and the paymaster client. You will need to add your own urls here.
+
+```typescript copy
+const publicClient = createPublicClient({
+  transport: http(rpcUrl),
+  chain: chain,
+})
+
+const pimlicoClient = createPimlicoClient({
+  transport: http(bundlerUrl),
+  entryPoint: {
+    address: entryPoint07Address,
+    version: '0.7',
+  },
+})
+
+const paymasterClient = createPaymasterClient({
+  transport: http(paymasterUrl),
+})
+```
+
+### Create the signer
+
+The Safe account will need to have a signer to sign user operations. In permissionless.js, the default Safe account validates ECDSA signatures.
+
+Note that we currently still need a Safe owner that is different to the Safe (in this case the EOA) but this is likely to change in the future.
+
+For example, to create a signer based on a private key:
+
+```typescript copy
+const owner = privateKeyToAccount(generatePrivateKey())
+```
+
+### Create the EOA to delegate from
+
+Create the EOA that you want to transform into a smart account. Note, that this EOA can already exist.
+
+```typescript copy
+const eoa = privateKeyToAccount(generatePrivateKey())
+```
+
+### Create the validator to use
+
+Next, we need to create a validator to use on the account. This could be an EOA based one, Webauthn or any other validator.
+
+```typescript copy
+const ownableValidator = getOwnableValidator({
+  owners: [owner.address],
+  threshold: 1,
+});
+```
+
+### Delegate the EOA to the Safe
+
+To delegate to the Safe we need to do the following things:
+
+1. Create a sponsor account (optional): this allows for the sponsor to pay the gas and not the user
+2. Sign the EIP-7702 authorization to actually delegate the EOA to the Safe
+3. Setup the Safe with the EOA as the owner and the validator as the Ownable Validator
+
+Note: currently, this setup could be frontrun so that someone else initializes the users account with different owners or modules. For this reason, you shouldn't use this in production but the Safe team is working on removing this issue before EIP-7702 reaches mainnets.
+
+```typescript copy
+const sponsorAccount = privateKeyToAccount(sponsorPrivateKey);
+
+const authorization = await signAuthorization(publicClient, {
+  account: account,
+  contractAddress: "0x29fcB43b46531BcA003ddC8FCB67FFE91900C762",
+  delegate: sponsorAccount,
+});
+
+const txHash = await writeContract(publicClient, {
+  address: account.address,
+  abi: parseAbi([
+    "function setup(address[] calldata _owners,uint256 _threshold,address to,bytes calldata data,address fallbackHandler,address paymentToken,uint256 payment, address paymentReceiver) external",
+  ]),
+  functionName: "setup",
+  args: [
+    [safeOwner.address],
+    BigInt(1),
+    "0x7579011aB74c46090561ea277Ba79D510c6C00ff",
+    encodeFunctionData({
+      abi: parseAbi([
+        "struct ModuleInit {address module;bytes initData;}",
+        "function addSafe7579(address safe7579,ModuleInit[] calldata validators,ModuleInit[] calldata executors,ModuleInit[] calldata fallbacks, ModuleInit[] calldata hooks,address[] calldata attesters,uint8 threshold) external",
+      ]),
+      functionName: "addSafe7579",
+      args: [
+        "0x7579EE8307284F293B1927136486880611F20002",
+        [
+          {
+            module: ownableValidator.address,
+            initData: ownableValidator.initData,
+          },
+        ],
+        [],
+        [],
+        [],
+        [
+          RHINESTONE_ATTESTER_ADDRESS, // Rhinestone Attester
+        ],
+        1,
+      ],
+    }),
+    "0x7579EE8307284F293B1927136486880611F20002",
+    zeroAddress,
+    BigInt(0),
+    zeroAddress,
+  ],
+  account: sponsorAccount,
+  authorizationList: [authorization],
+});
+
+await publicClient.waitForTransactionReceipt({
+  hash: txHash,
+});
+```
+
+
+### Create the Safe account client
+
+Create the Safe account object using the signer. Note that you should only use the `MockAttester` on testnets.
+
+```typescript copy
+const safeAccount = await toSafeSmartAccount({
+  address: eoa.address,
+  client: publicClient,
+  owners: [owner],
+  version: '1.4.1',
+  entryPoint: {
+    address: entryPoint07Address,
+    version: '0.7',
+  },
+  safe4337ModuleAddress: '0x7579EE8307284F293B1927136486880611F20002',
+  erc7579LaunchpadAddress: '0x7579011aB74c46090561ea277Ba79D510c6C00ff',
+})
+```
+
+### Create the smart account client
+
+The smart account client is used to interact with the smart account. You will need to add your own bundler url and the chain that you are using.
+
+```typescript copy
+const smartAccountClient = createSmartAccountClient({
+  account: safeAccount,
+  chain: chain,
+  bundlerTransport: http(bundlerUrl),
+  paymaster: paymasterClient,
+  userOperation: {
+    estimateFeesPerGas: async () => {
+      return (await pimlicoClient.getUserOperationGasPrice()).fast
+    },
+  },
+}).extend(erc7579Actions())
+```
+
+### Create the module object
+
+Get the module object for the module that you want to install on the smart account. In this case, we will install the Social Recovery Module. We will pass to it a number of guardians that can recover the account as well as a threshold of guardians required to recover the account.
+
+```typescript copy
+const guardian1 = privateKeyToAccount(
+  '0xc171c45f3d35fad832c53cade38e8d21b8d5cc93d1887e867fac626c1c0d6be7',
+) // the key coresponding to the first guardian
+
+const guardian2 = privateKeyToAccount(
+  '0x1a4c05be22dd9294615087ba1dba4266ae68cdc320d9164dbf3650ec0db60f67',
+) // the key coresponding to the second guardian
+
+const socialRecovery = getSocialRecoveryValidator({
+  threshold: 2,
+  guardians: [guardian1.address, guardian2.address],
+})
+```
+
+### Install the module
+
+With this module object, we can now install it on the smart account.
+
+```typescript copy
+const opHash = await smartAccountClient.installModule(socialRecovery)
+```
+
+### Wait for the UserOperation to be confirmed
+
+Let's wait until the UserOperation is confirmed, after which the module will be installed.
+
+```typescript copy
+await pimlicoClient.waitForUserOperationReceipt({
+  hash: opHash,
+})
+```
+
+</Steps>

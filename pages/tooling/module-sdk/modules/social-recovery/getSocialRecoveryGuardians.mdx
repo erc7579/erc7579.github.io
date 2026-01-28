@@ -1,0 +1,34 @@
+# getSocialRecoveryGuardians
+
+description
+
+## Usage
+
+```typescript copy
+const guardians = await getSocialRecoveryGuardians({
+  client,
+  account,
+})
+```
+
+## Parameters
+
+### client
+
+- Type: `PublicClient`
+
+The rpc client to use for the chain you want to query.
+
+### account
+
+- Type: [`Account`](/tooling/module-sdk/glossary/types.mdx#account)
+
+The account to get the social recovery guardians for.
+
+## Returns
+
+### guardians
+
+- Type: [`Promise<Address[]>`](https://viem.sh/docs/glossary/types#address)
+
+The addresses of the guardians for the account.

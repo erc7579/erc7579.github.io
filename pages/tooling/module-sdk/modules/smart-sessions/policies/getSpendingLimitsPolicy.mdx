@@ -1,0 +1,30 @@
+# getSpendingLimitsPolicy
+
+Get the spending limits policy to use when creating a new session. The spending limits policy can be used to ensure that only a certain amount of ERC-20 tokens can be spent. For native value spends, use the value limit policy.
+
+## Usage
+
+```typescript copy
+const spendingLimitsPolicy = getSpendingLimitsPolicy([
+  {
+    token: '0x1234...',
+    limit: 100,
+  },
+])
+```
+
+## Parameters
+
+### TokenWithLimits
+
+- Type: [`TokenWithLimit[]`](/tooling/module-sdk/glossary/types.mdx#tokenwithlimit)
+
+Token with limits array. The limit is the maximum amount of the token that can be spent.
+
+## Returns
+
+### policy
+
+- Type: [`Policy`](/tooling/module-sdk/glossary/types.mdx#policy-1)
+
+The spending limits policy.

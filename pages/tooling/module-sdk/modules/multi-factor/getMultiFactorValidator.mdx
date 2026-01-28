@@ -1,0 +1,48 @@
+# getMultiFactorValidator
+
+Get the multi-factor validator module object.
+
+## Usage
+
+```typescript copy
+const multiFactorValidator = getMultiFactorValidator({
+  threshold: 2,
+  validators: [
+    {
+      packedValidatorAndId: encodePacked(
+        ['bytes12', 'address'],
+        [
+          '0x000000000000000000000000',
+          '0xf83d07238a7c8814a48535035602123ad6dbfa63',
+        ],
+      ),
+      data: '0x123...',
+    },
+  ],
+})
+```
+
+## Parameters
+
+### threshold
+
+- Type: `number`
+
+The number of validators required to approve a transaction.
+
+### validators
+
+- Type: `{
+  packedValidatorAndId: Hex,
+  data: Hex,
+}[]`
+
+The validators for the multi-factor authentication. The `packedValidatorAndId` is the packed validator address and id to use to identify this validator, and the `data` is the data for the validator. For example, the data might be the array of signers for the ownable validator.
+
+## Returns
+
+### module
+
+- Type: [`Module`](/tooling/module-sdk/glossary/types.mdx#module)
+
+The multi-factor validator module object.

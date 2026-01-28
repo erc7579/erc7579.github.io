@@ -1,0 +1,27 @@
+# getSocialRecoveryMockSignature
+
+Get the mock signature for the social recovery in order to use for ERC-4337 gas calculations.
+
+## Usage
+
+```typescript copy
+const mockSignature = getSocialRecoveryMockSignature({
+  threshold: 2,
+})
+```
+
+## Parameters
+
+### threshold
+
+- Type: `Number`
+
+The threshold of the social recovery.
+
+## Returns
+
+### mockSignature
+
+- Type: [`Hex`](https://viem.sh/docs/glossary/types#hex)
+
+The mock signature.

@@ -1,0 +1,31 @@
+---
+title: "getPermissionId"
+---
+
+Get the permission id of a session.
+
+## Usage
+
+```solidity
+PermissionId permissionId = instance.getPermissionId(session);
+```
+
+## Parameters
+
+### instance
+
+- Type: [`AccountInstance`](../../glossary/types#accountinstance)
+
+The instance of the account used for testing.
+
+### session
+
+- Type: [`Session`](../../glossary/types#session)
+
+The session to get the permission id from.
+
+## Returns
+
+- Type: `PermissionId | bytes32`
+
+The permission id of the session.

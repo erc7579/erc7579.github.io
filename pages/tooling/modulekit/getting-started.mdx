@@ -1,0 +1,50 @@
+---
+title: "Getting Started"
+---
+
+# Getting Started
+
+ModuleKit is built on top of [Foundry](https://book.getfoundry.sh/), a toolchain to simplify and speed up smart contract development. If you are not familiar with Foundry, feel free to check out their docs and install it by running:
+
+```bash
+curl -L https://foundry.paradigm.xyz | bash
+```
+
+## Installation
+
+### Using our template
+
+Use the [module-template](https://github.com/rhinestonewtf/module-template) to create a new repo and install the dependencies:
+
+```bash
+pnpm install
+```
+
+### Using a package manager
+
+**npm**
+```bash
+npm i @rhinestone/modulekit
+cp node_modules/@rhinestone/modulekit/remappings.txt remappings.txt
+```
+
+**yarn**
+```bash
+yarn add @rhinestone/modulekit
+cp node_modules/@rhinestone/modulekit/remappings.txt remappings.txt
+```
+
+**pnpm**
+```bash
+pnpm i @rhinestone/modulekit --shamefully-hoist
+cp node_modules/@rhinestone/modulekit/remappings.txt remappings.txt
+```
+
+
+### Using git submodules
+
+```bash
+forge install rhinestonewtf/modulekit
+cd lib/modulekit
+pnpm install
+```

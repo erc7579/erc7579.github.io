@@ -1,0 +1,41 @@
+# getRemoveSocialRecoveryGuardianAction
+
+Get the action to remove a social recovery guardian for an account.
+
+## Usage
+
+```typescript copy
+const action = getRemoveSocialRecoveryGuardianAction({
+  client,
+  account,
+  guardian: '0x123...',
+})
+```
+
+## Parameters
+
+### client
+
+- Type: `PublicClient`
+
+The rpc client to use for the chain you want to query.
+
+### account
+
+- Type: [`Account`](/tooling/module-sdk/glossary/types.mdx#account)
+
+The account to remove the social recovery guardian for.
+
+### guardian
+
+- Type: [`Address`](https://viem.sh/docs/glossary/types#address)
+
+The address of the guardian to remove.
+
+## Returns
+
+### action
+
+- Type: [`Action`](https://viem.sh/docs/glossary/types#action)
+
+The action to remove the guardian.

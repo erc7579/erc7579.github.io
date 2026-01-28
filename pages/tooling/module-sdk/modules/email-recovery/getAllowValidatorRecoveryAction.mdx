@@ -1,0 +1,53 @@
+# getAllowValidatorRecoveryAction
+
+Generate the transaction data needed to allow a validator to perform recovery actions. This configures which validator and function selector can be used for account recovery.
+
+## Usage
+
+```typescript
+const action = await getAllowValidatorRecoveryAction({
+  client: publicClient,
+  validator: '0x123...',
+  isInstalledContext: '0x...',
+  recoverySelector: '0x...'
+})
+```
+
+## Parameters
+
+### client
+
+- Type: `PublicClient`
+
+The public client instance used to interact with the blockchain.
+
+### validator
+
+- Type: [`Address`](https://viem.sh/docs/glossary/types#address)
+
+The address of the validator to authorize.
+
+### isInstalledContext
+
+- Type: [`Hex`](https://viem.sh/docs/glossary/types#hex)
+
+Additional context data that the smart account uses to verify if the module is installed.
+
+### recoverySelector
+
+- Type: [`Hex`](https://viem.sh/docs/glossary/types#hex)
+
+The 4-byte function selector that will be allowed for recovery operations by this validator.
+
+## Returns
+
+### action
+
+- Type: `Promise<Execution>`
+
+Returns an execution object containing:
+- `to`: Email recovery module contract address
+- `target`: Email recovery module contract address
+- `value`: Amount of native tokens to send (0)
+- `callData`: Encoded function data
+- `data`: Encoded function data

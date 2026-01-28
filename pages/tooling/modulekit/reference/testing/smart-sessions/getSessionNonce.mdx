@@ -1,0 +1,33 @@
+---
+title: "getSessionNonce"
+---
+
+Get the nonce of the session which is signed over in order to prevent an unauthorized re-initialization of a session if it is deactivated.
+
+## Usage
+
+```solidity
+uint256 nonce = instance.getSessionNonce(permissionId);
+```
+
+## Parameters
+
+### instance
+
+- Type: [`AccountInstance`](../../glossary/types#accountinstance)
+
+The instance of the account used for testing.
+
+### permissionId
+
+- Type: `PermissionId | bytes32`
+
+The permission id of the session.
+
+## Returns
+
+### nonce
+
+- Type: `uint256`
+
+The nonce for this session.

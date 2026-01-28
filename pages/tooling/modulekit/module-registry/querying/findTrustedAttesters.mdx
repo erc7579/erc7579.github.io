@@ -1,0 +1,27 @@
+---
+title: "findTrustedAttesters"
+---
+
+Get the list of trusted attesters for a given smart account.
+
+## Usage
+
+```solidity
+address[] memory attesters = registry.findTrustedAttesters(smartAccount);
+```
+
+## Parameters
+
+### smartAccount
+
+- Type: `address`
+
+The address of the smart account to get the trusted attesters for.
+
+## Returns
+
+### attesters
+
+- Type: `address[]`
+
+The addresses of the trusted attesters for the smart account.

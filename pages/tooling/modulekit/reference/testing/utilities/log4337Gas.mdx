@@ -1,0 +1,29 @@
+---
+title: "log4337Gas"
+---
+
+Log the 4337 gas used by a UserOperation with breakdowns of the different phases as well as the cost across L2s. When re-running a test with gas logging, the difference in gas usage will be added to the output.
+
+## Usage
+
+```solidity
+instance.log4337Gas("fileName");
+```
+
+## Parameters
+
+### instance
+
+- Type: [`AccountInstance`](../../glossary/types#accountinstance)
+
+The instance of the account used for testing.
+
+### id
+
+- Type: `string`
+
+The identifier of the output file to write to. This output file needs to be under the top-level `gas_calculation` directory.
+
+## Returns
+
+Output written to file provided.

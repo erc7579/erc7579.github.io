@@ -1,0 +1,831 @@
+# Types in ModuleSDK
+
+Glossary of types in ModuleSDK.
+
+## `Account`
+
+The object representing an account in ModuleSDK.
+
+### Definition
+
+```typescript
+type Account = {
+  address: Address
+  initCode?: Hex
+  type: AccountType
+  deployedOnChains: Number[]
+}
+```
+
+### Properties
+
+#### address
+
+- Type: [`Address`](https://viem.sh/docs/glossary/types#address)
+
+The address of the account.
+
+#### initCode
+
+- Type: [`Hex`](https://viem.sh/docs/glossary/types#hex)
+
+The init code of the account.
+
+#### type
+
+- Type: [`AccountType`](/tooling/module-sdk/glossary/types.mdx#accounttype)
+
+The type of the account.
+
+#### deployedOnChains
+
+- Type: `Number[]`
+
+The chains on which the account is deployed.
+
+## `AccountType`
+
+The type of the account.
+
+### Definition
+
+```typescript
+type AccountType = 'erc7579-implementation' | 'kernel' | 'safe' | 'nexus'
+```
+
+### Properties
+
+#### type
+
+- Type: `string`
+
+One of the following values:
+
+- `erc7579-implementation`
+- `kernel`
+- `safe`
+- `nexus`
+
+## `Action`
+
+The object representing an action in ModuleSDK.
+
+### Definition
+
+```typescript
+type Action = {
+  to: Address
+  target: Address
+  value: BigInt
+  data: Hex
+  callData: Hex
+}
+```
+
+### Properties
+
+#### to
+
+- Type: [`Address`](https://viem.sh/docs/glossary/types#address)
+
+The address of the target.
+
+#### target (deprecated)
+
+- Type: [`Address`](https://viem.sh/docs/glossary/types#address)
+
+The address of the target.
+
+#### value
+
+- Type: `BigInt`
+
+The native token value of the execution.
+
+#### data
+
+- Type: [`Hex`](https://viem.sh/docs/glossary/types#hex)
+
+The calldata of the action to be executed on the target.
+
+#### callData (deprecated)
+
+- Type: [`Hex`](https://viem.sh/docs/glossary/types#hex)
+
+The calldata of the action to be executed on the target.
+
+## `HookType`
+
+The types of subhooks for the HookMultiplexer.
+
+### Definition
+
+```typescript
+enum HookType {
+  GLOBAL,
+  DELEGATECALL,
+  VALUE,
+  SIG,
+  TARGET,
+}
+```
+
+### Properties
+
+#### GLOBAL
+
+- Type: `number`
+
+Global hooks that get run on every execution.
+
+#### DELEGATECALL
+
+- Type: `number`
+
+Hooks that get run on every delegatecall.
+
+#### VALUE
+
+- Type: `number`
+
+Hooks that get run on every value transfer.
+
+#### SIG
+
+- Type: `number`
+
+Hooks that get run based on which function is called on the account.
+
+#### TARGET
+
+- Type: `number`
+
+Hooks that get run based on the function called on the target.
+
+## `Module`
+
+The object representing a module in ModuleSDK.
+
+### Definition
+
+```typescript
+type Module = {
+  address: Address
+  module: Address
+  initData: Hex
+  deInitData: Hex
+  additionalContext: Hex
+  type: ModuleType
+}
+```
+
+### Properties
+
+#### address
+
+- Type: [`Address`](https://viem.sh/docs/glossary/types#address)
+
+The address of the module.
+
+#### module (deprecated)
+
+- Type: [`Address`](https://viem.sh/docs/glossary/types#address)
+
+The address of the module.
+
+#### initData
+
+- Type: [`Hex`](https://viem.sh/docs/glossary/types#hex)
+
+The installation data of the module.
+
+#### deInitData
+
+- Type: [`Hex`](https://viem.sh/docs/glossary/types#hex)
+
+The uninstallation data of the module.
+
+#### additionalContext
+
+- Type: [`Hex`](https://viem.sh/docs/glossary/types#hex)
+
+The additional context to be sent to the account.
+
+#### type
+
+- Type: [`ModuleType`](/tooling/module-sdk/glossary/types.mdx#moduletype)
+
+The type of the module.
+
+## `ModuleType`
+
+The type of the module.
+
+### Definition
+
+```typescript
+type ModuleType = 'validators' | 'executors' | 'hooks' | 'fallbacks'
+```
+
+### Properties
+
+#### type
+
+- Type: `string`
+
+One of the following values:
+
+- `validators`
+- `executors`
+- `hooks`
+- `fallbacks`
+
+## `Session`
+
+The object representing a smart sessions validator session in ModuleSDK.
+
+### Definition
+
+```typescript
+export type Session = {
+  sessionValidator: Address
+  sessionValidatorInitData: Hex
+  salt: Hex
+  userOpPolicies: PolicyData[]
+  erc7739Policies: ERC7739Data
+  actions: ActionData[]
+  chainId: bigint
+}
+```
+
+### Properties
+
+#### sessionValidator
+
+- Type: [`Address`](https://viem.sh/docs/glossary/types#address)
+
+The address of the session validator.
+
+#### sessionValidatorInitData
+
+- Type: [`Hex`](https://viem.sh/docs/glossary/types#hex)
+
+The configuration data of the validator. For example, this could be the owners to be verified against.
+
+#### salt
+
+- Type: [`Hex`](https://viem.sh/docs/glossary/types#hex)
+
+A unique identifier to prevent collision between sessions. A session key owner can have multiple sessions with the same parameters. To facilitate
+this, a salt is necessary to avoid collision.
+
+#### userOpPolicies
+
+- Type: [`PolicyData[]`](/tooling/module-sdk/glossary/types.mdx#policydata)
+
+A list of userOp policies.
+
+#### erc7739Policies
+
+- Type: [`ERC7739Data`](/tooling/module-sdk/glossary/types.mdx#ERC7739Data)
+
+A list of erc7739 policies.
+
+#### actions
+
+- Type: [`ActionData[]`](/tooling/module-sdk/glossary/types.mdx#actionData)
+
+A list of action policies.
+
+#### chainId
+
+- Type: `bigint`
+
+The chain id of the session.
+
+## `PolicyData`
+
+The object representing a policy data for userOp and action policies in a session.
+
+### Definition
+
+```typescript
+export type PolicyData = {
+  policy: Address
+  initData: Hex
+}
+```
+
+### Properties
+
+#### policy
+
+- Type: [`Address`](https://viem.sh/docs/glossary/types#address)
+
+The address of the policy contract.
+
+#### initData
+
+- Type: [`Hex`](https://viem.sh/docs/glossary/types#hex)
+
+The init data for initializing policy.
+
+## `ERC7739Data`
+
+The object representing an ERC7739Data in a session.
+
+### Definition
+
+```typescript
+export type ERC7739Data = {
+  allowedERC7739Content: string[]
+  erc1271Policies: PolicyData[]
+}
+```
+
+### Properties
+
+#### allowedERC7739Content
+
+- Type: [`string[]`]
+
+A list of allowed ERC7739 content.
+
+#### erc1271Policies
+
+- Type: [`PolicyData[]`](/tooling/module-sdk/glossary/types.mdx#policydata)
+
+A list of erc1271 policies.
+
+## `ActionData`
+
+The object representing the ActionData in a session.
+
+### Definition
+
+```typescript
+export type ActionData = {
+  actionTargetSelector: Hex
+  actionTarget: Address
+  actionPolicies: PolicyData[]
+}
+```
+
+### Properties
+
+#### actionTargetSelector
+
+- Type: [`Hex`](https://viem.sh/docs/glossary/types#hex)
+
+The selector of the action target.
+
+#### actionTarget
+
+- Type: [`Address`](https://viem.sh/docs/glossary/types#address)
+
+The address of the action target.
+
+#### actionPolicies
+
+- Type: [`PolicyData[]`](/tooling/module-sdk/glossary/types.mdx#policydata)
+
+A list of action policies.
+
+## `SmartSessionMode`
+
+The mode of the session.
+
+### Definition
+
+```typescript
+type SmartSessionMode =
+  | '0x00' // USE mode: If the USE mode was selected, no futher policies have to be enabled.
+  | '0x01' // ENABLE mode: If the ENABLE mode was selected, the userOp.signature will contain the EnableSession data This data will be used to enable policies and validator for the session
+  | '0x02' // UNSAFE_ENABLE
+```
+
+## `SessionEIP712`
+
+The object representing an EIP712 session in ModuleSDK.
+
+### Definition
+
+```typescript
+export type SessionEIP712 = {
+  account: Address
+  smartSession: Address
+  mode: number
+  nonce: bigint
+  sessionValidator: Address
+  sessionValidatorInitData: Hex
+  salt: Hex
+  userOpPolicies: PolicyData[]
+  erc7739Policies: ERC7739Data
+  actions: ActionData[]
+}
+```
+
+### Properties
+
+#### account
+
+- Type: [`Address`](https://viem.sh/docs/glossary/types#address)
+
+The address of the account.
+
+#### smartSession
+
+- Type: [`Address`](https://viem.sh/docs/glossary/types#address)
+
+The address of the smart session.
+
+#### mode
+
+- Type: [`bigint`](https://viem.sh/docs/glossary/types#bigint)
+
+The mode of the session.
+
+#### sessionValidator
+
+- Type: [`Address`](https://viem.sh/docs/glossary/types#address)
+
+The address of the session validator.
+
+#### sessionValidatorInitData
+
+- Type: [`Hex`](https://viem.sh/docs/glossary/types#hex)
+
+The configuration data of the validator.
+
+#### salt
+
+- Type: [`Hex`](https://viem.sh/docs/glossary/types#hex)
+
+A unique identifier to prevent collision between sessions. A session key owner can have multiple sessions with the same parameters. To facilitate
+this, a salt is necessary to avoid collision.
+
+#### userOpPolicies
+
+- Type: [`PolicyData[]`](/tooling/module-sdk/glossary/types.mdx#policydata)
+
+A list of userOp policies.
+
+#### erc7739Policies
+
+- Type: [`ERC7739Data`](/tooling/module-sdk/glossary/types.mdx#erc7739data)
+
+A list of erc7739 policies.
+
+#### actions
+
+- Type: [`ActionData[]`](/tooling/module-sdk/glossary/types.mdx#actiondata)
+
+A list of action policies.
+
+## `ChainSession`
+
+The object representing a chain session in ModuleSDK.
+
+### Definition
+
+```typescript
+export type ChainSession = {
+  chainId: bigint
+  session: SessionEIP712
+}
+```
+
+### Properties
+
+#### chainId
+
+- Type: `bigInt`
+
+The chain id of the session.
+
+#### session
+
+- Type: [`SessionEIP712`](/tooling/module-sdk/glossary/types.mdx#sessioneip712)
+
+## `EnableSession`
+
+The object representing a chain session in ModuleSDK.
+
+### Definition
+
+```typescript
+export type EnableSession = {
+  chainDigestIndex: number
+  hashesAndChainIds: ChainDigest[]
+  sessionToEnable: Session
+  permissionEnableSig: Hex
+}
+```
+
+### Properties
+
+#### chainDigestIndex
+
+- Type: `number`
+
+The chain digest index for the chain you want to enable session on.
+
+#### hashesAndChainIds
+
+- Type: [`ChainDigest[]`](/tooling/module-sdk/glossary/types.mdx#chaindigest)
+
+The session digest hashes and chain ids.
+
+#### sessionToEnable
+
+- Type: [`Session`](/tooling/module-sdk/glossary/types.mdx#session)
+
+The session to enable.
+
+#### permissionEnableSig
+
+- Type: [`Hex`](https://viem.sh/docs/glossary/types#hex)
+
+The permission enable signature.
+
+## `EnableSessionData`
+
+The object representing data needed to enabled a session in an account.
+
+### Definition
+
+```typescript
+export type EnableSessionData = {
+  enableSession: EnableSession
+  validator: Address
+  accountType: AccountType
+}
+```
+
+### Properties
+
+#### enableSession
+
+- Type: [`EnableSession`](/tooling/module-sdk/glossary/types.mdx#enablesession)
+
+The enable session object.
+
+#### validator
+
+- Type: [`Address`](https://viem.sh/docs/glossary/types#address)
+
+The address of the validator.
+
+#### accountType
+
+- Type: [`AccountType`](/tooling/module-sdk/glossary/types.mdx#accounttype)
+
+The type of the account.
+
+## `DecodedSessionData`
+
+The object representing a decoded session data in ModuleSDK.
+
+### Definition
+
+```typescript
+export type DecodedSessionData = {
+  mode: SmartSessionMode
+  permssionId: Hex
+  signature: Hex
+  enableSessionData: EnableSessionData
+}
+```
+
+### Properties
+
+#### mode
+
+- Type: [`SmartSessionMode`](/tooling/module-sdk/glossary/types.mdx#smartsessionmode)
+
+The mode of the session.
+
+#### permssionId
+
+- Type: [`Hex`](https://viem.sh/docs/glossary/types#hex)
+
+The permission ID of the session.
+
+#### signature
+
+- Type: [`Hex`](https://viem.sh/docs/glossary/types#hex)
+
+The signature of the session.
+
+#### enableSessionData
+
+- Type: [`EnableSessionData`](/tooling/module-sdk/glossary/types.mdx#enablesessiondata)
+
+The data needed to enable a session in an account.
+
+## `Policy`
+
+The object representing a smart session policy in ModuleSDK.
+
+### Definition
+
+```typescript
+export type Policy = {
+  policy: Address
+  address: Address
+  initData: Hex
+}
+```
+
+### Properties
+
+#### policy
+
+- Type: [`Address`](https://viem.sh/docs/glossary/types#address)
+
+The address of the policy.
+
+#### address (deprecated)
+
+- Type: [`Address`](https://viem.sh/docs/glossary/types#address)
+
+The address of the policy.
+
+#### initData
+
+- Type: [`Hex`](https://viem.sh/docs/glossary/types#hex)
+
+The init data of the policy.
+
+## `TokenWithLimit`
+
+Token with limit object.
+
+### Definition
+
+```typescript
+type TokenWithLimit = {
+  token: Address
+  limit: bigint
+}
+```
+
+### Properties
+
+#### token
+
+- Type: [`Address`](https://viem.sh/docs/glossary/types#address)
+
+The address of the token.
+
+#### limit
+
+- Type: `bigint`
+
+The limit of the token.
+
+## `ActionConfig`
+
+The object representing universal action policy configuration.
+
+### Definition
+
+```typescript
+type ActionConfig = {
+  valueLimitPerUse: bigint
+  paramRules: ParamRules
+}
+```
+
+### Properties
+
+#### valueLimitPerUse
+
+- Type: `bigint`
+
+The value limit per use.
+
+#### paramRules
+
+- Type: [`ParamRules`](/tooling/module-sdk/glossary/types.mdx#paramrules)
+
+The parameter rules.
+
+## `ParamRules`
+
+The object representing parameter rules for universal action policy configuration.
+
+### Definition
+
+```typescript
+type ParamRules = {
+  length: number
+  rules: ParamRule[]
+}
+```
+
+### Properties
+
+#### length
+
+- Type: `number`
+
+The length of the rules.
+
+#### rules
+
+- Type: [`ParamRule[]`](/tooling/module-sdk/glossary/types.mdx#paramrule)
+
+The parameter rules.
+
+## `ParamRule`
+
+The object representing a parameter rule for universal action policy configuration.
+
+### Definition
+
+```typescript
+type ParamRule = {
+  condition: ParamCondition
+  offset: number
+  isLimited: boolean
+  ref: Hex
+  usage: LimitUsage
+}
+```
+
+### Properties
+
+#### condition
+
+- Type: [`ParamCondition`](/tooling/module-sdk/glossary/types.mdx#paramcondition)
+
+The condition of the rule.
+
+#### offset
+
+- Type: `number`
+
+The offset of the rule.
+
+#### isLimited
+
+- Type: `boolean`
+
+Whether the rule is limited.
+
+#### ref
+
+- Type: [`Hex`](https://viem.sh/docs/glossary/types#hex)
+
+The parameter rules.
+
+#### usage
+
+- Type: [`LimitUsage`](/tooling/module-sdk/glossary/types.mdx#limitusage)
+
+The limit usage.
+
+## `LimitUsage`
+
+The object representing a limit usage for universal action policy configuration.
+
+### Definition
+
+```typescript
+type LimitUsage = {
+  limit: bigint
+  used: bigint
+}
+```
+
+### Properties
+
+#### limit
+
+- Type: `bigint`
+
+The limit of the usage.
+
+#### used
+
+- Type: `bigint`
+
+The used limit.
+
+## `ParamCondition`
+
+The enum representing the universal action policy param condition types.
+
+### Definition
+
+```typescript
+export enum ParamCondition {
+  EQUAL,
+  GREATER_THAN,
+  LESS_THAN,
+  GREATER_THAN_OR_EQUAL,
+  LESS_THAN_OR_EQUAL,
+  NOT_EQUAL,
+}
+```

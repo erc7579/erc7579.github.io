@@ -1,0 +1,11 @@
+# Ownable Executor
+
+The Ownable Executor allows you to create a hierarchy ownership structure across smart accounts. This module allows one smart account to have execution rights on another smart account. The execution rights can trigger any transaction with the owner account paying for gas. This can enable automated relationships between DAOs and sub-DAOs or main accounts to sub-accounts.
+
+## How it works
+
+The Ownable Executor is installed as an executor on a sub-account and stores the owner. Then, it lets the owner call into the sub-account without requiring additional proof of ownership.
+
+## Getting started
+
+First, you will need to install the Ownable Executor on a smart account and designate an owner. This owner can be either an EOA or a smart account. From now on, the owner can call into the Ownable Executor which will then forward the calls to be executed by the owned smart account.

@@ -1,0 +1,38 @@
+# getDeadmanSwitchConfig
+
+Get the active configuration for the deadman switch module.
+
+## Usage
+
+```typescript copy
+const config = await getDeadmanSwitchConfig({
+  client,
+  account,
+})
+```
+
+## Parameters
+
+### client
+
+- Type: `PublicClient`
+
+The rpc client to use for the chain you want to query.
+
+### account
+
+- Type: [`Account`](/tooling/module-sdk/glossary/types.mdx#account)
+
+The account to get the deadman switch configuration for.
+
+## Returns
+
+### config
+
+- Type: `Promise<[number, number, Address]>`
+
+The config for the deadman switch module. The array contains the following values:
+
+1. Timestamp of the last transaction.
+2. The timeout period in seconds.
+3. The address of the recovery nominee.

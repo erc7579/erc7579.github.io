@@ -1,0 +1,39 @@
+# getCancelExpiredRecoveryAction
+
+Generate the transaction data needed to cancel an expired recovery request for an account.
+
+## Usage
+
+```typescript
+const action = await getCancelExpiredRecoveryAction({
+  client: publicClient,
+  account: '0x123...'
+})
+```
+
+## Parameters
+
+### client
+
+- Type: `PublicClient`
+
+The public client instance used to interact with the blockchain.
+
+### account
+
+- Type: [`Address`](https://viem.sh/docs/glossary/types#address)
+
+The address of the account whose expired recovery request should be cancelled.
+
+## Returns
+
+### action
+
+- Type: `Promise<Execution>`
+
+Returns an execution object containing:
+- `to`: Email recovery module contract address
+- `target`: Email recovery module contract address
+- `value`: Amount of native tokens to send (0)
+- `callData`: Encoded function data
+- `data`: Encoded function data

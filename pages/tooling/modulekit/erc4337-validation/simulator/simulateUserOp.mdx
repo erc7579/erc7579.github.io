@@ -1,0 +1,33 @@
+---
+title: "simulateUserOp"
+---
+
+Simulates a UserOperation and validates the ERC-4337 rules. Note: this function will revert if the UserOperation is invalid.
+
+## Usage
+
+```solidity
+bool simulationSuccess = userOp.simulateUserOp(ENTRYPOINT_ADDR);
+```
+
+## Parameters
+
+### userOp
+
+- Type: `UserOperation | PackedUserOperation`
+
+The UserOperation to simulate.
+
+### onEntryPoint
+
+- Type: `address`
+
+The address of the entry point. Note: if you're using v0.7 of ERC-4337, this should be the address of the `EntryPointSimulations` contract.
+
+## Returns
+
+### simulationSuccess
+
+- Type: `bool`
+
+True if the simulation was successful, false otherwise. Note that a UserOperation might revert during validation, in which case the ERC-4337 rules will not be checked properly.

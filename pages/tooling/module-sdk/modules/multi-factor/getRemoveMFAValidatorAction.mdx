@@ -1,0 +1,34 @@
+# getRemoveMFAValidatorAction
+
+Gets the action to remove a multi-factor sub-validator.
+
+## Usage
+
+```typescript copy
+const action = getRemoveMFAValidatorAction({
+  validatorAddress: '0x123...',
+  validatorId: '0x123...',
+})
+```
+
+## Parameters
+
+### validatorAddress
+
+- Type: [`Address`](https://viem.sh/docs/glossary/types#address)
+
+The address of the multi-factor sub-validator to remove.
+
+### validatorId
+
+- Type: [`Hex`](https://viem.sh/docs/glossary/types#hex)
+
+The ID of the multi-factor sub-validator to remove.
+
+## Returns
+
+### action
+
+- Type: [`Action`](https://viem.sh/docs/glossary/types#action)
+
+The action to remove the given multi-factor sub-validator.

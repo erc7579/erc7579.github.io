@@ -1,0 +1,29 @@
+---
+title: "registerResolver"
+---
+
+Register a resolver on the Registry.
+
+## Usage
+
+```solidity
+ResolverUID resolverUID = registerResolver({
+    resolver: resolver
+});
+```
+
+## Parameters
+
+### resolver
+
+- Type: `address`
+
+The address of the resolver to register.
+
+## Returns
+
+### resolverUID
+
+- Type: `ResolverUID | bytes32`
+
+The resolver UID.

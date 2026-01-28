@@ -1,0 +1,11 @@
+# Multi Factor
+
+The Multi Factor is a multiplexer, which allows developers to compose any set of signer modules together. For example, passkeys can be set as the main signer, but passkeys and an ECDSA validation scheme are required when making high-value transfers.
+
+## How it works
+
+The Multi Factor combines existing validators and allows a user to turn their account into a multi-signature account that composes different signatures. For example, one required signature could be using an EOA owner through the Ownable Validator and another a passkey signature through the Webauthn Validator. Note that the modules that the Multi Factor uses for validation do not need to be independently installed on the account and if they are, the Multi Factor can use a different configuration, such as different owners, than the installed ones use.
+
+## Getting started
+
+To get started with the Multi Factor, simply install it as a validator on the account. To use it to validate a UserOperation, you need to choose the Multi Factor as the designated validator and correctly create the required signature(s).

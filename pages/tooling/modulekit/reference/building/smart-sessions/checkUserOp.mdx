@@ -1,0 +1,40 @@
+---
+title: "checkUserOp"
+---
+A virtual function called when the session is being used to verify a UserOperation. Overwrites from `ERC7579UserOpPolicy`.
+
+## Usage
+
+```solidity
+function checkAction(
+        ConfigId id,
+        PackedUserOperation calldata userOp
+    )
+        external
+        virtual
+        returns (uint256) {
+    // validate the userOperation and signature
+}
+```
+
+## Parameters
+
+### id
+
+- Type: `ConfigId | bytes32`
+
+The id of the configuration that is part of the session.
+
+### userOp
+
+- Type: `PackedUserOperation`
+
+The UserOperation that is being validated.
+
+## Returns
+
+### validationData
+
+- Type: `uint256`
+
+The ERC-4337 validation data to determine if the UserOperation is valid.

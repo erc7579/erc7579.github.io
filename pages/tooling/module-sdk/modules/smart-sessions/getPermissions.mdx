@@ -1,0 +1,44 @@
+# getPermissions
+
+This function leverages [ERC-7715](https://github.com/ethereum/ERCs/pull/436/) and allows a client to transform 7715 permission objects into policies for [Smart Sessions](/tooling/module-sdk/modules/smart-sessions).
+
+## Usage
+
+```typescript copy
+const permissions = getPermissions({
+  permissions: [
+    {
+      type: 'erc20-token-transfer',
+      data: {
+        address: '0x1234...', // token address
+        allowance: '0x1', // allowance
+      },
+    },
+  ],
+})
+
+const session: Session = {
+  ...permissions,
+  sessionValidator: OWNABLE_VALIDATOR_ADDRESS,
+  sessionValidatorInitData: encodeValidationData({
+    threshold: 1,
+    owners: [sessionOwner.address],
+  }),
+  salt: toHex(0),
+  permitERC4337Paymaster: true,
+}
+```
+
+## Parameters
+
+### permissions
+
+- Type: `{ type: string, data: any }[]`
+
+An array of permission objects according to ERC-7715.
+
+## Returns
+
+- Type: `Policies`
+
+An object consisting of `userOpPolicies`, `erc7739Policies` and `actions` that can be used to create a new session for smart sessions.

@@ -1,0 +1,45 @@
+# getRecoveryRequest
+
+Get the current recovery request details for an account, including execution timeframes, current guardian approval weight, and recovery data hash.
+
+## Usage
+
+```typescript
+const [executeAfter, executeBefore, currentWeight, recoveryDataHash] = await getRecoveryRequest({
+  account: {
+    address: '0x123...',
+    type: 'safe',
+    deployedOnChains: [8453],
+    initCode: '0x...' // optional
+  },
+  client: publicClient,
+})
+```
+
+## Parameters
+
+### account
+
+- Type: [`Account`](/tooling/module-sdk/glossary/types.mdx#account)
+
+The account object.
+
+### client
+
+- Type: `PublicClient`
+
+The public client instance used to interact with the blockchain.
+
+## Returns
+
+### recoveryRequest
+
+- Type: `Promise<[bigint, bigint, bigint, Hex]>`
+
+Array containing:
+- `executeAfter`: The timestamp from which the recovery request can be executed
+- `executeBefore`: The timestamp after which the recovery request becomes invalid
+- `currentWeight`: Total weight of all guardian approvals for the recovery request
+- `recoveryDataHash`: The keccak256 hash of the recovery data used to execute the recovery attempt
+
+If the contract call fails, returns `[0n, 0n, 0n, toHex(0, { size: 32 })]`.

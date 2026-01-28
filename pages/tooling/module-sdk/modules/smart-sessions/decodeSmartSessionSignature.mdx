@@ -1,0 +1,32 @@
+# decodeSmartSessionSignature
+
+Get decoded session from SmartSessionSignature.
+
+## Usage
+
+```typescript copy
+const decodedSession = decodeSmartSessionSignature({
+  account,
+  signature: '0x1234...',
+})
+```
+
+## Parameters
+
+### account
+
+- Type: [`Account`](/tooling/module-sdk/glossary/types.mdx#account)
+
+The account object.
+
+### signature
+
+- Type: [`Hex`](https://viem.sh/docs/glossary/types#hex)
+
+The signature of the session to decode.
+
+## Returns
+
+- Type: [`DecodedSessionData`](/tooling/module-sdk/glossary/types.mdx#decodedsessiondata)
+
+The decoded smart session data.

@@ -1,0 +1,50 @@
+# getAutoSavingsExecutor
+
+Get the auto save executor object.
+
+## Usage
+
+```typescript copy
+const autoSavingsModule = getAutoSavingsExecutor({
+  chainId: sepolia.id,
+  configs: [
+    {
+      token: '0x123...',
+      percentage: BigInt(10),
+      vault: '0x123...',
+    },
+  ],
+})
+```
+
+## Parameters
+
+### chainId
+
+- Type: `number`
+
+The chain ID of the chain to use. This is necessary to pick the correct Uniswap router address.
+
+### configs
+
+- Type: `{
+  token: Address,
+  percentage: number,
+  vault: Address,
+}[]`
+
+The configs for each token.
+
+### hook (optional)
+
+- Type: [`Address[]`](https://viem.sh/docs/glossary/types#address)
+
+The address of the hook to use. This is only required for the Kernel account.
+
+## Returns
+
+### module
+
+- Type: [`Module`](/tooling/module-sdk/glossary/types.mdx#module)
+
+The auto-savings module object.

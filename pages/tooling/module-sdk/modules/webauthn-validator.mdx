@@ -1,0 +1,11 @@
+# Webauthn Validator
+
+The Webauthn Validator enables a passkey as a signer on a smart account, allowing users to sign cryptographic messages with their biometrics via the secure enclave of their device or use a preferred password manager.
+
+## How it works
+
+The Webauthn Validator is a validator module that verifies signatures made using the secp256r1 curve, which is used in standards like webauthn. This allows users to use passkeys to sign their UserOperations.
+
+## Getting started
+
+To get started with the Webauthn Validator, install it on the smart account of a user and supply the correct owner configuration. When signing a UserOperation, the hash needs to be signed using the owners' passkey.

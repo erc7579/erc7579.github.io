@@ -1,0 +1,42 @@
+# getEnableERC1271PoliciesAction
+
+Get the action to enable ERC1271 policies for a specific session in the smart sessions validator.
+
+## Usage
+
+```typescript copy
+const action = await getEnableERC1271PoliciesAction({
+  permissionId: '0x1234...',
+  erc1271Policies: {
+    allowedERC7739Content: ['content'],
+    erc1271Policies: [
+      {
+        policy: '0xabcd...',
+        initData: '0x',
+      },
+    ],
+  },
+})
+```
+
+## Parameters
+
+### permissionId
+
+- Type: [`Hex`](https://viem.sh/docs/glossary/types#hex)
+
+The permission ID of the session to enable ERC1271 policies for.
+
+### erc1271Policies
+
+- Type: [`ERC7739Data`](/tooling/module-sdk/glossary/types.mdx#erc7739data)
+
+A list of ERC1271 policies.
+
+## Returns
+
+### action
+
+- Type: [`Promise<Action>`](/tooling/module-sdk/glossary/types.mdx#action)
+
+The action to enable ERC1271 policies for a specific session in the smart sessions validator.

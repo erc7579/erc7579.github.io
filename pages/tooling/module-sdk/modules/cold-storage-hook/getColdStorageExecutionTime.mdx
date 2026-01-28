@@ -1,0 +1,41 @@
+# getColdStorageExecutionTime
+
+Get the timestamp when you are able to execute a queued execution on the account.
+
+## Usage
+
+```typescript copy
+const executionTime = await getColdStorageExecutionTime({
+  client,
+  account,
+  executionHash: '0x123...',
+})
+```
+
+## Parameters
+
+### client
+
+- Type: `PublicClient`
+
+The rpc client to use for the chain you want to query.
+
+### account
+
+- Type: [`Account`](/tooling/module-sdk/glossary/types.mdx#account)
+
+The account to get the cold storage execution time for.
+
+### executionHash
+
+- Type: [`Hex`](https://viem.sh/docs/glossary/types#hex)
+
+The hash of the execution to get the time for.
+
+## Returns
+
+### executionTime
+
+- Type: `Promise<number>`
+
+The timestamp after which the queued execution can be executed.

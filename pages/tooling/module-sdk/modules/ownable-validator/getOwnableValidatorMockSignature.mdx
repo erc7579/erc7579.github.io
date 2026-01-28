@@ -1,0 +1,27 @@
+# getOwnableValidatorMockSignature
+
+Get the mock signature for the ownable validator in order to use for ERC-4337 gas calculations.
+
+## Usage
+
+```typescript copy
+const mockSignature = getOwnableValidatorMockSignature({
+  threshold: 1,
+})
+```
+
+## Parameters
+
+### threshold
+
+- Type: `number`
+
+The number of signatures required to validate the ownable validator. This is required to calculate the gas cost for the UserOperation.
+
+## Returns
+
+### mockSignature
+
+- Type: [`Hex`](https://viem.sh/docs/glossary/types#hex)
+
+The mock signature.

@@ -1,0 +1,67 @@
+# Getting started
+
+The Module SDK is built on top of [viem](https://viem.sh/), a typesafe, modern Ethereum library. This SDK is meant to be used alongside existing account SDKs, such as [permissionless.js](https://www.npmjs.com/package/permissionless), [Biconomy](https://www.npmjs.com/package/@biconomy/account), [Zerodev](https://www.npmjs.com/package/@zerodevapp/sdk), and many more.
+
+## Installation
+
+Install viem as a peer dependency and then install the Module SDK:
+
+```bash
+npm i viem @rhinestone/module-sdk
+```
+
+## Quick Start
+
+```typescript copy
+// Import the required functions
+import {
+  getClient,
+  getModule,
+  getAccount,
+  getMFAValidator,
+  installModule,
+} from '@rhinestone/module-sdk'
+
+// Create a client for the current network
+const client = getClient(network)
+
+// Create the module object if you are using a custom module
+const module = getModule({
+  module: moduleAddress,
+  data: initData,
+  type: moduleType,
+})
+
+// Or use one of the existing modules
+const mfaModule = getMFAValidator({
+  type: 'mfa-validator',
+  data: {
+    threshold: 2,
+    methods: ['webauthn', 'passkey'],
+  },
+})
+
+// Create the account object
+const account = getAccount({
+  address: '0x123...',
+  type: 'safe',
+})
+
+// Get the executions required to install the module
+const executions = await installModule({
+  client,
+  account,
+  module,
+})
+
+// Install the module on your account, using your existing account SDK
+accountSDK.execute(executions)
+```
+
+## Integrating the Module SDK with another account SDK
+
+If you are not yet using an account SDK, you can use the permissionless.js SDK to create an account and execute the `UserOperations`. Permissionless.js currently supports the Safe, Kernel and Biconomy accounts. To learn how you can use the SDK, check out the [permissionless.js documentation](https://docs.pimlico.io/permissionless). To install the SDK, run:
+
+```bash
+npm i permissionless
+```

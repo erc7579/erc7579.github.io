@@ -1,0 +1,58 @@
+---
+title: "useSession"
+---
+
+Use a session to make a call or batch of calls, even if the session is not enabled yet.
+
+## Usage
+
+```solidity
+instance.useSession({
+  session: session,
+  target: address(0x69),
+  value: 1 wei,
+  callData: ""
+})
+```
+
+## Parameters
+
+### instance
+
+- Type: [`AccountInstance`](../../glossary/types#accountinstance)
+
+The instance of the account used for testing.
+
+### session
+
+- Type: [`Session`](../../glossary/types#session)
+
+The session to use for the call.
+
+### target (optional)
+
+- Type: `address`
+
+The address of the contract to call.
+
+### value (optional)
+
+- Type: `uint256`
+
+The amount of wei to send with the call.
+
+### callData (optional)
+
+- Type: `bytes`
+
+The data to send with the call.
+
+### executions (optional)
+
+- Type: [`Execution[]`](../../glossary/types#execution)
+
+An array of executions to use in the session instead of doing a single call.
+
+## Returns
+
+None

@@ -1,0 +1,34 @@
+# getAddHookAction
+
+Get the action to add a hook to the multi-plexer.
+
+## Usage
+
+```typescript copy
+const action = getAddHookAction({
+  hook: '0x123...',
+  hookType: HookType.GLOBAL,
+})
+```
+
+## Parameters
+
+### hook
+
+- Type: [`Address`](https://viem.sh/docs/glossary/types#address)
+
+The address of the hook to add.
+
+### hookType
+
+- Type: [`HookType`](/tooling/module-sdk/glossary/types.mdx#hooktype)
+
+The type of the hook to add.
+
+### sig (optional)
+
+- Type: [`Hex`](https://viem.sh/docs/glossary/types#hex)
+
+The function signature in the case that the hookType is `HookType.SIG` or `HookType.TARGET`.
+
+## Returns

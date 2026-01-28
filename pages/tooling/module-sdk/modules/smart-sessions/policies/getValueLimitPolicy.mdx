@@ -1,0 +1,27 @@
+# getValueLimitPolicy
+
+Get the value limit policy to use when creating a new session. The value limit policy can be used to enforce that only a certain amount of native value can be spent. For ERC-20 limits, use the spending limit policy.
+
+## Usage
+
+```typescript copy
+const valueLimitPolicy = getValueLimitPolicy({
+  limit: BigInt(100),
+})
+```
+
+## Parameters
+
+### limit
+
+- Type: `bigint`
+
+The maximum amount of native value that can be spent.
+
+## Returns
+
+### policy
+
+- Type: [`Policy`](/tooling/module-sdk/glossary/types.mdx#policy-1)
+
+The value limit policy.

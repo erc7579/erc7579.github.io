@@ -1,0 +1,27 @@
+# getExecuteScheduledTransferAction
+
+Get the action to execute a scheduled transfer. Note that this should be triggered by a relayer.
+
+## Usage
+
+```typescript copy
+const action = getExecuteScheduledTransferAction({
+  jobId: 1,
+})
+```
+
+## Parameters
+
+### jobId
+
+- Type: `number`
+
+The ID of the scheduled transfer job to execute.
+
+## Returns
+
+### action
+
+- Type: [`Action`](/tooling/module-sdk/glossary/types.mdx#action)
+
+The action to execute the scheduled transfer.

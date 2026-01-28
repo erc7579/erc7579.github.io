@@ -1,0 +1,64 @@
+# getUnlockFundsAction
+
+Get the action to unlock funds on the source chain. This is done if a user wants to move funds out of the resource lock.
+
+## Usage
+
+```typescript copy
+const action = getUnlockFundsAction({
+  orchestratorSignature: '0x',
+  request: {
+    timestamp: Math.floor(Date.now() / 1000), // Current timestamp in seconds
+    tokenAddress: '0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238',
+    orchestrator: '0x122B68D0E84d33F1Af7F1C0D332851AcaD0d457E',
+    amount: BigInt(100),
+    nonce: BigInt(1),
+  },
+})
+```
+
+## Parameters
+
+### orchestratorSignature
+
+- Type: [`Hex`](https://viem.sh/docs/glossary/types#hex)
+
+The orchestrator signature for the unlock.
+
+### request.timestamp
+
+- Type: `bigint`
+
+The timestamp of the unlock request.
+
+### request.tokenAddress
+
+- Type: [`Address`](https://viem.sh/docs/glossary/types#address)
+
+The address of the token to unlock. If the token is the native token, the address is `0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE`.
+
+### request.orchestrator
+
+- Type: [`Address`](https://viem.sh/docs/glossary/types#address)
+
+The address of the orchestrator.
+
+### request.amount
+
+- Type: `bigint`
+
+The amount to unlock.
+
+### request.nonce
+
+- Type: `bigint`
+
+The nonce of the unlock request.
+
+## Returns
+
+### action
+
+- Type: [`Action`](https://viem.sh/docs/glossary/types#action)
+
+The action to execute on the account.

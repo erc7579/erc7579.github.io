@@ -1,0 +1,38 @@
+---
+title: "How to use ModuleKit to test ERC-4337 restrictions"
+sidebarTitle: "Simulating UserOps"
+---
+
+The ModuleKit is integrated with the [ERC-4337 Validation library](../../erc4337-validation/overview) in order to make it effortless to ensure modules comply with the restrictions required by the ERC-4337 mempool. You can find the restrictions in the [ERC-7562 specifications](https://eips.ethereum.org/EIPS/eip-7562). Note: alternatively to the below, you can also use the [`simulateUserOp`](../../reference/testing/utilities/simulateUserOp) function to simulate only specific UserOperations.
+
+## Update your configuration
+
+To use simulation, you will need to update your `foundry.toml` file as follows:
+
+```bash
+gas_limit = "18446744073709551615"
+memory_limit = 2147483648
+verbosity = 3
+```
+
+## Write your tests
+
+When you write your tests, you can use the `makeAccountInstance` function to create an account instance. Then, you can use this `instance` to execute transactions, for example:
+
+```solidity
+// Create an account instance
+AccountInstance memory instance = makeAccountInstance("account1");
+
+// Execute a UserOperation on the account
+instance.exec({ target: address(1), value: 1 wei, callData: "" });
+```
+
+## Run your tests with simulation
+
+To do this, run:
+
+```bash
+SIMULATE=true forge test
+```
+
+If your tests are successful, you are compliant with the ERC-4337 restrictions. Otherwise, you will receive an error message.

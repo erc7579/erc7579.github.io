@@ -1,0 +1,32 @@
+# getTrustAttestersAction
+
+Gets the action to have a user trust a set of attesters on the Registry.
+
+## Usage
+
+```typescript copy
+const action = getTrustAttestersAction({
+  threshold: 1,
+  attesters: [RHINESTONE_ATTESTER_ADDRESS],
+})
+```
+
+## Parameters
+
+### threshold
+
+- Type: `number`
+
+The minimum number of attesters that need to attest to a module for the user to trust it.
+
+### attesters
+
+- Type: [`Address[]`](https://viem.sh/docs/glossary/types#address)
+
+The addresses of the attesters that the user will trust.
+
+## Returns
+
+- Type: [`Action`](/tooling/module-sdk/glossary/types.mdx#action)
+
+The action to add trust the attesters.

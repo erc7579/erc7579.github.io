@@ -1,0 +1,41 @@
+---
+title: "_unpackValidationData"
+---
+
+Unpack the validation data from a validator. Inherited from `ERC7579ValidatorBase`.
+
+## Usage
+
+```solidity
+(bool sigFailed, uint48 validUntil, uint48 validAfter) = _unpackValidationData({
+    _packedData: validationData
+});
+```
+
+## Parameters
+
+### \_packedData
+
+- Type: `bytes`
+
+The packed validation data.
+
+## Returns
+
+### sigFailed
+
+- Type: `bool`
+
+False if the signature is valid, true if the signature is invalid.
+
+### validUntil
+
+- Type: `uint48`
+
+The timestamp until which the signature is valid.
+
+### validAfter
+
+- Type: `uint48`
+
+The timestamp after which the signature is valid.

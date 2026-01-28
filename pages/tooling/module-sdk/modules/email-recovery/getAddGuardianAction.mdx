@@ -1,0 +1,46 @@
+# getAddGuardianAction
+
+Generate the transaction data needed to add a new guardian to an account.
+
+## Usage
+
+```typescript
+const action = await getAddGuardianAction({
+  client: publicClient,
+  guardian: '0x123...',
+  weight: 1n
+})
+```
+
+## Parameters
+
+### client
+
+- Type: `PublicClient`
+
+The public client instance used to interact with the blockchain.
+
+### guardian
+
+- Type: [`Address`](https://viem.sh/docs/glossary/types#address)
+
+The address of the guardian to add. Cannot be zero address or the account itself.
+
+### weight
+
+- Type: `bigint`
+
+The voting weight to assign to the guardian. Must be greater than 0.
+
+## Returns
+
+### action
+
+- Type: `Promise<Execution>`
+
+Returns an execution object containing:
+- `to`: Email recovery module contract address
+- `target`: Email recovery module contract address
+- `value`: Amount of native tokens to send (0)
+- `callData`: Encoded function data
+- `data`: Encoded function data

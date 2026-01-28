@@ -1,0 +1,62 @@
+---
+title: "Overview"
+---
+
+**An attestation registry for securely using smart account modules**
+
+Smart account modules are powerful. Installing a module unchecked opens up a wide range of attack vectors for users. One way to protect against this would be to have wallets or account vendors whitelist modules they deem secure. This is unscalable and creates a centralizing force that will stifle innovation.
+
+Today's dapp developers will be tomorrow's module developers. But for this to be the case, we need a scalable, transparent, and permissionless trust delegation mechanism.
+
+This is why we are building and maintaining the Module Registry, a permissionless onchain system for storing security attestations about modules. These attestations are queried upon module installation and optionally during run time for added security.
+
+## Integrate with the Module Registry
+
+### Account Vendor Integration
+
+If you are a new account vendor building an ERC-7579 compliant smart account, follow our simple [account integration guide](./integrations/account).
+
+### Smart Wallet Integration
+
+If you're a wallet vendor using an ERC-7579 account (such as the Kernel V3) that does not have native Module Registry integration, use our simple [wallet integration guide](./integrations/wallet) to get started.
+
+### L2 Integration
+
+For chains with native account abstraction. Tutorials and guides are coming soon.
+
+### Become A Module Auditor Partner
+
+We work directly with module developers to match them with auditing partners that have smart account experience and are set up to make Module Registry attestations. Today, this includes [Ackee Blockchain Security](https://ackeeblockchain.com/) and [Spearbit](https://spearbit.com/). We're looking for new security partners to scale the module ecosystem.
+
+Please get in touch if you're interested in onboarding.
+
+<Button
+  href="http://t.me/kurt_larsen"
+  buttonComponent="Get in touch"
+  isNewTab
+/>
+
+## Attestation-as-a-Service
+
+Attestation-as-a-Service is for companies (such as a wallet or smart account vendor) that wish to curate a marketplace of modules but do not wish to run their own onchain and offchain infra for attestations. It allows such companies to manage an attestation process without having the headache of operating the system across many chains or having to interface with module developers and auditors to produce the attestation data.
+
+Coming soon
+
+## More About The Module Registry
+
+### Flexible and Extensive
+
+The Module Registry is an ownerless singleton contract that any developer can use and build upon. We take inspiration from EAS and employ a similar approach to extensibility with schemas and resolver contracts that allow any entity to define a sub-registry with custom rules within the Module Registry. Beyond the extensibility of the singleton approach, there are three major benefits to this design:
+
+- **Security:** It focuses account integrations into a single source of truth where a maximum number of security entities (auditors) are attesting. This increases the maximum quantity and types of attestations per module and removes the need for smart accounts to verify the authenticity of a given registry, focusing on trust delegation to the attestors.
+- **Interoperability:** A singleton approach not only creates a greater level of “attestation liquidity” but also increases module liquidity and ensures greater module interoperability. Developers need only deploy their module to one place to achieve maximum distribution.
+- **Efficiency:** A singleton approach allows smart accounts to query multiple attesters with lower gas overhead to increase security guarantees, and accounts do not require additional work to verify the security of different registries.
+
+### Unlocking Innovation
+
+The Module Registry is the foundational layer of the modular smart account ecosystem. Solving security in a credibly neutral and open manner simultaneously provides user security and unlocks permissionless innovation. Without the Module Registry, developers and users are restricted to only trusting third-party modules easily verified with high confidence by inspecting the code and audit report. This is a huge constraint to realizing the maximum potential of smart accounts: an open and composable platform for any developer or user.
+
+## Useful starting resources
+
+- Blog: [A foundational layer to modular account abstraction](https://blog.rhinestone.wtf/a-foundational-layer-to-modular-account-abstraction-e7b21ae56034)
+- [Registry source code](https://github.com/rhinestonewtf/registry)

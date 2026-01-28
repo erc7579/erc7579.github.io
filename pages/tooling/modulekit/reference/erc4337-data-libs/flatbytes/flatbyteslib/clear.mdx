@@ -1,0 +1,31 @@
+---
+title: "clear"
+---
+
+Clears the data from storage.
+
+## Usage
+
+```solidity
+contract FlatBytesTest {
+    using FlatBytesLib for FlatBytesLib.Bytes;
+
+    FlatBytesLib.Bytes data;
+
+    function clearData() external {
+        data.clear();
+    }
+}
+```
+
+## Parameters
+
+### self
+
+- Type: `Bytes`
+
+The instance of the Bytes data.
+
+## Returns
+
+None

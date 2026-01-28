@@ -1,0 +1,44 @@
+# getAutoSavingAccountTokenConfig
+
+Get the configuration of the auto-save module for a specific token.
+
+## Usage
+
+```typescript copy
+const config = await getAutoSavingAccountTokenConfig({
+  client,
+  account,
+  token: '0x123...',
+})
+```
+
+## Parameters
+
+### client
+
+- Type: `PublicClient`
+
+The rpc client to use for the chain you want to query.
+
+### account
+
+- Type: [`Account`](/tooling/module-sdk/glossary/types.mdx#account)
+
+The account to get the auto-save configuration for.
+
+### token
+
+- Type: [`Address`](https://viem.sh/docs/glossary/types#address)
+
+The address of the token to get the auto-save configuration for.
+
+## Returns
+
+### config
+
+- Type: `Promise<[number, Address, number]>`
+
+The config for the auto-save module for the token. The array contains the following values:
+
+1. The percentage of the received token to save.
+2. The address of the vault to save the token to.

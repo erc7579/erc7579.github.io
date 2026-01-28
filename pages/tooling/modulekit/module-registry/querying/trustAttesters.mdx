@@ -1,0 +1,35 @@
+---
+title: "trustAttesters"
+---
+
+Stores a list of trusted attesters for an account.
+
+## Usage
+
+```solidity
+uint8 threshold = 2;
+
+address[] memory attesters = new address[](2);
+attesters[0] = address(1);
+attesters[1] = address(2);
+
+registry.trustAttesters(threshold, attesters);
+```
+
+## Parameters
+
+### threshold
+
+- Type: `uint8`
+
+The minimum number of attesters required to pass the check.
+
+### attesters
+
+- Type: `address[]`
+
+The addresses of the attesters to trust.
+
+## Returns
+
+None

@@ -1,0 +1,46 @@
+---
+title: "How to integrate the Registry into a smart wallet"
+sidebarTitle: "Wallet"
+---
+
+If your smart wallet uses an ERC-7579 account with a native registry integration, such as Safe7579 or Biconomy Nexus, then all you need to do is to make sure that the registry is set up correctly. If your chosen account does not have a native registry integration, then you can add this to the accounts of your users by simply installing a module, the registry hook.
+
+### Create the users smart account
+
+Using your preferred way, create a smart account for the user. Some smart accounts will allow you to provide initial modules to be installed on creation. However, if this is not the case, you can install the registry hook module after the smart account is created. In the following, we will show you how to install the registry hook module after account creation.
+
+### Install the ModuleSDK
+
+To install a module on the users smart account, you will need to use the `installModule` function. This function will install the module on the smart account and execute the module's `onInstall` function. So, to be able to call this function, you will need to have the module's address, the module type id and the initData. This can be done most easily using the [ModuleSDK](/module-sdk).
+
+First, install the ModuleSDK:
+
+```sh
+npm i viem @rhinestone/module-sdk
+```
+
+### Set up the registry hook module
+
+To set up the registry hook module, you can simply call the following function:
+
+```typescript
+import { getRegistryHook } from '@rhinestone/module-sdk'
+
+const registryHook = getRegistryHook({
+  registryAddress: '0x...',
+})
+```
+
+This will return an object with the properties: `module`, `initData` and `type`. You can then use this object to install the module on the smart account.
+
+### Install the registry hook module
+
+Using your existing account SDK, you can install the module on the smart account. Here is an example using the permissionless.js SDK:
+
+```typescript
+const userOpHash = await smartAccountClient.installModule({
+  type: registryHook.type,
+  address: registryHook.module,
+  context: registryHook.initData,
+})
+```

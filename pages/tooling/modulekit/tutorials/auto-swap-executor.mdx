@@ -1,0 +1,475 @@
+---
+title: "Tutorial 2: Building an Auto-swap Executor"
+sidebarTitle: "Auto-Swap Executor"
+---
+
+In this tutorial, we will walk you through building a simple executor module, in this case, an automated swap executor. This executor allows a user to create a schedule of swaps that are automatically executed for them. Before getting started, make sure you have [ModuleKit](../getting-started) installed and have set up a repo to work from.
+
+## Building the module
+
+To get started building the executor, we will first of all create a new contract that inherits from `ERC7579ExecutorBase` and has all the needed imports:
+
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.23;
+
+import { ERC7579ExecutorBase } from "modulekit/Modules.sol";
+import { IERC7579Account, Execution } from "modulekit/Accounts.sol";
+import {ModeLib} from "modulekit/accounts/common/lib/ModeLib.sol";
+
+import { IERC20 } from "forge-std/interfaces/IERC20.sol";
+import {ExecutionLib} from "modulekit/accounts/erc7579/lib/ExecutionLib.sol";
+import { UniswapV3Integration } from "modulekit/Integrations.sol";
+
+contract AutoSwapExecutor is ERC7579ExecutorBase {}
+```
+
+Next, we will implement the required constants and storage layout:
+
+```solidity
+...
+
+contract AutoSwapExecutor is ERC7579ExecutorBase {
+    /*//////////////////////////////////////////////////////////////////////////
+                                    CONSTANTS
+    //////////////////////////////////////////////////////////////////////////*/
+
+    error InvalidExecution();
+
+    event ExecutionTriggered(address indexed smartAccount, uint256 indexed jobId);
+
+    /*
+     * The execution config
+     * @param executeInterval The interval at which to execute the order
+     * @param numberOfExecutions The number of times to execute the order
+     * @param numberOfExecutionsCompleted The number of times the order has been executed
+     * @param startDate The start date of the order
+     * @param lastExecutionTime The last time the order was executed
+     * @param executionData The data to execute
+    */
+    struct ExecutionConfig {
+        uint48 executeInterval;
+        uint16 numberOfExecutions;
+        uint16 numberOfExecutionsCompleted;
+        uint48 startDate;
+        uint48 lastExecutionTime;
+        bytes executionData;
+    }
+
+    /*
+     * Log to keep track of executions
+     * @param smartAccount The smart account
+     * @param jobId The job ID
+     * @return The execution config
+     */
+    mapping(address smartAccount => mapping(uint256 jobId => ExecutionConfig)) internal
+        _executionLog;
+
+    /*
+     * Log to keep track of the number of jobs for a given smart account
+     * @param smartAccount The smart account
+     * @return The number of jobs
+     */
+    mapping(address smartAccount => uint256 jobCount) internal _accountJobCount;
+}
+```
+
+We create a struct `ExecutionConfig` to hold the execution configuration, and a mapping `_executionLog` to keep track of the executions. We also create a mapping `_accountJobCount` to keep track of the number of jobs for a given smart account. The latter is used to be able to remove all jobs when the module is uninstalled.
+
+Then, we add the config logic of the module:
+
+```solidity
+...
+
+contract AutoSwapExecutor is ERC7579ExecutorBase {
+    ...
+
+    /*//////////////////////////////////////////////////////////////////////////
+                                     CONFIG
+    //////////////////////////////////////////////////////////////////////////*/
+
+     /* Initialize the module with the given data
+     * @param data The data to initialize the module with
+     */
+    function onInstall(bytes calldata data) external override {
+        (
+            uint48 executeInterval,
+            uint16 numberOfExecutions,
+            uint48 startDate,
+            bytes memory executionData
+        ) = abi.decode(data, (uint48, uint16, uint48, bytes));
+        _createExecution(executeInterval, numberOfExecutions, startDate, executionData);
+    }
+
+    /* De-initialize the module with the given data
+     * @param data The data to de-initialize the module with
+     */
+    function onUninstall(bytes calldata data) external override {
+        uint256 count = _accountJobCount[msg.sender];
+        for (uint256 i = 1; i <= count; i++) {
+            delete _executionLog[msg.sender][i];
+        }
+        _accountJobCount[msg.sender] = 0;
+    }
+
+    /*
+     * Check if the module is initialized
+     * @param smartAccount The smart account to check
+     * @return true if the module is initialized, false otherwise
+     */
+    function isInitialized(address smartAccount) external view returns (bool) {
+        return _accountJobCount[smartAccount] > 0;
+    }
+
+    /*
+     * Add an order to the executor
+     * @param executeInterval The interval at which to execute the order
+     * @param numberOfExecutions The number of times to execute the order
+     * @param startDate The start date of the order
+     * @param executionData The data to execute
+     */
+    function addOrder(
+        uint48 executeInterval,
+        uint16 numberOfExecutions,
+        uint48 startDate,
+        bytes memory executionData
+    )
+        external
+    {
+        _createExecution(executeInterval, numberOfExecutions, startDate, executionData);
+    }
+
+    /*
+     * Remove an order from the executor
+     * @param jobId The job ID to remove
+     */
+    function removeOrder(uint256 jobId) external {
+        delete _executionLog[msg.sender][jobId];
+    }
+}
+```
+
+In the `onInstall` function, we initialize the module with the given initial execution. In the `onUninstall` function, we de-initialize the module by removing all active jobs. We also add the `isInitialized` function to check if the module is initialized, and the `addOrder` and `removeOrder` functions to add and remove orders from the executor.
+
+Next, we add the module logic:
+
+```solidity
+...
+
+contract AutoSwapExecutor is ERC7579ExecutorBase {
+    ...
+
+    /*//////////////////////////////////////////////////////////////////////////
+                                     MODULE LOGIC
+    //////////////////////////////////////////////////////////////////////////*/
+
+    /**
+     * ERC-7579 does not define any specific interface for executors, so the
+     * executor can implement any logic that is required for the specific usecase.
+     */
+
+    /*
+     * Execute a given order
+     * @dev This is an example function that can be used to execute arbitrary data
+     * @dev This function is not part of the ERC-7579 standard
+     * @param jobId The job ID to execute
+     */
+    function executeOrder(uint256 jobId) external canExecute(jobId) {
+        ExecutionConfig storage executionConfig = _executionLog[msg.sender][jobId];
+
+        // decode from execution tokenIn, tokenOut and amount in
+        (address tokenIn, address tokenOut, uint256 amountIn, uint160 sqrtPriceLimitX96) =
+            abi.decode(executionConfig.executionData, (address, address, uint256, uint160));
+
+        Execution[] memory executions = UniswapV3Integration.approveAndSwap({
+            smartAccount: msg.sender,
+            tokenIn: IERC20(tokenIn),
+            tokenOut: IERC20(tokenOut),
+            amountIn: amountIn,
+            sqrtPriceLimitX96: sqrtPriceLimitX96
+        });
+
+        executionConfig.lastExecutionTime = uint48(block.timestamp);
+        executionConfig.numberOfExecutionsCompleted += 1;
+
+        IERC7579Account(msg.sender).executeFromExecutor(
+            ModeLib.encodeSimpleBatch(), ExecutionLib.encodeBatch(executions)
+        );
+
+        emit ExecutionTriggered(msg.sender, jobId);
+    }
+
+}
+```
+
+In the `executeOrder` function, we execute a given order. We decode the execution data, approve and swap the tokens, update the execution log, and emit an event. We also add the `canExecute` modifier to check if the order can be executed.
+
+Next, we add some internal functions that have already been used above:
+
+```solidity
+...
+
+contract AutoSwapExecutor is ERC7579ExecutorBase {
+    ...
+
+    /*//////////////////////////////////////////////////////////////////////////
+                                     INTERNAL
+    //////////////////////////////////////////////////////////////////////////*/
+
+    /*
+     * Create an execution
+     * @param executeInterval The interval at which to execute the order
+     * @param numberOfExecutions The number of times to execute the order
+     * @param startDate The start date of the order
+     * @param executionData The data to execute
+     */
+    function _createExecution(
+        uint48 executeInterval,
+        uint16 numberOfExecutions,
+        uint48 startDate,
+        bytes memory executionData
+    )
+        internal
+    {
+        uint256 jobId = _accountJobCount[msg.sender]++;
+
+        _executionLog[msg.sender][jobId] = ExecutionConfig({
+            numberOfExecutionsCompleted: 0,
+            lastExecutionTime: 0,
+            executeInterval: executeInterval,
+            numberOfExecutions: numberOfExecutions,
+            startDate: startDate,
+            executionData: executionData
+        });
+    }
+
+    /*
+     * Check if the order can be executed
+     * @param jobId The job ID to check
+     */
+    modifier canExecute(uint256 jobId) {
+        _isExecutionValid(jobId);
+        _;
+    }
+
+    /*
+     * Check if the order is valid
+     * @param jobId The job ID to check
+     */
+    function _isExecutionValid(uint256 jobId) internal view {
+        ExecutionConfig storage executionConfig = _executionLog[msg.sender][jobId];
+
+        if (executionConfig.startDate > block.timestamp) {
+            revert InvalidExecution();
+        }
+
+        if (executionConfig.numberOfExecutionsCompleted >= executionConfig.numberOfExecutions) {
+            revert InvalidExecution();
+        }
+
+        if (
+            executionConfig.lastExecutionTime + executionConfig.executeInterval < block.timestamp
+                && executionConfig.lastExecutionTime > executionConfig.startDate
+        ) {
+            revert InvalidExecution();
+        }
+    }
+}
+```
+
+In the `_createExecution` function, we create an execution. In the `canExecute` modifier, we check if the order can be executed, by routing to the `_isExecutionValid` function, which checks the conditions on the order are met.
+
+Finally, we add the metadata logic:
+
+```solidity
+...
+
+contract AutoSwapExecutor is ERC7579ExecutorBase {
+    ...
+
+    /*//////////////////////////////////////////////////////////////////////////
+                                     METADATA
+    //////////////////////////////////////////////////////////////////////////*/
+
+    /**
+     * The name of the module
+     * @return name The name of the module
+     */
+    function name() external pure returns (string memory) {
+        return "AutoSwapExecutor";
+    }
+
+    /**
+     * The version of the module
+     * @return version The version of the module
+     */
+    function version() external pure returns (string memory) {
+        return "0.0.1";
+    }
+
+    /*
+        * Check if the module is of a certain type
+        * @param typeID The type ID to check
+        * @return true if the module is of the given type, false otherwise
+        */
+    function isModuleType(uint256 typeID) external pure override returns (bool) {
+        return typeID == TYPE_EXECUTOR;
+    }
+}
+```
+
+This is pretty standard. We define the name and version of the module and check if the module is of a certain type.
+
+We have now successfully built an automated swap module. The next step is to test the module.
+
+## Testing the module
+
+First, we will create a new `.t.sol` file with the following content:
+
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.23;
+
+import { Test } from "forge-std/Test.sol";
+import {
+    RhinestoneModuleKit,
+    ModuleKitHelpers,
+    AccountInstance,
+    UserOpData
+} from "modulekit/ModuleKit.sol";
+import {MODULE_TYPE_EXECUTOR} from "modulekit/accounts/common/interfaces/IERC7579Module.sol";
+import { AutoSwapExecutor } from "src/AutoSwapExecutor.sol";
+import { IERC20 } from "forge-std/interfaces/IERC20.sol";
+
+address constant WETH = 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2;
+address constant USDC = 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48;
+
+contract AutoSwapExecutorTest is RhinestoneModuleKit, Test {}
+```
+
+In this file, we import the necessary modules and contracts, and define the `AutoSwapExecutorTest` contract. We also define the `WETH` and `USDC` addresses, which we will use in the tests. These are the tokens that we will swap between.
+
+Next, we will set up the test:
+
+```solidity
+...
+
+contract AutoSwapExecutorTest is RhinestoneModuleKit, Test {
+    using ModuleKitHelpers for *;
+
+    // Account and modules
+    AccountInstance internal instance;
+    AutoSwapExecutor internal executor;
+
+    // Tokens to swap betweem
+    IERC20 usdc = IERC20(USDC);
+    IERC20 weth = IERC20(WETH);
+
+    // Foundry fork id for fork testing
+    uint256 mainnetFork;
+
+    // Executor job id
+    uint256 jobId;
+
+    function setUp() public {
+        // Create the fork
+        string memory mainnetUrl = vm.envString("MAINNET_RPC_URL");
+        mainnetFork = vm.createFork(mainnetUrl);
+        vm.selectFork(mainnetFork);
+        vm.rollFork(19_274_877);
+
+        // Initialize the RhinestoneModuleKit
+        init();
+
+        // Create the executor
+        executor = new AutoSwapExecutor();
+        vm.label(address(executor), "AutoSwapExecutor");
+
+        // Label tokens
+        vm.label(WETH, "weth");
+        vm.label(USDC, "usdc");
+
+        // Create the account and deal tokens
+        instance = makeAccountInstance("Account");
+        vm.deal(instance.account, 10 ether);
+        deal(address(usdc), instance.account, 10 ether);
+
+        // Create the execution data to initialize the executor
+        bytes memory executionData = abi.encode(address(usdc), address(weth), 1 ether, uint160(0));
+
+        // Install the executor
+        instance.installModule({
+            moduleTypeId: MODULE_TYPE_EXECUTOR,
+            module: address(executor),
+            data: abi.encode(uint48(1 days), uint16(10), uint48(0), executionData)
+        });
+    }
+}
+```
+
+We use the `ModuleKitHelpers` and `ModuleKitUserOp` to help with the integration testing. We also define the `instance` and `executor` variables, which we will use in the tests. We also define the `usdc` and `weth` variables, which we will use to interact with the tokens. We define the `mainnetFork` variable, which we will use to create a fork for testing as well as the `jobId` variable to keep track of the execution job ids we create.
+
+We then define the `setUp` function, which creates a fork, initializes the `RhinestoneModuleKit`, creates the executor, labels the tokens, creates the account and deals tokens, creates the execution data to initialize the executor, and installs the executor.
+
+The main point of interest here is that we are creating a fork to test the executor on a specific block. The reason for doing this is that it allows us to use the existing token and Uniswap contracts on Mainnet to facilitate the swaps. To complete setting up this fork test, you will need to create a `.env` file in the root of your project with the following content:
+
+```bash
+MAINNET_RPC_URL=[YOUR_MAINNET_RPC_URL]
+```
+
+Next, we will test the executor:
+
+```solidity
+...
+
+contract AutoSwapExecutorTest is RhinestoneModuleKit, Test {
+    ...
+
+    function testExec() public {
+        // Get the current balance of the target
+        uint256 prevBalance = weth.balanceOf(instance.account);
+
+        // Execute the call
+        // EntryPoint -> Account -> Executor -> Account -> Swap
+        UserOpData memory userOpData = instance.getExecOps({
+            target: address(executor),
+            value: 0,
+            callData: abi.encodeWithSelector(AutoSwapExecutor.executeOrder.selector, jobId),
+            txValidator: address(instance.defaultValidator)
+        });
+
+        // Increase the default gas limit to ensure there is enough gas for the swap
+        userOpData.userOp.accountGasLimits = bytes32(abi.encodePacked(uint128(2e6), uint128(10e6)));
+
+        // Execute the userOp
+        userOpData.execUserOps();
+
+        // Check if the balance of the target has increased in the target token
+        assertGt(weth.balanceOf(instance.account), prevBalance);
+    }
+
+    function testExecMultiple() public {
+        // Execute the swap
+        testExec();
+
+        // Skip 1 day to the next execution time
+        vm.warp(1 days);
+
+        // Execute the swap again
+        testExec();
+    }
+}
+```
+
+In the `testExec` function, we get the current balance of the target, execute the call, and check if the balance of the target has increased in the target token. In the `testExecMultiple` function, we execute the swap, skip 1 day to the next execution time, and execute the swap again. One thing to note here is that we are increasing the default gas limit set by the ModuleKit to ensure there is enough gas for the swap.
+
+When you run the tests, you should see that they pass:
+
+```bash
+Running 2 tests for test/AutoSwapExecutor.t.sol:AutoSwapExecutorTest
+[PASS] testExec() (gas: 7044167)
+[PASS] testExecMultiple() (gas: 7199813)
+Test result: ok. 2 passed; 0 failed; 0 skipped; finished in 4.21ms
+
+Ran 1 test suites: 2 tests passed, 0 failed, 0 skipped (2 total tests)
+```

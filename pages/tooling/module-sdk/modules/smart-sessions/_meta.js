@@ -1,0 +1,26 @@
+const meta = {
+  policies: "Policies",
+  getSmartSessionsValidator: "getSmartSessionsValidator",
+  getPermissions: "getPermissions",
+  getEnableSessionsAction: "getEnableSessionsAction",
+  getRemoveSessionAction: "getRemoveSessionAction",
+  getEnableSessionDetails: "getEnableSessionDetails",
+  getEnableUserOpPoliciesAction: "getEnableUserOpPoliciesAction",
+  getDisableUserOpPoliciesAction: "getDisableUserOpPoliciesAction",
+  getEnableERC1271PoliciesAction: "getEnableERC1271PoliciesAction",
+  getDisableERC1271PoliciesAction: "getDisableERC1271PoliciesAction",
+  getEnableActionPoliciesAction: "getEnableActionPoliciesAction",
+  getDisableActionPoliciesAction: "getDisableActionPoliciesAction",
+  isSessionEnabled: "isSessionEnabled",
+  getPermissionId: "getPermissionId",
+  getActionId: "getActionId",
+  getSessionNonce: "getSessionNonce",
+  getSessionDigest: "getSessionDigest",
+  hashChainSessions: "hashChainSessions",
+  encodeSmartSessionSignature: "encodeSmartSessionSignature",
+  encodeUseOrEnableSmartSessionSignature: "encodeUseOrEnableSmartSessionSignature",
+  decodeSmartSessionSignature: "decodeSmartSessionSignature",
+  SMART_SESSIONS_ADDRESS: "SMART_SESSIONS_ADDRESS",
+};
+
+export default meta;

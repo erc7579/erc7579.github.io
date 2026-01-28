@@ -1,0 +1,227 @@
+import { Steps } from 'nextra/components'
+
+# How to use passkeys to control an account
+
+This guide walks you through using passkeys to make transactions on an account, using the Webauthn Module. In this case, we will use the Safe account and install the module on it, but the module also works on other ERC-7579 accounts. You can also check out the [entire code](https://github.com/rhinestonewtf/module-sdk-demos/blob/main/src/app/webauthn/page.tsx) of the guide.
+
+We will first set up the smart account, install the Webauthn Module, and use a passkey to make a transaction.
+
+<Steps>
+
+### Install the packages
+
+First, install the required packages. We use the latest version of module sdk, permissionless ^0.2, viem ^2.21 and ox ^0.6.0.
+
+```bash
+npm i viem @rhinestone/module-sdk permissionless ox
+```
+
+### Import the required functions and constants
+
+```typescript copy
+import {
+  toSafeSmartAccount,
+  ToSafeSmartAccountReturnType,
+} from "permissionless/accounts";
+import { http, Transport } from "viem";
+import { createSmartAccountClient, SmartAccountClient } from "permissionless";
+import {
+  createWebAuthnCredential,
+  entryPoint07Address,
+  getUserOperationHash,
+  P256Credential,
+} from "viem/account-abstraction";
+import {
+  RHINESTONE_ATTESTER_ADDRESS,
+  MOCK_ATTESTER_ADDRESS,
+  getOwnableValidator,
+  encodeValidatorNonce,
+  getAccount,
+  getWebauthnValidatorMockSignature,
+  getWebAuthnValidator,
+  WEBAUTHN_VALIDATOR_ADDRESS,
+  getWebauthnValidatorSignature,
+} from "@rhinestone/module-sdk";
+import { baseSepolia } from "viem/chains";
+import { generatePrivateKey, privateKeyToAccount } from "viem/accounts";
+import { getAccountNonce } from "permissionless/actions";
+import { erc7579Actions } from "permissionless/actions/erc7579";
+import { PublicKey } from "ox";
+import { sign } from "ox/WebAuthnP256";
+```
+
+### Create the clients
+
+Create the smart account client and the pimlico client. You will need to add your own urls here.
+
+```typescript copy
+const publicClient = createPublicClient({
+  transport: http(rpcUrl),
+  chain: baseSepolia,
+})
+
+const pimlicoClient = createPimlicoClient({
+  transport: http(bundlerUrl),
+  entryPoint: {
+    address: entryPoint07Address,
+    version: '0.7',
+  },
+})
+```
+
+### Create the signer
+
+The Safe account will need to have a signer to sign user operations. In permissionless.js, the default Safe account validates ECDSA signatures.
+
+For example, to create a signer based on a private key:
+
+```typescript copy
+const owner = privateKeyToAccount(generatePrivateKey());
+```
+
+### Create the Safe account
+
+Create the Safe account object using the signer. 
+
+```typescript copy
+const safeAccount = await toSafeSmartAccount({
+  client: publicClient,
+  owners: [owner],
+  version: '1.4.1',
+  entryPoint: {
+    address: entryPoint07Address,
+    version: '0.7',
+  },
+  safe4337ModuleAddress: '0x7579EE8307284F293B1927136486880611F20002',
+  erc7579LaunchpadAddress: '0x7579011aB74c46090561ea277Ba79D510c6C00ff',
+  attesters: [
+    RHINESTONE_ATTESTER_ADDRESS, // Rhinestone Attester
+  ],
+  attestersThreshold: 1,
+})
+```
+
+### Create the smart account client
+
+The smart account client is used to interact with the smart account. You will need to add your own bundler url and the chain that you are using.
+
+```typescript copy
+const smartAccountClient = createSmartAccountClient({
+  account: safeAccount,
+  chain: baseSepolia,
+  bundlerTransport: http(bundlerUrl),
+  paymaster: pimlicoClient,
+  userOperation: {
+    estimateFeesPerGas: async () => {
+      return (await pimlicoClient.getUserOperationGasPrice()).fast
+    },
+  },
+}).extend(erc7579Actions())
+```
+
+### Create the Webauthn Credential
+
+Next, we will create a Webauthn Credential. This will be used to sign the UserOperation.
+
+```typescript copy
+// You could also use the `createCredential` function from the `ox` package to create the credential.
+const credential = await createWebAuthnCredential({
+  name: "Wallet Owner",
+});
+```
+
+### Install the Webauthn Module
+
+Next, we will install the Webauthn Module on the Safe account so that the user can use their passkey to sign a UserOperation.
+
+```typescript copy
+const { x, y, prefix } = PublicKey.from(credential.publicKey);
+const validator = getWebAuthnValidator({
+  pubKey: { x, y, prefix },
+  authenticatorId: credential.id,
+});
+
+const installOp = await smartAccountClient.installModule(validator);
+
+const receipt = await smartAccountClient.waitForUserOperationReceipt({
+  hash: installOp,
+});
+```
+
+### Create a UserOperation
+
+Now, we will create a UserOperation to execute.
+
+```typescript copy
+const nonce = await getAccountNonce(publicClient, {
+  address: smartAccountClient.account.address,
+  entryPointAddress: entryPoint07Address,
+  key: encodeValidatorNonce({
+    account: getAccount({
+      address: smartAccountClient.account.address,
+      type: "safe",
+    }),
+    validator: WEBAUTHN_VALIDATOR_ADDRESS,
+  }),
+});
+
+const userOperation = await smartAccountClient.prepareUserOperation({
+  account: smartAccountClient.account,
+  calls: [
+    {
+      to: "0x19575934a9542be941d3206f3ecff4a5ffb9af88",
+      value: BigInt(0),
+      data: "0xd09de08a",
+    } // this call increments a counter on a counter contract - note that this contract might need to be deployed depending on which network this is used on
+  ],
+  nonce,
+  signature: getWebauthnValidatorMockSignature(),
+});
+
+const userOpHashToSign = getUserOperationHash({
+  chainId: baseSepolia.id,
+  entryPointAddress: entryPoint07Address,
+  entryPointVersion: "0.7",
+  userOperation,
+});
+```
+
+### Sign the UserOperation with the passkey
+
+Next, the nominee will have to sign the recovery UserOperation.
+
+```typescript copy
+const { metadata: webauthn, signature } = await sign({
+  credentialId: credential.id,
+  challenge: userOpHashToSign,
+});
+```
+
+### Encode the signature
+
+Finally, we will encode the signature and add it to the UserOperation.
+
+```typescript copy
+const encodedSignature = getWebauthnValidatorSignature({
+  webauthn,
+  signature,
+  usePrecompiled: false,
+});
+
+userOperation.signature = encodedSignature;
+```
+
+### Execute the UserOperation
+
+Finally, we can execute the UserOperation.
+
+```typescript copy
+const userOpHash =
+  await smartAccountClient.sendUserOperation(userOperation);
+
+const receipt = await smartAccountClient.waitForUserOperationReceipt({
+  hash: userOpHash,
+});
+```
+
+</Steps>

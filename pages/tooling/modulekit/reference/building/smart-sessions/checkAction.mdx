@@ -1,0 +1,62 @@
+---
+title: "checkAction"
+---
+A virtual function called when the session is being used to verify the individual calls of a UserOperation. Overwrites from `ERC7579ActionPolicy`.
+
+## Usage
+
+```solidity
+function checkAction(
+        ConfigId id,
+        address account,
+        address target,
+        uint256 value,
+        bytes calldata data
+    )
+        external
+        view
+        virtual
+        returns (uint256) {
+    // validate the userOperation and signature
+}
+```
+
+## Parameters
+
+### id
+
+- Type: `ConfigId | bytes32`
+
+The id of the configuration that is part of the session.
+
+### account
+
+- Type: `address`
+
+The address of the account that is using smart sessions.
+
+### target
+
+- Type: `address`
+
+The address of the target contract.
+
+### value
+
+- Type: `uint256`
+
+The value of the transaction.
+
+### data
+
+- Type: `bytes`
+
+The calldata of the transaction.
+
+## Returns
+
+### validationData
+
+- Type: `uint256`
+
+The ERC-4337 validation data to determine if the UserOperation is valid.

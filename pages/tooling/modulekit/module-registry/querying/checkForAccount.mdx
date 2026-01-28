@@ -1,0 +1,35 @@
+---
+title: "checkForAccount"
+---
+
+Check if a module is attested by a sufficient number of attesters. The function will revert if this is not the case. This function uses the stored attesters for a provided account address.
+
+## Usage
+
+```solidity
+registry.check(module);
+```
+
+## Parameters
+
+### smartAccount
+
+- Type: `address`
+
+The address of the smart account to check for. This smart account should have stored attesters.
+
+### module
+
+- Type: `address`
+
+The address of the module to check.
+
+### moduleType (optional)
+
+- Type: `uint256 | ModuleType`
+
+The type of the module to check, according to [ERC-7579](https://erc7579.com/).
+
+## Returns
+
+None

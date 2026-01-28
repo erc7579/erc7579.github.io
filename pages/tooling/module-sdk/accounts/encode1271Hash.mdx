@@ -1,0 +1,49 @@
+# encode1271Hash
+
+Encodes a hash to be signed with ERC-1271 by an account. Note that while you should sign this hash, the unformatted hash is what should be sent to the contract.
+
+## Usage
+
+```typescript copy
+const unformattedHash = keccak256(toHex('hash'))
+
+const formattedHash = encode1271Hash({
+  account: getAccount({ address: '0x1234...', type: 'safe' }),
+  chainId: 1,
+  validator: OWNABLE_VALIDATOR_ADDRESS,
+  hash: unformattedHash,
+})
+```
+
+## Parameters
+
+### account
+
+- Type: [`Account`](/tooling/module-sdk/glossary/types.mdx#account)
+  The address of the account to validate the 1271 signature.
+
+### chainId
+
+- Type: [`Number`](https://viem.sh/docs/glossary/types#number)
+
+The chain ID of the network to validate the signature on.
+
+### validator
+
+- Type: [`Address`](https://viem.sh/docs/glossary/types#address)
+
+The address of the validator to validate the 1271 signature.
+
+### hash
+
+- Type: [`Hex`](https://viem.sh/docs/glossary/types#hex)
+
+The hash to encode.
+
+## Returns
+
+### encodedHash
+
+- Type: [`Hex`](https://viem.sh/docs/glossary/types#hex)
+
+The encoded 1271 hash to be signed.

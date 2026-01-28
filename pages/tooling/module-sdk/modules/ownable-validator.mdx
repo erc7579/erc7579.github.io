@@ -1,0 +1,11 @@
+# Ownable Validator
+
+The Ownable Validator enables an EOA as a signer for a smart account. It is ideal for product use cases where users are expected to be crypto-native and possess an EOA wallet. Alternatively, it can be combined with MPC providers [embedded signers](https://docs.pimlico.io/permissionless/how-to/signers).
+
+## How it works
+
+The Ownable Validator stores a number of EOA owners and a threshold. Because of this, it can either be used as a single-sig or multi-sig validator. In the former case, the threshold is 1, while in the latter case it is more than 1. The Ownable Validator then validates the required number of signatures based on the threshold to determine if a UserOperation should be executed.
+
+## Getting started
+
+To get started with the Ownable Validator, you need to install it as a validator on the account. To use it to validate a UserOperation, you need to choose the Ownable Validator as the designated validator and correctly create the required signature(s).

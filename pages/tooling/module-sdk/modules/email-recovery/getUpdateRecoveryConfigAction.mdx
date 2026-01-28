@@ -1,0 +1,46 @@
+# getUpdateRecoveryConfigAction
+
+Generate the transaction data needed to update the recovery configuration for an account.
+
+## Usage
+
+```typescript
+const action = await getUpdateRecoveryConfigAction({
+  client: publicClient,
+  delay: 86400n, // 1 day in seconds
+  expiry: 604800n // 1 week in seconds
+})
+```
+
+## Parameters
+
+### client
+
+- Type: `PublicClient`
+
+The public client instance used to interact with the blockchain.
+
+### delay
+
+- Type: `bigint`
+
+The delay period (in seconds) before a recovery request can be executed. Must be greater than the minimum delay.
+
+### expiry
+
+- Type: `bigint`
+
+The timestamp when the recovery configuration expires. Must be greater than delay and provide sufficient recovery window.
+
+## Returns
+
+### action
+
+- Type: `Promise<Execution>`
+
+Returns an execution object containing:
+- `to`: Email recovery module contract address
+- `target`: Email recovery module contract address
+- `value`: Amount of native tokens to send (0)
+- `callData`: Encoded function data
+- `data`: Encoded function data

@@ -1,0 +1,44 @@
+# ModuleKit
+
+**A development kit for building smart account modules**
+
+ModuleKit aims to make it simple for any developer to build a module that works across all ERC-7579 compliant accounts, including Safe, ZeroDev's Kernel V3, Biconomy's Nexus, and many more.
+
+ModuleKit has several tools to help during the development lifecycle of a module:
+
+**Build**
+
+- **Standardized interfaces and templates**: These ensure that your module is compatible with all the major account implementations and that it's extremely easy to get started.
+- **Third-party integrations**: ModuleKit has a library of integrations and pre-built conditions for execution to make building powerful modules seamless.
+
+**Test**
+
+- **Testing frameworks**: These are out-of-the-box testing setups with in-built unit and integration tests. They allow developers to easily test modules against different account implementations and abstract away the complexities of the entire ERC-4337 flow.
+- **Helper utilities**: These utilities improve the developer experience, such as calculating gas consumption (including on L2s) and validating that a module conforms to the ERC-4337 rules.
+
+**Deploy**
+
+- **Deployment script**: The ModuleKit comes with a helper contract that allows you to easily deploy a module and register it in the Module Registry.
+
+## Supported Accounts
+
+- [ERC-7579](/) - Any ERC-7579 compliant account
+- [Nexus](https://github.com/bcnmy/nexus) - Biconomy's Nexus
+- [Kernel](https://github.com/zerodevapp/kernel) - ZeroDev's Kernel
+- [Safe](https://github.com/rhinestonewtf/safe7579) - Safe with Safe7579 adapter
+
+## Supported Module Types
+
+* **Validators**: determine whether a transaction is valid and should be executed
+* **Executors**: create executions on the account with custom logic
+* **Hooks**: enforce conditions or execute logic pre- or post-execution
+* **Fallbacks**: extend the account logic to add more functionality into the account
+
+## Useful starting resources
+
+- Blog: [Introducing ModuleKit](https://blog.rhinestone.wtf/introducing-modulekit-b5a0737e228e)
+- Blog: [ModuleKit deep dive](https://blog.rhinestone.wtf/modulekit-deep-dive-ad84ee0797c6)
+- [Module examples](https://github.com/rhinestonewtf/core-modules)
+- List of open-source modules and resources: [awesome-modular-accounts repo](https://github.com/rhinestonewtf/awesome-modular-accounts)
+- [List of modules](/modules)
+- To use existing modules, check out the [Module SDK](/tooling/module-sdk)

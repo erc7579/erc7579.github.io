@@ -1,0 +1,27 @@
+# getToggleScheduledTransferAction
+
+Get the action to toggle a scheduled transfer between active and inactive.
+
+## Usage
+
+```typescript copy
+const action = getToggleScheduledTransferAction({
+  jobId: 1,
+})
+```
+
+## Parameters
+
+### jobId
+
+- Type: `number`
+
+The ID of the scheduled transfer job to toggle.
+
+## Returns
+
+### action
+
+- Type: [`Action`](/tooling/module-sdk/glossary/types.mdx#action)
+
+The action to toggle the scheduled transfer.

@@ -1,0 +1,33 @@
+# getAccountLockerHook
+
+Get the module installation data for the account locker hook. This hook enforces the resource locks on the account.
+
+## Usage
+
+```typescript copy
+const module = getAccountLockerHook({
+  isOmniMode: true,
+})
+```
+
+## Parameters
+
+### isOmniMode
+
+- Type: `boolean`
+
+Whether the account locker is in omni mode, meaning that the entire user balance is locked.
+
+### hook (optional)
+
+- Type: [`Address`](https://viem.sh/docs/glossary/types#address)
+
+The address of the hook module to associate with. This is only required for the Kernel account.
+
+## Returns
+
+### module
+
+- Type: [`Module`](https://viem.sh/docs/glossary/types#module)
+
+The account locker hook module object.

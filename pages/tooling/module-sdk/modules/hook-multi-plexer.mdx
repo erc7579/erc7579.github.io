@@ -1,0 +1,11 @@
+# Hook MultiPlexer
+
+The Hook MultiPlexer is an opinionated router for combining multiple hook modules. Hooks are modules that are triggered before or after execution and can be used to enforce certain smart account behavior. Some examples of hooks include spending limits, white/blacklists, and more. This is an important module for accounts with only one global hook slot.
+
+## How it works
+
+Many accounts only have one global hook, which means that only one hook can be used at the same time. The Hook MultiPlexer should be installed as the global hook and allows the addition of sub-hooks that are called under various conditions, such as based on the account function used, the function called on the execution target, whether an execution transfers value or whether an execution uses delegatecall.
+
+## Getting started
+
+To get started with the Hook MultiPlexer, you need to install it as the global hook on the account. Then, you can add sub-hooks to the MultiPlexer. These sub-hooks can be any hook module that you want to use. During any account executions, the Hook MultiPlexer will call all relevant sub-hooks.

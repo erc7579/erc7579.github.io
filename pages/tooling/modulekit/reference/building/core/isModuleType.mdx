@@ -1,0 +1,36 @@
+---
+title: "isModuleType"
+---
+
+Check if a module is a certain type according to the [ERC-7579 module types](https://eips.ethereum.org/EIPS/eip-7579#modules).
+
+## Usage
+
+```solidity
+/**
+* Check if the module is of a certain type
+*
+* @param moduleTypeID The module type ID to check
+*
+* @return true if the module is of the given type, false otherwise
+*/
+function isModuleType(uint256 moduleTypeID) external pure returns (bool) {
+    return typeID == TYPE_VALIDATOR;
+}
+```
+
+## Parameters
+
+### moduleTypeID
+
+- Type: `uint256`
+
+The module type identifier to check.
+
+## Returns
+
+### isModuleType
+
+- Type: `bool`
+
+Is true if the module is the queried type and false otherwise.

@@ -1,0 +1,41 @@
+# isModuleInstalled
+
+Check if a module is installed in the account. Note that this currently only works for deployed accounts.
+
+## Usage
+
+```typescript copy
+const _isModuleInstalled = await isModuleInstalled({
+  client,
+  account,
+  module,
+})
+```
+
+## Parameters
+
+### client
+
+- Type: `PublicClient`
+
+The rpc client to use for the chain you want to check the module on.
+
+### account
+
+- Type: [`Account`](/tooling/module-sdk/glossary/types.mdx#account)
+
+The account object.
+
+### module
+
+- Type: [`Module`](/tooling/module-sdk/glossary/types.mdx#module)
+
+The module object.
+
+## Returns
+
+### isModuleInstalled
+
+- Type: `Promise<boolean>`
+
+Whether the module is installed on the account.

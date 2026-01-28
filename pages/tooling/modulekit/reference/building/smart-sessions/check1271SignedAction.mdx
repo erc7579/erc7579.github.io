@@ -1,0 +1,63 @@
+---
+title: "check1271SignedAction"
+---
+
+A virtual function called when the session is being used to verify an ERC-1271 signature. Overwrites from `ERC1271Policy`.
+
+## Usage
+
+```solidity
+function check1271SignedAction(
+        ConfigId id,
+        address requestSender,
+        address account,
+        bytes32 hash,
+        bytes calldata signature
+    )
+        external
+        view
+        virtual
+        returns (bool) {
+    // validate the signature
+}
+```
+
+## Parameters
+
+### id
+
+- Type: `ConfigId | bytes32`
+
+The id of the configuration that is part of the session.
+
+### requestSender
+
+- Type: `address`
+
+The address of the smart sessions contract.
+
+### account
+
+- Type: `address`
+
+The address of the account that is using smart sessions.
+
+### hash
+
+- Type: `bytes32`
+
+The hash of the data that is being signed.
+
+### signature
+
+- Type: `bytes`
+
+The signature of the data that is being signed.
+
+## Returns
+
+### isValid
+
+- Type: `bool`
+
+Returns `true` if the signature is valid, `false` otherwise.

@@ -1,0 +1,36 @@
+---
+title: "registerSchema"
+---
+
+Register a schema on the Registry.
+
+## Usage
+
+```solidity
+SchemaUID schemaUID = registerSchema({
+    schema: schema,
+    validator: validator
+});
+```
+
+## Parameters
+
+### schema
+
+- Type: `string`
+
+The schema string to register.
+
+### validator
+
+- Type: `address`
+
+The address of the schema validator to register.
+
+## Returns
+
+### schemaUID
+
+- Type: `SchemaUID | bytes32`
+
+The schema UID.

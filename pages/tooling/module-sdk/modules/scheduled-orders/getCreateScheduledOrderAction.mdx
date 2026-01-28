@@ -1,0 +1,74 @@
+# getCreateScheduledOrderAction
+
+Get the action to create a new scheduled order.
+
+## Usage
+
+```typescript copy
+const action = getCreateScheduledOrderAction({
+  recurringOrder: {
+    buyToken: {
+      token_address: '0x123...',
+      decimals: 18,
+    },
+    sellToken: {
+      token_address: '0x123...',
+      decimals: 18,
+    },
+    amount: 1000000,
+    orderType: 'buy',
+  },
+})
+```
+
+## Parameters
+
+### recurringOrder.buyToken
+
+- Type: `{ token_address: Address, decimals: number }`
+
+The token to buy.
+
+### recurringOrder.sellToken
+
+- Type: `{ token_address: Address, decimals: number }`
+
+The token to sell.
+
+### recurringOrder.amount
+
+- Type: `number`
+
+The amount of the token to buy or sell.
+
+### recurringOrder.orderType
+
+- Type: `'buy' | 'sell'`
+
+Whether the order is a buy or sell order.
+
+### recurringOrder.priceLimit (optional)
+
+- Type: `string`
+
+The price limit for the order.
+
+### recurringOrder.maxGasPrice (optional)
+
+- Type: `string`
+
+The maximum gas price for the order.
+
+### recurringOrder.expirationDate (optional)
+
+- Type: `string`
+
+The expiration date for the order.
+
+## Returns
+
+### action
+
+- Type: [`Action`](/tooling/module-sdk/glossary/types.mdx#action)
+
+The action to create the new scheduled order.

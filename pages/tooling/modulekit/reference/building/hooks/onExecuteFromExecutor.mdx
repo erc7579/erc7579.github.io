@@ -1,0 +1,64 @@
+---
+title: "onExecuteFromExecutor"
+---
+
+A virtual function called when a single execution occurs on the account from an executor. Overwrites from `ERC7579HookDestruct`.
+
+## Usage
+
+```solidity
+function onExecute(
+    address account,
+    address msgSender,
+    address target,
+    uint256 value,
+    bytes calldata callData
+)
+    internal
+    virtual
+    override
+    returns (bytes memory hookData)
+{
+    return abi.encode("success");
+}
+```
+
+## Parameters
+
+### account
+
+- Type: `address`
+
+The address of the account that the execution is called on.
+
+### msgSender
+
+- Type: `address`
+
+The address of executor that called the account.
+
+### target
+
+- Type: `address`
+
+The target of the execution.
+
+### value
+
+- Type: `uint256`
+
+The value of the execution.
+
+### callData
+
+- Type: `bytes`
+
+The data of the execution.
+
+## Returns
+
+### hookData
+
+- Type: `bytes`
+
+The data sent to the `postHook` function.

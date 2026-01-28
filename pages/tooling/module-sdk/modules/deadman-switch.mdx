@@ -1,0 +1,13 @@
+# Deadman Switch
+
+Deadman Switch enables the recovery of an account after a specified inactive period. The user sets the target recovery address (this could be another smart account or a typical EOA wallet) along with the required period of inactivity.
+
+## How it works
+
+The Deadman Switch is a hook and validator module. The hook component is called every time that the account is used and stores the latest timestamp. The validator component can be used by the nominee to recover access to the account, but only after the wait period added to the last active timestamp is greater than the current timestamp.
+
+## Getting started
+
+To get started, the Deadman Switch needs to be installed as both a hook and a validator. Some accounts allow this to be done in one call, others require two. Note that when installing the module for the second time, the `initData` should be empty.
+
+To recover the account, you will need to create a UserOperation and the nominee needs to sign it. Then, you will need to designate the Deadman Switch as the validator to use.

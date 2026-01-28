@@ -1,0 +1,41 @@
+# encodeModuleInstallationData
+
+Encodes the `initData` for a module installation.
+
+## Usage
+
+```typescript copy
+const initData = encodeModuleInstallationData({
+  account: getAccount({
+    address: safeAccount.address,
+    type: 'safe',
+  }),
+  module: getDeadmanSwitch({
+    account,
+    client,
+    nominee: nominee.address,
+    timeout: 1,
+    moduleType: 'validator',
+  }),
+})
+```
+
+## Parameters
+
+### account
+
+- Type: [`Account`](/tooling/module-sdk/glossary/types.mdx#account)
+
+The account object.
+
+### module
+
+- Type: [`Module`](/tooling/module-sdk/glossary/types.mdx#module)
+
+The module object.
+
+## Returns
+
+- Type: [`Hex`](https://viem.sh/docs/glossary/types#hex)
+
+The encoded module installation data.

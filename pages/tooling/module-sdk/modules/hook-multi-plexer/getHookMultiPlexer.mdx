@@ -1,0 +1,65 @@
+# getHookMultiPlexer
+
+Get the hook multiplexer.
+
+## Usage
+
+```typescript copy
+const hookMultiPlexer = getHookMultiPlexer({
+  globalHooks: ['0x123...'],
+  valueHooks: ['0x123...'],
+  delegatecallHooks: ['0x123...'],
+  sigHooks: [
+    {
+      sig: '0x123...',
+      subHooks: ['0x123...'],
+    },
+  ],
+  targetHooks: [
+    {
+      target: '0x123...',
+      subHooks: ['0x123...'],
+    },
+  ],
+})
+```
+
+## Parameters
+
+### globalHooks
+
+- Type: [`Address[]`](https://viem.sh/docs/glossary/types#address)
+
+The global hooks to be installed. They get called on every execution.
+
+### valueHooks
+
+- Type: [`Address[]`](https://viem.sh/docs/glossary/types#address)
+
+The value hooks to be installed. They get called on every value transfer.
+
+### delegatecallHooks
+
+- Type: [`Address[]`](https://viem.sh/docs/glossary/types#address)
+
+The delegatecall hooks to be installed. They get called on every delegatecall.
+
+### sigHooks
+
+- Type: `{sig: Hex, subHooks: Address[]}[]`
+
+The signature hooks to be installed. They get called on every function call with the specified signature (function selector) being called on the account.
+
+### targetHooks
+
+- Type: `{sig: Hex, subHooks: Address[]}[]`
+
+The target signature hooks to be installed. They get called on every function call with the specified signature (function selector) being called on the target of the execution.
+
+## Returns
+
+### module
+
+- Type: [`Module`](/tooling/module-sdk/glossary/types.mdx#module)
+
+The module object representing the hook multiplexer.

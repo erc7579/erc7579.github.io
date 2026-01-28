@@ -1,0 +1,35 @@
+---
+title: "expect4337Revert"
+---
+
+Expect a UserOperation to revert. Similar to Foundry's `vm.expectRevert` function but the latter will not work with UserOperations.
+
+## Usage
+
+```solidity
+instance.expect4337Revert();
+```
+
+## Parameters
+
+### instance
+
+- Type: [`AccountInstance`](../../glossary/types#accountinstance)
+
+The instance of the account used for testing.
+
+### selector (optional)
+
+- Type: `bytes4`
+
+The selector of the revert reason. If not provided, any revert reason will be accepted.
+
+### message (optional)
+
+- Type: `bytes`
+
+The entire revert reason. If not provided, any revert reason will be accepted.
+
+## Returns
+
+The function will revert if the UserOperation does not revert.

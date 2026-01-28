@@ -1,0 +1,38 @@
+# getExecuteOnOwnedAccountAction
+
+Get the action to execute a single action on the owned account from the owner smart account.
+
+## Usage
+
+```typescript copy
+const action = getExecuteOnOwnedAccountAction({
+  ownedAccount: '0x123...',
+  execution: {
+    target: '0x123...',
+    value: 1000000,
+    callData: '0x123...',
+  },
+})
+```
+
+## Parameters
+
+### ownedAccount
+
+- Type: [`Address`](https://viem.sh/docs/glossary/types#address)
+
+The address of the owned account to execute the action on.
+
+### execution
+
+- Type: [`Action`](https://viem.sh/docs/glossary/types#action)
+
+The action to execute on the owned account.
+
+## Returns
+
+### action
+
+- Type: [`Action`](https://viem.sh/docs/glossary/types#action)
+
+The action to execute on the owner smart account.

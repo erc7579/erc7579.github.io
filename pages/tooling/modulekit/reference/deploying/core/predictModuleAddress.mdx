@@ -1,0 +1,33 @@
+---
+title: "predictModuleAddress"
+---
+
+Predict the address of a module deployed through the registry. Note, that this will only work for modules deployed through the `deployModule` function and not `deployModuleViaFactory`.
+
+## Usage
+
+```solidity
+address moduleAddress = predictModuleAddress({ salt: salt, initCode: initCode });
+```
+
+## Parameters
+
+### salt
+
+- Type: `bytes32`
+
+The salt used to create the module and influence its address.
+
+### initCode
+
+- Type: `bytes`
+
+The init code of the module.
+
+## Returns
+
+### moduleAddress
+
+- Type: `address`
+
+The address of the module.

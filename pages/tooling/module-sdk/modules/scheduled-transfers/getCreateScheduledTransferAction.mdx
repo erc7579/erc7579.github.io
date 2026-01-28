@@ -1,0 +1,46 @@
+# getCreateScheduledTransferAction
+
+Get the action to create a new scheduled transfer.
+
+## Usage
+
+```typescript copy
+const action = getCreateScheduledTransferAction({
+  amount: 10000,
+  recipient: '0x123...',
+})
+```
+
+## Parameters
+
+### amount
+
+- Type: `number`
+
+The amount of the token to transfer.
+
+### recipient
+
+- Type: [`Address`](https://viem.sh/docs/glossary/types#address)
+
+The address of the recipient of the transfer.
+
+### token (optional)
+
+- Type: `{ token_address: Address, decimals: number }`
+
+The address of the token to transfer. If not provided, the native token will be used.
+
+### maxGasPrice (optional)
+
+- Type: `number`
+
+The maximum gas price for the transfer.
+
+## Returns
+
+### action
+
+- Type: [`Action`](/tooling/module-sdk/glossary/types.mdx#action)
+
+The action to create the new scheduled transfer.

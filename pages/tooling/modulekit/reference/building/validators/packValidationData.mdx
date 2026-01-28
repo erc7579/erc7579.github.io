@@ -1,0 +1,43 @@
+---
+title: "_packValidationData"
+---
+
+Pack the validation data to return to the entryPoint. Inherited from `ERC7579ValidatorBase`.
+
+## Usage
+
+```solidity
+ValidationData validationData = _packValidationData({
+    sigFailed: false,
+    validUntil: type(uint48).max,
+    validAfter: 0
+});
+```
+
+## Parameters
+
+### sigFailed
+
+- Type: `bool`
+
+False if the signature is valid, true if the signature is invalid.
+
+### validUntil
+
+- Type: `uint48`
+
+The timestamp until which the signature is valid.
+
+### validAfter
+
+- Type: `uint48`
+
+The timestamp after which the signature is valid.
+
+## Returns
+
+### validationData
+
+- Type: `ValidationData | uint256`
+
+The packed validation data.

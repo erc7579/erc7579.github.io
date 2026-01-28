@@ -1,0 +1,38 @@
+# getRequestTimelockedExecution
+
+Get the action to request a timelocked execution. This will initiate a timelock, after which the execution can occur.
+
+## Usage
+
+```typescript copy
+const timelockedExecutionAction = getRequestTimelockedExecution({
+  execution: {
+    target: '0x123...',
+    value: 1000000,
+    callData: '0x123...',
+  },
+  additionalWait: 0,
+})
+```
+
+## Parameters
+
+### execution
+
+- Type: [`Action`](/tooling/module-sdk/glossary/types.mdx#action)
+
+The execution to execute on the cold storage account.
+
+### additionalWait
+
+- Type: `number`
+
+The additional wait time in seconds before the execution can occur, on top of the set wait period.
+
+## Returns
+
+### action
+
+- Type: [`Action`](/tooling/module-sdk/glossary/types.mdx#action)
+
+The action to request the timelocked execution.

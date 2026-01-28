@@ -1,0 +1,11 @@
+# Smart Sessions
+
+Smart Sessions allows developers to use session keys with any ERC-7579 smart account. It further combines granular permissions with session keys in the form of policies, which restrict what the key is allowed to do.
+
+## How it works
+
+Smart Sessions consists of two modular components: stateless validators and policies. Stateless validators verify the siganture made by session keys and policies restrcit what actions a session key is allowed to do. Module SDK currently supports the following policies: spending limits, universal action and sudo.
+
+## Getting started
+
+To get started with Smart Sessions, you need to install the validators on the account. Either during installation or afterwards, you will need to create a new session and enable it. If this happens after installation, it is possible to enable a session using a signature and include this in the next UserOperation. This will both enable and use the session in one go.

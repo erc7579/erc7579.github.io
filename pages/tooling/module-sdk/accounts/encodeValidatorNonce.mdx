@@ -1,0 +1,33 @@
+# encodeValidatorNonce
+
+Encodes the validator address in the nonce key to use in ERC-7579 accounts.
+
+## Usage
+
+```typescript copy
+const nonce = await getAccountNonce(publicClient, {
+  address: account.address,
+  entryPointAddress: entryPoint07Address,
+  key: encodeValidatorNonce({ account, validator: validatorModule }),
+})
+```
+
+## Parameters
+
+### account
+
+- Type: [`Account`](/tooling/module-sdk/glossary/types.mdx#account)
+
+The account object.
+
+### validator
+
+- Type: [`Module | Address`](/tooling/module-sdk/glossary/types.mdx#module)
+
+The validator module object or simply the address of the module.
+
+## Returns
+
+- Type `bigint`
+
+The encoded validator nonce key to query the ERC-4337 EntryPoint with.

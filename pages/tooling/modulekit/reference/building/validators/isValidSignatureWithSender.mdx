@@ -1,0 +1,65 @@
+---
+title: "isValidSignatureWithSender"
+---
+
+A virtual function that validates an [ERC-1271](https://eips.ethereum.org/EIPS/eip-1271) signature with a sender address. Overwrites from `ERC7579ValidatorBase`.
+
+## Usage
+
+```solidity
+/**
+ * Validates an ERC-1271 signature
+ *
+ * @param sender The sender of the ERC-1271 call to the account
+ * @param hash The hash of the message
+ * @param signature The signature of the message
+ *
+ * @return sigValidationResult the result of the signature validation, which can be:
+ *  - EIP1271_SUCCESS if the signature is valid
+ *  - EIP1271_FAILED if the signature is invalid
+ */
+function isValidSignatureWithSender(
+    address sender,
+    bytes32 hash,
+    bytes calldata signature
+)
+    external
+    view
+    virtual
+    override
+    returns (bytes4 sigValidationResult)
+{
+    return EIP1271_FAILED;
+}
+```
+
+## Parameters
+
+### sender
+
+- Type: `address`
+
+The sender of the ERC-1271 call to the account.
+
+### hash
+
+- Type: `bytes32`
+
+The hash of the message.
+
+### signature
+
+- Type: `bytes`
+
+The signature of the message.
+
+## Returns
+
+### sigValidationResult
+
+- Type: `bytes4`
+
+The result of the signature validation, which can be:
+
+- `EIP1271_SUCCESS` if the signature is valid
+- any other value if the signature is invalid

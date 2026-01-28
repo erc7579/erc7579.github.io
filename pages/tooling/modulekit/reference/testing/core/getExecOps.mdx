@@ -1,0 +1,60 @@
+---
+title: "getExecOps"
+---
+
+Get the UserOperationData for a given operation.
+
+## Usage
+
+```solidity
+UserOpData memory userOpData = instance.getExecOps({
+    target: target,
+    value: value,
+    callData: callData,
+    txValidator: address(instance.defaultValidator)
+});
+```
+
+## Parameters
+
+### instance
+
+- Type: [`AccountInstance`](../../glossary/types#accountinstance)
+
+The instance of the account used for testing.
+
+### txValidator
+
+- Type: `address`
+
+The address of the transaction validator to use for the call.
+
+### target
+
+- Type: `address`
+
+The address of the target contract.
+
+### callData
+
+- Type: `bytes`
+
+The data to send with the call.
+
+### value
+
+- Type: `uint256`
+
+The value to send with the call.
+
+### executions (optional)
+
+- Type: [`Execution[]`](/modulekit/glossary/types.mdx#execution)
+
+The executions to use for the call instead of using a single target, value and callData.
+
+## Returns
+
+- Type: [`UserOpData`](/modulekit/glossary/types.mdx#useropdata)
+
+The data of the UserOperation.

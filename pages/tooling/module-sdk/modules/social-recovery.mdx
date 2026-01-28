@@ -1,0 +1,11 @@
+# Social Recovery
+
+Social Recovery allows users to specify one or multiple guardians with an m or n threshold for account recovery. The user sets a guardian by expressing the public address of the guardian.
+
+## How it works
+
+Social Recovery is a validator module that allows guardians to recover an account. The guardians are only allowed to validate signatures whose target is an installed validator. This means, these UserOperations can only change the configurations, like owners, of validators and not perform any other actions on the account.
+
+## Getting started
+
+To get started with Social Recovery, you need to install it as a validator on the account. Then, you need to set the guardians and the threshold. The threshold is the minimum number of guardians that need to sign a UserOperation for it to be valid. To recover an account, you need to create a UserOperation that calls a function on an installed validator and signed it with the required amount of guardian keys.

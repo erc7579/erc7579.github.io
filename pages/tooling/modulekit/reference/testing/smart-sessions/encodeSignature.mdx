@@ -1,0 +1,63 @@
+---
+title: "encodeSignature"
+---
+
+Encodes the signature to use for the UserOperation.
+
+## Usage
+
+```solidity
+bytes memory signature = instance.encodeSignature({
+  userOperation: userOperation,
+  mode: SmartSessionMode.USE,
+  session: session,
+  signFunction: signFunction,
+  validator: instance.defaultValidator
+})
+```
+
+## Parameters
+
+### instance
+
+- Type: [`AccountInstance`](../../glossary/types#accountinstance)
+
+The instance of the account used for testing.
+
+### userOperation
+
+- Type: `PackedUserOperation`
+
+The UserOperation to execute.
+
+### mode
+
+- Type: `SmartSessionMode`
+
+The mode of the session, either `USE`, `ENABLE` or `UNSAFE_ENABLE`.
+
+### session
+
+- Type: [`Session`](../../glossary/types#session)
+
+The session to use or enable.
+
+### signFunction (optional)
+
+- Type: `function(bytes32) internal returns (bytes memory)`
+
+The function to sign the signature required to enable the UserOperation, in the case of enable mode.
+
+### validator (optional)
+
+- Type: `address`
+
+The address of the validator used to verify the signature in the case of enable mode.
+
+## Returns
+
+### signature
+
+- Type: `bytes`
+
+The signature to use for the UserOperation.

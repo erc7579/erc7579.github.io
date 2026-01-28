@@ -1,0 +1,50 @@
+# getGuardian
+
+Get the status and weight of a specific guardian for an account.
+
+## Usage
+
+```typescript
+const guardianInfo = await getGuardian({
+  account: {
+    address: '0x123...',
+    type: 'safe',
+    deployedOnChains: [8453],
+    initCode: '0x...' // optional
+  },
+  client: publicClient,
+  guardian: '0x456...'
+})
+```
+
+## Parameters
+
+### account
+
+- Type: [`Account`](/tooling/module-sdk/glossary/types.mdx#account)
+
+The account object.
+
+### client
+
+- Type: `PublicClient`
+
+The public client instance used to interact with the blockchain.
+
+### guardian
+
+- Type: [`Address`](https://viem.sh/docs/glossary/types#address)
+
+The address of the guardian to query.
+
+## Returns
+
+### guardianInfo
+
+- Type: `Promise<{status: number; weight: bigint}>`
+
+Object containing:
+- `status`: Guardian's current status (0 = not configured)
+- `weight`: Guardian's voting weight for recovery actions
+
+If the contract call fails, returns `{status: 0, weight: 0n}`.

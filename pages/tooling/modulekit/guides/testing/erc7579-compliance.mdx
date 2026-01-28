@@ -1,0 +1,37 @@
+---
+title: "How to use ModuleKit to test for ERC-7579 compliance"
+sidebarTitle: "ERC-7579 Compliance"
+---
+
+The ModuleKit has some helpers to automatically test for ERC-7579 compliance. Currently, we have the following checks:
+
+- Ensure that module storage is cleared when a module is uninstalled
+
+
+## Uninstall the module at the end of every test
+
+When you write your tests, ensure that you call uninstall on the module at the end of each test.
+
+```solidity
+instance.uninstallModule({ moduleTypeId: MODULE_TYPE_VALIDATOR, module: module, data: "" });
+```
+
+## Use the `withModuleStorageClearValidation` modifier
+
+To do this, add the modifier to all the tests.
+
+```solidity
+function test_foo() public withModuleStorageClearValidation(instance, module) {...}
+```
+
+## Run your tests with the `COMPLIANCE=true` flag
+
+To run the tests with the compliance flag, run:
+
+```bash
+COMPLIANCE=true forge test
+```
+
+Note: running the compliance tests at the same time as the simulation tests can lead to issues so it is discouraged.
+
+If your tests are successful, you are compliant with the ERC-7579 rules. Otherwise, your tests will revert.

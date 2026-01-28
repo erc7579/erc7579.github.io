@@ -1,0 +1,40 @@
+# getRemoveHookAction
+
+Get the action to remove a hook from the multi-plexer.
+
+## Usage
+
+```typescript copy
+const action = getRemoveHookAction({
+  hook: '0x123...',
+  hookType: HookType.GLOBAL,
+})
+```
+
+## Parameters
+
+### hook
+
+- Type: [`Address`](https://viem.sh/docs/glossary/types#address)
+
+The address of the hook to remove.
+
+### hookType
+
+- Type: [`HookType`](/tooling/module-sdk/glossary/types.mdx#hooktype)
+
+The type of the hook to remove.
+
+### sig (optional)
+
+- Type: [`Hex`](https://viem.sh/docs/glossary/types#hex)
+
+The function signature in the case that the hookType is `HookType.SIG` or `HookType.TARGET`.
+
+## Returns
+
+### action
+
+- Type: [`Action`](/tooling/module-sdk/glossary/types.mdx#action)
+
+The action to remove the given hook.

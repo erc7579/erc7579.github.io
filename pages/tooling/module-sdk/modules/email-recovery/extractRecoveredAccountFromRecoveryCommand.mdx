@@ -1,0 +1,43 @@
+# extractRecoveredAccountFromRecoveryCommand
+
+Extract the account address from a recovery email command's parameters.
+
+## Usage
+
+```typescript
+const recoveredAccount = await extractRecoveredAccountFromRecoveryCommand({
+  client: publicClient,
+  commandParams: ['0x...'],
+  templateIdx: 0n
+})
+```
+
+## Parameters
+
+### client
+
+- Type: `PublicClient`
+
+The public client instance used to interact with the blockchain.
+
+### commandParams
+
+- Type: `Hex[]`
+
+Array of hex-encoded command parameters from the recovery email. The first parameter should contain the encoded account address.
+
+### templateIdx
+
+- Type: `bigint`
+
+Template index parameter.
+
+## Returns
+
+### recoveredAccount
+
+- Type: `Promise<Address>`
+
+Returns the decoded account address from the command parameters.
+
+If the contract call fails, returns the zero address (`0x0000000000000000000000000000000000000000`).

@@ -1,0 +1,30 @@
+---
+title: "onInstall"
+---
+
+Initialize the module with configuration data.
+
+## Usage
+
+```solidity
+/**
+* Initialize the module with the given data
+*
+* @param data The data to initialize the module with
+*/
+function onInstall(bytes calldata data) external {
+    owner = data[:20];
+}
+```
+
+## Parameters
+
+### data
+
+- Type: `bytes`
+
+The data to initialize the module with. It is up to the module to interpret the data.
+
+## Returns
+
+None

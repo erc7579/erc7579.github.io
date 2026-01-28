@@ -1,0 +1,79 @@
+---
+title: "How to use ModuleKit to deploy modules"
+sidebarTitle: "Deploying Modules"
+---
+
+The ModuleKit has a helper to easily deploy modules and register them on the [Module Registry](../../module-registry/overview). This will allow easy discoverability and useage of your module.
+
+## Create the .env file
+
+Create a `.env` file in the root directory based on the `.env.example` (if you are using the module template) file and fill in the variables:
+
+```shell
+PK=
+DEPLOYMENT_SENDER=
+DEPLOYMENT_RPC=
+ETHERSCAN_API_KEY=
+```
+
+## Create the deployment script
+
+To use the `RegistryDeployer`, you need to create a new [Foundry script](https://book.getfoundry.sh/tutorials/solidity-scripting#deploying-our-contract) and import the following objects:
+
+```solidity
+import "forge-std/Script.sol";
+import { RegistryDeployer } from "modulekit/deployment/RegistryDeployer.sol";
+```
+
+## Write the deployment script
+
+Then, create a new contract, like the following example:
+
+```solidity
+/// @title DeployModuleScript
+contract DeployModuleScript is Script, RegistryDeployer {
+    function run() public {
+        // Setup module initCode, metadata and resolverContext
+        bytes memory initCode = type(MODULE_CONTRACT).creationCode;
+        bytes memory metadata = "";
+        bytes memory resolverContext = "";
+
+        // Get private key for deployment
+        vm.startBroadcast(vm.envUint("PK"));
+
+        // Deploy module
+        address moduleAddr = deployModule({
+            initCode: initCode,
+            salt: bytes32(0),
+            metadata: metadata,
+            resolverContext: resolverContext
+        });
+
+        // Stop broadcast and log module address
+        vm.stopBroadcast();
+        console.log("Deploying module at: %s", moduleAddr);
+    }
+}
+```
+
+Replace `MODULE_CONTRACT` with the contract you want to deploy. In most cases, `metadata` and `resolverContext` can be left empty.
+
+## Run the deployment script
+
+To run the deployment script, you can use the following command:
+
+```shell
+source .env && forge script script/DeployModule.s.sol:DeployModuleScript --rpc-url $DEPLOYMENT_RPC --broadcast --sender $DEPLOYMENT_SENDER --verify
+```
+
+Note: you might need to adjust the script path and name to match your setup.
+
+Your module is now deployed to the blockchain and verified on Etherscan.
+
+## Manually verify the module (optional)
+
+If the verification on the block explorer fails, you can manually verify it on Etherscan using the following command (replace the placeholders with your actual values):
+
+```shell
+source .env && forge verify-contract --chain-id [YOUR_CHAIN_ID] --watch --etherscan-api-key $ETHERSCAN_API_KEY [YOUR_MODULE_ADDRESS] src/[PATH_TO_MODULE].sol:[MODULE_CONTRACT_NAME]
+```

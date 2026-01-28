@@ -1,0 +1,82 @@
+---
+title: "Migration Guide"
+---
+
+## 0.5.0
+
+This migration guide assumes you have already migrated to `^0.4.0` and are now migrating to `^0.5.0`.
+
+### Integrated `module-bases`
+
+The [module-bases](https://github.com/rhinestonewtf/module-bases) repository has been integrated within ModuleKit and is no longer required as a dependency. You should:
+
+1. Remove the module-bases dependency if using modulekit and module-bases in the same project
+2. Update imports to reference module-bases from `src/module-bases`
+
+```diff
+- import { ERC7579ValidatorBase } from "module-bases/ERC7579ValidatorBase.sol"
++ import { ERC7579ValidatorBase } from "modulekit/module-bases/ERC7579ValidatorBase.sol"
+```
+
+### Deprecated Account Dependencies
+
+Dependencies to the following smart account repositories have been removed:
+
+- [safe7579](https://github.com/rhinestonewtf/safe7579)
+- [erc7579 reference implementation](https://github.com/erc7579/erc7579-implementation)
+- [kernel](https://github.com/zerodevapp/kernel)
+
+All required interfaces and libraries are now located within `src/accounts/` where each account has a specific folder with its own implementations.
+
+Example updating imports:
+
+```diff
+- import { ISafe7579 } from "safe7579/ISafe7579.sol"
++ import { ISafe7579 } from "modulekit/accounts/safe/interfaces/ISafe7579.sol"
+```
+
+### Deprecated `src/external/ERC7579.sol`
+
+All contracts imported from the ERC7579 reference implementation have been removed. Interfaces and libraries have been moved to:
+
+- ERC7579 interfaces -> `src/accounts/erc7579/interfaces`
+- ERC7579 libraries -> `src/accounts/erc7579/lib`
+
+### Changed `src/Accounts.sol`
+
+`Accounts.sol` no longer imports `Execution` from `external/ERC7579.sol`. It now imports all smart account interfaces directly:
+
+```diff
+- import { Execution } from "modulekit/external/ERC7579.sol"
++ import { Execution } from "modulekit/accounts/common/interfaces/IERC7579Account.sol"
+```
+
+Major interfaces now imported:
+
+- `IERC7579Account` (common ERC7579 interface)
+- `IMSA` (ERC7579 reference implementation)
+- `IKernelAccount` (Kernel)
+- `ISafe7579` (Safe7579)
+
+### Deprecated `src/Core.sol`
+
+`Core.sol` is unused and has been removed.
+
+### Changed `src/Helpers.sol`
+
+`sign` is no longer imported within `Helpers.sol`. It has been moved to `src/test/utils/ECDSA.sol`. All account helpers are now consolidated in `Helpers.sol`
+
+```diff
+- import { sign } from "./external/Vm.sol"
++ import { ecdsaSign } from "./test/utils/ECDSA.sol"
+```
+
+### Changed `src/Interface.sol`, `src/Mocks.sol`, `src/Modules.sol`
+
+Since module-bases is now integrated, the imports in these files come from local files:
+
+- `src/Interfaces.sol`
+- `src/Mocks.sol`
+- `src/Modules.sol`
+
+If you are using module-bases as an external dependency in conjunction with ModuleKit, this could cause compiler issues. We recommend removing the module-bases dependency and only using ModuleKit.

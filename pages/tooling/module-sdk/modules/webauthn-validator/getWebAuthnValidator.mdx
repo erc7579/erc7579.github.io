@@ -1,0 +1,43 @@
+# getWebAuthnValidator
+
+Get the WebAuthn validator module object.
+
+## Usage
+
+```typescript copy
+const module = getWebAuthnValidator({
+  webAuthnCredential: {
+    pubKeyX: 123...,
+    pubKeyY: 123...,
+    authenticatorId: "credential-id"
+  }
+});
+```
+
+## Parameters
+
+### webAuthnCredential.pubKey
+
+- Type: `PublicKey | Hex | Uint8Array`
+
+Either the hex string, a `Uint8Array` or the public key object, which consists of `x`, `y` and an optional `prefix`.
+
+### webAuthnCredential.authenticatorId
+
+- Type: `string`
+
+The credential ID of the authenticator.
+
+### hook (optional)
+
+- Type: [`Address`](https://viem.sh/docs/glossary/types#address)
+
+The address of the hook to use. This is only required for the Kernel account.
+
+## Returns
+
+### module
+
+- Type: [`Module`](https://viem.sh/docs/glossary/types#module)
+
+The WebAuthn validator module object.

@@ -1,0 +1,53 @@
+# getDisallowValidatorRecoveryAction
+
+Generate the transaction data needed to remove a validator's recovery permissions.
+
+## Usage
+
+```typescript
+const action = await getDisallowValidatorRecoveryAction({
+  client: publicClient,
+  validator: '0x123...',
+  prevValidator: '0x456...',
+  recoverySelector: '0x...'
+})
+```
+
+## Parameters
+
+### client
+
+- Type: `PublicClient`
+
+The public client instance used to interact with the blockchain.
+
+### validator
+
+- Type: [`Address`](https://viem.sh/docs/glossary/types#address)
+
+The address of the validator to remove.
+
+### prevValidator
+
+- Type: [`Address`](https://viem.sh/docs/glossary/types#address)
+
+The address of the previous validator in the validators linked list.
+
+### recoverySelector
+
+- Type: [`Hex`](https://viem.sh/docs/glossary/types#hex)
+
+The function selector to disallow. Must match the currently configured selector for the validator.
+
+## Returns
+
+### action
+
+- Type: `Promise<Execution>`
+
+Returns an execution object containing:
+- `to`: Email recovery module contract address
+- `target`: Email recovery module contract address
+- `value`: Amount of native tokens to send (0)
+- `callData`: Encoded function data
+- `data`: Encoded function data

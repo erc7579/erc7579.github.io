@@ -1,0 +1,89 @@
+# getUniversalEmailRecoveryExecutor
+
+Get the Universal Email Recovery executor module object.
+
+## Usage
+
+```typescript
+const module = getUniversalEmailRecoveryExecutor({
+  validator: '0x123...',
+  isInstalledContext: '0x456...',
+  initialSelector: '0x789...',
+  guardians: ['0xabc...', '0xdef...'],
+  weights: [1n, 1n],
+  threshold: 1n,
+  delay: 86400n, // 24 hours
+  expiry: 604800n, // 7 days
+  chainId: sepolia.id,
+})
+```
+
+## Parameters
+
+### validator
+
+- Type: [`Address`](https://viem.sh/docs/glossary/types#address)
+
+The address of the validator contract that will be initially configured for recovery.
+
+### isInstalledContext
+
+- Type: [`Hex`](https://viem.sh/docs/glossary/types#hex)
+
+Additional context that may be required to determine if the module is installed.
+
+### initialSelector
+
+- Type: [`Hex`](https://viem.sh/docs/glossary/types#hex)
+
+The function selector to allow when executing recovery for the specified module.
+
+### guardians
+
+- Type: `Array<Address>`
+
+Array of guardian addresses that can participate in the recovery process.
+
+### weights
+
+- Type: `Array<bigint>`
+
+Voting weights for each corresponding guardian.
+
+### threshold
+
+- Type: `bigint`
+
+The minimum weight threshold required for recovery approval.
+
+### delay
+
+- Type: `bigint`
+
+The delay period (in seconds) before a recovery can be executed.
+
+### expiry
+
+- Type: `bigint`
+
+The time period (in seconds) after which the recovery request expires.
+
+### chainId
+
+- Type: `number`
+
+The chain ID of the network where the module will be deployed.
+
+### hook (optional)
+
+- Type: [`Address`](https://viem.sh/docs/glossary/types#address)
+
+The address of the hook to use. This is only required for the Kernel account.
+
+## Returns
+
+### module
+
+- Type: [`Module`](/tooling/module-sdk/glossary/types.mdx#module)
+
+The Universal Email Recovery module object.
