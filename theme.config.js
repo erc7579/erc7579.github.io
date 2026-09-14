@@ -42,7 +42,7 @@ const config = {
   },
   docsRepositoryBase: "https://github.com/erc7579/erc7579.github.io/tree/main",
   footer: {
-    text: "ERC-7579 Docs",
+    text: "ERC-7579 Docs · Maintained by Rhinestone",
   },
   banner: {
     key: "initial-release",
